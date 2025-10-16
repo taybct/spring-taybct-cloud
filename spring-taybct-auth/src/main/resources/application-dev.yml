@@ -1,0 +1,22 @@
+# Server
+server:
+  port: 9001
+dubbo:
+  protocol:
+    # 固定 Dubbo 端口
+    port: 29001
+  application:
+    # Dubbo的在线运维命令端口
+    qos-port: 39001
+taybct:
+  secure:
+    auth:
+      login-page:
+        # 开启重定向到登录页面
+        redirect: true
+        # 登录页面
+        redirect-login-page: https://127.0.0.1/#/login
+        # 登录页面登录成功之后用于获取 code 的接口地址
+        params-redirect-api: https://127.0.0.1/api/auth/oauth/authorize
+        # 前端获取参数需要加密的 url 加密类型
+        params-redirect-api-encode-type: uri_component

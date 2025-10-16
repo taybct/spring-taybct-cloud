@@ -52,8 +52,9 @@
     </scm>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.release>21</maven.compiler.release>
     </properties>
 
     <dependencies>
@@ -72,11 +73,18 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- SpringCloud Gateway -->
+        <!-- SpringCloud Gateway WebFlux -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway</artifactId>
+            <artifactId>spring-cloud-gateway-server-webflux</artifactId>
             <version>${spring-cloud-build.version}</version>
+        </dependency>
+
+        <!--因为 spring-cloud-gateway-server-webflux 里面的 spring-boot-starter-webflux 是 <optional>true</optional> 可选的，依赖没进来，需要自己再引入-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
 
         <!-- OAuth2资源服务器-->
@@ -121,6 +129,12 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
             <version>${spring-cloud-alibaba.version}</version>
         </dependency>
+        <!--dubbo nacos 注册中心-->
+        <dependency>
+            <artifactId>nacos-client</artifactId>
+            <groupId>com.alibaba.nacos</groupId>
+            <version>${nacos-client.version}</version>
+        </dependency>
 
         <!-- Sentinel流量控制、熔断降级 -->
         <!--sentinel gateway-->
@@ -142,12 +156,14 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <!--让 sentinel 的配置可以从 nacos 上拿-->
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-nacos</artifactId>
             <version>${sentinel-datasource-nacos.version}</version>
         </dependency>
+
         <!--Sentinel网关限流规则会转换为热点规则 天坑呀！-->
         <!--<dependency>
             <groupId>com.alibaba.csp</groupId>
@@ -159,23 +175,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
             <version>${spring-boot.version}</version>
-        </dependency>
-
-        <!-- SpringBoot Actuator 端点通过 JMX 和HTTP 公开暴露给外界访问-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-            <version>${spring-boot.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
-        </dependency>
-        <!-- SpringBoot Admin Client 客户端 -->
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
-            <version>${spring-boot-admin.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -202,10 +201,66 @@
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
             <version>${knife4j.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
+        </dependency>
+
+        <!-- SpringBoot Actuator 端点通过 JMX 和HTTP 公开暴露给外界访问-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
+        <!-- SpringBoot Admin Client 客户端 -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>${spring-boot-admin.version}</version>
         </dependency>
 
     </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!--suppress UnresolvedMavenProperty -->
+                                <copy overwrite="true"
+                                      tofile="${maven.multiModuleProjectDirectory}/target/${project.build.finalName}.jar"
+                                      file="${project.build.directory}/${project.build.finalName}.jar"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- 构建和推动Docker镜像 -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <!--如果package时不想用docker打包,就注释掉这个goal-->
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <tag>${project.version}</tag>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

@@ -1,0 +1,1 @@
+./run.sh auth-3.5.0.jar

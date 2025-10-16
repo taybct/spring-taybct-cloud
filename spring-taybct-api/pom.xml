@@ -56,8 +56,9 @@
     </modules>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.release>21</maven.compiler.release>
     </properties>
 
     <dependencies>
@@ -65,7 +66,7 @@
         <!--基础模块-->
         <dependency>
             <groupId>io.github.mangocrisp</groupId>
-            <artifactId>spring-taybct-tool-core</artifactId>
+            <artifactId>spring-taybct-common</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -74,37 +75,22 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <version>${spring-cloud-build.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-httpclient</artifactId>
             <version>${feign-httpclient.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-okhttp</artifactId>
             <version>${feign-okhttp.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
         <!-- SpringCloud Alibaba Sentinel -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
             <version>${spring-cloud-alibaba.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
-        </dependency>
-
-        <!--公共模块（偏业务）-->
-        <dependency>
-            <groupId>io.github.mangocrisp</groupId>
-            <artifactId>spring-taybct-common</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <!--如果要使用 dubbo 就引入 这个依赖-->
@@ -112,18 +98,29 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
             <version>${dubbo.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
+
         <!--dubbo nacos 注册中心-->
         <dependency>
             <artifactId>nacos-client</artifactId>
             <groupId>com.alibaba.nacos</groupId>
             <version>${nacos-client.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <!--设置该模块及子模块不需要被打包成jar-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                    <finalName>${project.name}</finalName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

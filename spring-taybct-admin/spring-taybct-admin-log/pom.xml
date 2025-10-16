@@ -52,8 +52,9 @@
     </scm>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.release>21</maven.compiler.release>
     </properties>
 
     <dependencies>
@@ -75,8 +76,11 @@
             <groupId>io.github.mangocrisp</groupId>
             <artifactId>spring-taybct-tool-cloud</artifactId>
             <version>${project.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
+        </dependency>
+        <!-- 通用工具-->
+        <dependency>
+            <groupId>io.github.mangocrisp</groupId>
+            <artifactId>spring-taybct-common</artifactId>
         </dependency>
         <!-- mybatis-plus 依赖配置-->
         <dependency>
@@ -91,13 +95,18 @@
             <version>${spring-boot.version}</version>
         </dependency>
 
+        <!--jdbc 驱动-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
         <!--    postgresql 驱动   -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
 
         <!-- Mysql 驱动 -->
@@ -105,8 +114,6 @@
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <version>${mysql-connector-j.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
 
         <!--oracle驱动-->
@@ -114,8 +121,6 @@
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc11</artifactId>
             <version>${ojdbc.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
 
         <!--oracle字符集支持-->
@@ -123,8 +128,6 @@
             <groupId>com.oracle.database.nls</groupId>
             <artifactId>orai18n</artifactId>
             <version>${orai18n.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
 
         <!-- Druid 连接池 -->
@@ -132,8 +135,6 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-3-starter</artifactId>
             <version>${druid.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
 
         <!-- Dynamic DataSource 多数据源 -->
@@ -141,8 +142,6 @@
             <groupId>com.baomidou</groupId>
             <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
             <version>${dynamic-datasource.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
 
         <!--rabbit-mq-->
@@ -150,8 +149,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
             <version>${spring-boot.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
 
         <!--安全模块-->
@@ -170,15 +167,78 @@
             <scope>provided</scope>
         </dependency>
 
-        <!--如果要使用 dubbo 就引入 这个依赖-->
+        <!--knife4j 增强功能 这个好久不更新了也不知道还能不能用-->
+        <!--<dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+            <version>${knife4j.version}</version>
+        </dependency>-->
+
+        <!-- springdoc-openapi 核心依赖（包含 OpenAPI 3 规范生成和 Swagger UI） -->
         <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-spring-boot-starter</artifactId>
-            <version>${dubbo.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc-openapi.version}</version>
+        </dependency>
+
+        <!-- SpringBoot Actuator 端点通过 JMX 和HTTP 公开暴露给外界访问-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
+        <!-- SpringBoot Admin Client 客户端 -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>${spring-boot-admin.version}</version>
         </dependency>
 
     </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!--suppress UnresolvedMavenProperty -->
+                                <copy overwrite="true"
+                                      tofile="${maven.multiModuleProjectDirectory}/target/${project.build.finalName}.jar"
+                                      file="${project.build.directory}/${project.build.finalName}.jar"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- 构建和推动Docker镜像 -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <!--如果package时不想用docker打包,就注释掉这个goal-->
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <tag>${project.version}</tag>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

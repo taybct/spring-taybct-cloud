@@ -1,0 +1,1 @@
+./run.sh admin-file-3.5.0.jar

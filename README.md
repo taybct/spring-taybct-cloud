@@ -1,14 +1,17 @@
-# Spring TayBct
+# Spring TayBct Cloud
 
 #### 介绍
 
-Spring TayBct 是一个 Spring 业务组件基础集成的基础业务库，对一些常用的系统管理，用户体系等基础功能做了基础的常用的简易的集成，并且提供一些业务开发过程中常用的功能模块集成，开箱即用。
+Spring TayBct Cloud 是一个 Spring 业务组件基础集成的基础业务，对一些常用的系统管理，用户体系等基础功能做了基础的常用的简易的集成，并且提供一些业务开发过程中常用的功能模块集成，开箱即用。
 
 #### 软件架构
 
-- 基于 spring boot 开发，版本和 spring boot 大版本基本同步，例如 spring-taybct 3.2.x -> spring-boot 3.2.x.
-- 适配一些 spring 相关的基础组件的简单基础集成
+- 基于 Spring Boot 开发，版本和 Spring Boot 大版本基本同步，例如 spring-taybct 3.5.x -> spring-boot 3.5.x
+- 适配一些 Spring 相关的基础组件的简单基础集成
 - 系统管理等一些基础通用业务模块的基础简易集成
+- 本项目是微服务架构，由 Spring TayBct Cloud 添加了 Dubbo 或者 OpenFeign 或者其他注册中心 变成微服务
+
+![img](img.png)
 
 #### 安装教程
 
@@ -18,22 +21,50 @@ Spring TayBct 是一个 Spring 业务组件基础集成的基础业务库，对�
 
 #### 使用说明
 
-1. 只是集成不是运行的代码
-2. 有业务的代码，但是只是希望你复制过去使用，或者引入 maven 依赖包来使用
-3. 如果出了BUG或者无法满足需求，希望你是重写我的包和类来达到目的
-4. 不引入对应的需要的依赖一些功能就是无效的
+1. 是运行的代码
+2. **启动 VM 参数**
+
+```bash
+-Dmaven.wagon.http.ssl.insecure=true
+-Dmaven.wagon.http.ssl.allowall=true
+--add-opens
+java.base/java.lang=ALL-UNNAMED
+--add-opens
+java.base/java.util=ALL-UNNAMED
+--add-opens
+java.base/java.nio=ALL-UNNAMED
+--add-opens
+java.base/sun.nio.ch=ALL-UNNAMED
+--add-opens
+java.base/java.lang.reflect=ALL-UNNAMED
+# 基础内存设置
+-Xms8g -Xmx8g
+-XX:MaxMetaspaceSize=512m
+# 使用ZGC
+-XX:+UseZGC
+-XX:MaxGCPauseMillis=150
+# 解决CodeCache问题
+-XX:ReservedCodeCacheSize=256m
+-XX:+UseCodeCacheFlushing
+# 日志与诊断
+-Xlog:gc*,gc+age=trace,safepoint:file=ac/gc.log:time,uptime,level,tags:filecount=10,filesize=10M
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:HeapDumpPath=./java_pid%p.hprof
+-XX:NativeMemoryTracking=detail
+```
+
+3. 你可以在 modules 模块下看得到这些手动注册的
+
+```java
+
+@RestController
+public class SysUserController extends SysUserControllerRegister {
+}
+```
 
 #### 参与贡献
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-5.  本项目属于集成平时开发的经验避免重复造轮子，所以如果在开发过程中遇到了本项目里面的一些 BUG，请及时在你的运行模块里面，新建 BUG 类同包同名的类来强制重写本项目的代码，等到有空了把这些 BUG，和你修复好的文件一起提交给我，将会是对本项目最伟大的贡献，感激不尽！另外，如果有好的点子，或者想法，也欢迎往我这儿疯狂 PR.
-
-#### 历史发行版本
-
-[Release](https://mangocrisp.top/code/taybct/release/)
+1. 本项目是基于 [Spring Taybct](https://gitee.com/mangocrisp/spring-taybct) 开发的策服务架构业务项目，参与贡献就去这里面
 
 #### 免责声明
 

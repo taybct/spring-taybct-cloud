@@ -1,0 +1,21 @@
+server:
+  port: 9000
+dubbo:
+  protocol:
+    # 固定 Dubbo 端口
+    port: 29000
+  application:
+    # Dubbo的在线运维命令端口
+    qos-port: 39000
+taybct:
+  secure:
+    auth:
+      login-page:
+        # 开启重定向到登录页面
+        redirect: true
+        # 登录页面
+        redirect-login-page: https://127.0.0.1/#/login
+        # 重定向到登录页面的api
+        params-redirect-api: https://127.0.0.1/api/auth/oauth/authorize
+        # 重定向到登录页面的api参数编码方式
+        params-redirect-api-encode-type: uri_component

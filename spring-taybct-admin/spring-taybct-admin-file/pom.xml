@@ -52,8 +52,9 @@
     </scm>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.release>21</maven.compiler.release>
     </properties>
 
     <dependencies>
@@ -69,8 +70,6 @@
             <groupId>io.github.mangocrisp</groupId>
             <artifactId>spring-taybct-tool-cloud</artifactId>
             <version>${project.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
         <!--对象存储工具-->
         <dependency>
@@ -97,8 +96,6 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
 
         <!-- Mysql 驱动 -->
@@ -106,8 +103,6 @@
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <version>${mysql-connector-j.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
 
         <!--oracle驱动-->
@@ -115,8 +110,6 @@
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc11</artifactId>
             <version>${ojdbc.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
 
         <!--oracle字符集支持-->
@@ -124,8 +117,6 @@
             <groupId>com.oracle.database.nls</groupId>
             <artifactId>orai18n</artifactId>
             <version>${orai18n.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
 
         <!-- Druid 连接池 -->
@@ -133,8 +124,6 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-3-starter</artifactId>
             <version>${druid.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
 
         <!-- Dynamic DataSource 多数据源 -->
@@ -142,8 +131,6 @@
             <groupId>com.baomidou</groupId>
             <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
             <version>${dynamic-datasource.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
 
         <!--安全工具-->
@@ -165,8 +152,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
             <version>${spring-boot.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
         </dependency>
 
         <!--easyexcel poi 操作导入导出 excel-->
@@ -175,6 +160,7 @@
             <artifactId>easyexcel</artifactId>
             <version>${easyexcel.version}</version>
         </dependency>
+
         <!-- easypoi的支持 -->
         <dependency>
             <groupId>cn.afterturn</groupId>
@@ -191,6 +177,7 @@
             <artifactId>easypoi-annotation</artifactId>
             <version>${easypoi.version}</version>
         </dependency>
+
         <!--任务调度 用于清除刷新 token 超时的鉴权-->
         <dependency>
             <groupId>io.github.mangocrisp</groupId>
@@ -204,6 +191,81 @@
             <version>${spring-boot.version}</version>
         </dependency>
 
+        <!--knife4j 增强功能-->
+        <!--<dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+            <version>${knife4j.version}</version>
+        </dependency>-->
+
+        <!-- springdoc-openapi 核心依赖（包含 OpenAPI 3 规范生成和 Swagger UI） -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc-openapi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
+        <!-- 如果需要额外的注解支持（可选，通常核心依赖已包含） -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-common</artifactId>
+            <version>${springdoc-openapi.version}</version>
+        </dependency>
+
+        <!-- SpringBoot Actuator 端点通过 JMX 和HTTP 公开暴露给外界访问-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
+        <!-- SpringBoot Admin Client 客户端 -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>${spring-boot-admin.version}</version>
+        </dependency>
+
     </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!--suppress UnresolvedMavenProperty -->
+                                <copy overwrite="true"
+                                      tofile="${maven.multiModuleProjectDirectory}/target/${project.build.finalName}.jar"
+                                      file="${project.build.directory}/${project.build.finalName}.jar"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- 构建和推动Docker镜像 -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <configuration>
+                    <tag>${project.version}</tag>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
