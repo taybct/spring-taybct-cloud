@@ -167,13 +167,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!--knife4j 增强功能 这个好久不更新了也不知道还能不能用-->
-        <!--<dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
-            <version>${knife4j.version}</version>
-        </dependency>-->
-
         <!-- springdoc-openapi 核心依赖（包含 OpenAPI 3 规范生成和 Swagger UI） -->
         <dependency>
             <groupId>org.springdoc</groupId>

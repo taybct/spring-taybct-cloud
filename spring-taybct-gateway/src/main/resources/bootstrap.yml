@@ -17,6 +17,7 @@ spring:
     # group: 指定 group 覆盖默认 group
     # refreshEnabled: 是否开启动态刷新
     import:
+      - optional:nacos:${spring.application.name}.yml?group=${spring.cloud.nacos.config.group}&refreshEnabled=true # 同应用名配置
       - optional:nacos:taybct.yml?group=${spring.cloud.nacos.config.group}&refreshEnabled=true # 基本配置
       - optional:nacos:taybct-global-exception.yml?group=${spring.cloud.nacos.config.group}&refreshEnabled=true # 全局异常配置
       - optional:nacos:taybct-redis.yml?group=${spring.cloud.nacos.config.group}&refreshEnabled=true # redis 缓存
@@ -78,26 +79,26 @@ spring:
         # 日志存放路径
         dir: ./logs/sentinel/${spring.application.name}/
     gateway:
-      # 网关跨域配置
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            #是否允许cookie跨域  true允许
-            allowCredentials: true
-            #允许跨域的url * 则允许全部
-            allowedOriginPatterns: '*'
-            # 允许跨域的方法 * 则全部
-            allowedMethods: '*'
-            # 跨域预检时间
-            maxAge: 3600
-      discovery:
-        locator:
-          # 开启从注册中心动态创建路由的功能
-          enabled: true
-          # 使用小写服务名，默认是大写
-          lowerCaseServiceId: true
       server:
         webflux:
+          # 网关跨域配置
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                #是否允许cookie跨域  true允许
+                allowCredentials: true
+                #允许跨域的url * 则允许全部
+                allowedOriginPatterns: '*'
+                # 允许跨域的方法 * 则全部
+                allowedMethods: '*'
+                # 跨域预检时间
+                maxAge: 3600
+          discovery:
+            locator:
+              # 开启从注册中心动态创建路由的功能
+              enabled: true
+              # 使用小写服务名，默认是大写
+              lowerCaseServiceId: true
           routes:
             # 鉴权模块
             - id: auth

@@ -1,5 +1,6 @@
-swagger:
-  title: 鉴权模块
+springdoc:
+  info:
+    title: 鉴权模块
 # Spring
 spring:
   main:
@@ -18,6 +19,7 @@ spring:
     # group: 指定 group 覆盖默认 group
     # refreshEnabled: 是否开启动态刷新
     import:
+      - optional:nacos:${spring.application.name}.yml?group=${spring.cloud.nacos.config.group}&refreshEnabled=true # 同应用名配置
       - optional:nacos:taybct.yml?group=${spring.cloud.nacos.config.group}&refreshEnabled=true # 基本配置
       - optional:nacos:taybct-global-exception.yml?group=${spring.cloud.nacos.config.group}&refreshEnabled=true # 全局异常配置
       - optional:nacos:taybct-swagger.yml?group=${spring.cloud.nacos.config.group}&refreshEnabled=true # swagger 配置

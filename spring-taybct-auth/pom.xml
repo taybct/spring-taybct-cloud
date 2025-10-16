@@ -87,6 +87,13 @@
             <version>${spring-boot.version}</version>
         </dependency>
 
+        <!-- 常量工具 -->
+        <dependency>
+            <groupId>io.github.mangocrisp</groupId>
+            <artifactId>spring-taybct-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- 必须引入-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -179,6 +186,13 @@
             <version>${dynamic-datasource.version}</version>
         </dependency>
 
+        <!--rabbit-mq-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
         <!--任务调度 用于清除刷新 token 超时的鉴权-->
         <dependency>
             <groupId>io.github.mangocrisp</groupId>
@@ -191,6 +205,27 @@
             <groupId>io.github.mangocrisp</groupId>
             <artifactId>spring-taybct-tool-pki</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <!-- springdoc-openapi 核心依赖（包含 OpenAPI 3 规范生成和 Swagger UI） -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc-openapi.version}</version>
+        </dependency>
+
+        <!-- SpringBoot Actuator 端点通过 JMX 和HTTP 公开暴露给外界访问-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
+        <!-- SpringBoot Admin Client 客户端 -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>${spring-boot-admin.version}</version>
         </dependency>
 
     </dependencies>
