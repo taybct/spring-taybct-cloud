@@ -17,12 +17,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
-import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
 import java.util.UUID;
-
-import static org.springframework.http.HttpMethod.DELETE;
-import static org.springframework.http.HttpMethod.POST;
 
 /**
  * @author xijieyin
@@ -63,11 +59,11 @@ public class WebSecurityConfigurer {
 
         http.authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                         // 	Grants public access to all static assets and the login page.
-                        .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher(this.adminServer.path("/assets/**"))).permitAll()
-                        .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher(this.adminServer.path("/variables.css"))).permitAll()
-                        .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher(this.adminServer.path("/actuator/info"))).permitAll()
-                        .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher(this.adminServer.path("/actuator/health"))).permitAll()
-                        .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher(this.adminServer.path("/login"))).permitAll()
+                        .requestMatchers(this.adminServer.path("/assets/**")).permitAll()
+                        .requestMatchers(this.adminServer.path("/variables.css")).permitAll()
+                        .requestMatchers(this.adminServer.path("/actuator/info")).permitAll()
+                        .requestMatchers(this.adminServer.path("/actuator/health")).permitAll()
+                        .requestMatchers(this.adminServer.path("/login")).permitAll()
                         // https://github.com/spring-projects/spring-security/issues/11027
                         .dispatcherTypeMatchers(DispatcherType.ASYNC).permitAll()
                         // Every other request must be authenticated.
@@ -86,10 +82,10 @@ public class WebSecurityConfigurer {
                                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                                 .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()).ignoringRequestMatchers(
                                         // Disables CSRF-Protection for the endpoint the Spring Boot Admin Client uses to (de-)register
-                                        PathPatternRequestMatcher.withDefaults().matcher(POST, this.adminServer.path("/instances")),
-                                        PathPatternRequestMatcher.withDefaults().matcher(DELETE, this.adminServer.path("/instances/*")),
+                                        this.adminServer.path("/instances"),
+                                        this.adminServer.path("/instances/*"),
                                         // Disables CSRF-Protection for the actuator endpoints.
-                                        PathPatternRequestMatcher.withDefaults().matcher(this.adminServer.path("/actuator/**"))
+                                        this.adminServer.path("/actuator/**")
                                 ));
 
         http.rememberMe((rememberMe) -> rememberMe.key(UUID.randomUUID().toString()).tokenValiditySeconds(1209600));
