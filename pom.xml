@@ -265,6 +265,7 @@
         <module>spring-taybct-auth</module>
         <module>spring-taybct-gateway</module>
         <module>spring-taybct-common</module>
+        <module>laboratory</module>
     </modules>
 
     <build>
