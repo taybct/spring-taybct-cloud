@@ -1,4 +1,4 @@
-package io.github.mangocrisp.spring.taybct.module.scheduling.job;
+package io.github.mangocrisp.spring.taybct.module.scheduling.task.handle.job;
 
 import com.alibaba.fastjson2.JSONObject;
 import io.github.mangocrisp.spring.taybct.api.system.feign.INoticeClient;
