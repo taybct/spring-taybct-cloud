@@ -32,17 +32,17 @@ public class WebSecurityConfigurer {
     /**
      * 是否需要鉴权
      */
-    @Value("${spring.boot.admin.instance-auth.enabled}")
+    @Value("${spring.boot.admin.enabled}")
     private boolean needAuth = true;
     /**
      * 用户名
      */
-    @Value("${spring.boot.admin.instance-auth.default-username}")
+    @Value("${spring.boot.admin.username}")
     private String username = "taybct";
     /**
      * 密码
      */
-    @Value("${spring.boot.admin.instance-auth.default-password}")
+    @Value("${spring.boot.admin.password}")
     private String password = "123654";
 
     private final AdminServerProperties adminServer;
