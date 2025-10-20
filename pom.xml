@@ -385,26 +385,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- javadoc插件 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${maven-javadoc-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!--生成 maven 模板-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-archetype-plugin</artifactId>
-                <version>${maven-archetype-plugin.version}</version>
-            </plugin>
             <!-- 构建和推动Docker镜像 -->
             <plugin>
                 <groupId>com.spotify</groupId>
