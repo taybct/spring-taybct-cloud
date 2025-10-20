@@ -7,7 +7,6 @@ spring:
       ui:
         # 控制台标题
         title: 服务状态监控
-      instance-auth:
-        enabled: true
-        default-username: taybct
-        default-password: 123654
+      enabled: true
+      username: taybct
+      password: 123654
