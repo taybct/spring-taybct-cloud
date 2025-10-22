@@ -1,7 +1,7 @@
-package io.github.mangocrisp.spring.taybct.module.system.controller;
+package io.github.taybct.module.system.controller;
 
-import io.github.mangocrisp.spring.taybct.api.system.domain.SysRoleMenu;
-import io.github.mangocrisp.spring.taybct.module.system.controller.impl.RoleMenuControllerRegister;
+import io.github.taybct.api.system.domain.SysRoleMenu;
+import io.github.taybct.module.system.controller.impl.RoleMenuControllerRegister;
 import org.springframework.web.bind.annotation.RestController;
 
 /**

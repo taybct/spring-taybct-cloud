@@ -1,15 +1,15 @@
-package io.github.mangocrisp.spring.taybct.module.scheduling.task.handle.job;
+package io.github.taybct.module.scheduling.task.handle.job;
 
 import com.alibaba.fastjson2.JSONObject;
-import io.github.mangocrisp.spring.taybct.api.system.feign.INoticeClient;
-import io.github.mangocrisp.spring.taybct.module.scheduling.service.IScheduledLogService;
-import io.github.mangocrisp.spring.taybct.tool.core.annotation.Scheduler;
-import io.github.mangocrisp.spring.taybct.tool.core.constant.DateConstants;
-import io.github.mangocrisp.spring.taybct.tool.core.util.StringPool;
-import io.github.mangocrisp.spring.taybct.tool.core.websocket.enums.MessageUserType;
-import io.github.mangocrisp.spring.taybct.tool.core.websocket.support.MessageUser;
-import io.github.mangocrisp.spring.taybct.tool.core.websocket.support.WSR;
-import io.github.mangocrisp.spring.taybct.tool.scheduling.job.AbstractScheduledTaskJob;
+import io.github.taybct.api.system.feign.INoticeClient;
+import io.github.taybct.module.scheduling.service.IScheduledLogService;
+import io.github.taybct.tool.core.annotation.Scheduler;
+import io.github.taybct.tool.core.constant.DateConstants;
+import io.github.taybct.tool.core.util.StringPool;
+import io.github.taybct.tool.core.websocket.enums.MessageUserType;
+import io.github.taybct.tool.core.websocket.support.MessageUser;
+import io.github.taybct.tool.core.websocket.support.WSR;
+import io.github.taybct.tool.scheduling.job.AbstractScheduledTaskJob;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;

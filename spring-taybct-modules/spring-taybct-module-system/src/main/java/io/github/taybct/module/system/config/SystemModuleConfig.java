@@ -1,11 +1,11 @@
-package io.github.mangocrisp.spring.taybct.module.system.config;
+package io.github.taybct.module.system.config;
 
 import cn.afterturn.easypoi.handler.inter.IExcelDictHandler;
-import io.github.mangocrisp.spring.taybct.api.system.handle.ExcelSysDictHandler;
-import io.github.mangocrisp.spring.taybct.module.system.service.ISysDictService;
-import io.github.mangocrisp.spring.taybct.tool.core.poi.easypoi.service.IExcelService;
-import io.github.mangocrisp.spring.taybct.tool.core.poi.easypoi.service.impl.ExcelServiceImpl;
-import io.github.mangocrisp.spring.taybct.tool.core.poi.easypoi.util.EasyPOIUtil;
+import io.github.taybct.api.system.handle.ExcelSysDictHandler;
+import io.github.taybct.module.system.service.ISysDictService;
+import io.github.taybct.tool.core.poi.easypoi.service.IExcelService;
+import io.github.taybct.tool.core.poi.easypoi.service.impl.ExcelServiceImpl;
+import io.github.taybct.tool.core.poi.easypoi.util.EasyPOIUtil;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Bean;

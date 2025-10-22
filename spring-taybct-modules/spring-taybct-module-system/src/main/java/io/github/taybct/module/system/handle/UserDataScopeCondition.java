@@ -1,7 +1,7 @@
-package io.github.mangocrisp.spring.taybct.module.system.handle;
+package io.github.taybct.module.system.handle;
 
-import io.github.mangocrisp.spring.taybct.tool.core.bean.ILoginUser;
-import io.github.mangocrisp.spring.taybct.tool.core.config.DataScopeCondition;
+import io.github.taybct.tool.core.bean.ILoginUser;
+import io.github.taybct.tool.core.config.DataScopeCondition;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 
 /**

@@ -1,7 +1,7 @@
-package io.github.mangocrisp.spring.taybct.module.scheduling;
+package io.github.taybct.module.scheduling;
 
 import feign.Logger;
-import io.github.mangocrisp.spring.taybct.tool.cloud.annotation.TayBctCloudConfig;
+import io.github.taybct.tool.cloud.annotation.TayBctCloudConfig;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

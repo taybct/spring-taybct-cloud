@@ -1,6 +1,6 @@
-package io.github.mangocrisp.spring.taybct.admin.file;
+package io.github.taybct.admin.file;
 
-import io.github.mangocrisp.spring.taybct.tool.cloud.annotation.TayBctCloudConfig;
+import io.github.taybct.tool.cloud.annotation.TayBctCloudConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;

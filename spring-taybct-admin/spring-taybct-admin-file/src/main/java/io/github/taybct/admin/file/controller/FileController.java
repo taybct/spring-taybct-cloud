@@ -1,6 +1,6 @@
-package io.github.mangocrisp.spring.taybct.admin.file.controller;
+package io.github.taybct.admin.file.controller;
 
-import io.github.mangocrisp.spring.taybct.admin.file.controller.impl.FileControllerRegister;
+import io.github.taybct.admin.file.controller.impl.FileControllerRegister;
 import org.springframework.web.bind.annotation.RestController;
 
 /**

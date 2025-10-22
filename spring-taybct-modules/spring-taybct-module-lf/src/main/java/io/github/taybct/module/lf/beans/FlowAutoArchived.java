@@ -1,10 +1,10 @@
-package io.github.mangocrisp.spring.taybct.module.lf.beans;
+package io.github.taybct.module.lf.beans;
 
-import io.github.mangocrisp.spring.taybct.module.lf.api.ProcessAutoDealHandler;
-import io.github.mangocrisp.spring.taybct.module.lf.domain.Edges;
-import io.github.mangocrisp.spring.taybct.module.lf.domain.History;
-import io.github.mangocrisp.spring.taybct.module.lf.domain.Nodes;
-import io.github.mangocrisp.spring.taybct.module.lf.domain.Process;
+import io.github.taybct.module.lf.api.ProcessAutoDealHandler;
+import io.github.taybct.module.lf.domain.Edges;
+import io.github.taybct.module.lf.domain.History;
+import io.github.taybct.module.lf.domain.Nodes;
+import io.github.taybct.module.lf.domain.Process;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;

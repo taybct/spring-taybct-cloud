@@ -1,6 +1,6 @@
-package io.github.mangocrisp.spring.taybct.module.system.controller;
+package io.github.taybct.module.system.controller;
 
-import io.github.mangocrisp.spring.taybct.module.system.controller.impl.SysDeptControllerRegister;
+import io.github.taybct.module.system.controller.impl.SysDeptControllerRegister;
 import org.springframework.web.bind.annotation.RestController;
 
 /**

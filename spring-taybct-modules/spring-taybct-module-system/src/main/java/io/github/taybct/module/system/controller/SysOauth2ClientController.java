@@ -1,8 +1,8 @@
-package io.github.mangocrisp.spring.taybct.module.system.controller;
+package io.github.taybct.module.system.controller;
 
-import io.github.mangocrisp.spring.taybct.api.system.domain.SysOauth2Client;
-import io.github.mangocrisp.spring.taybct.module.system.controller.impl.SysOauth2ClientControllerRegister;
-import io.github.mangocrisp.spring.taybct.module.system.service.ISysOauth2ClientService;
+import io.github.taybct.api.system.domain.SysOauth2Client;
+import io.github.taybct.module.system.controller.impl.SysOauth2ClientControllerRegister;
+import io.github.taybct.module.system.service.ISysOauth2ClientService;
 import org.springframework.web.bind.annotation.RestController;
 
 /**

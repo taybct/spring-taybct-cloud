@@ -1,8 +1,8 @@
-package io.github.mangocrisp.spring.taybct.module.system.controller;
+package io.github.taybct.module.system.controller;
 
-import io.github.mangocrisp.spring.taybct.api.system.domain.SysDictType;
-import io.github.mangocrisp.spring.taybct.module.system.controller.impl.SysDictTypeControllerRegister;
-import io.github.mangocrisp.spring.taybct.module.system.service.ISysDictTypeService;
+import io.github.taybct.api.system.domain.SysDictType;
+import io.github.taybct.module.system.controller.impl.SysDictTypeControllerRegister;
+import io.github.taybct.module.system.service.ISysDictTypeService;
 import org.springframework.web.bind.annotation.RestController;
 
 /**

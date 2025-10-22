@@ -1,6 +1,6 @@
-package io.github.mangocrisp.spring.taybct.module.od;
+package io.github.taybct.module.od;
 
-import io.github.mangocrisp.spring.taybct.tool.cloud.annotation.TayBctCloudConfig;
+import io.github.taybct.tool.cloud.annotation.TayBctCloudConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

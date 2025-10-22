@@ -1,7 +1,7 @@
-package io.github.mangocrisp.spring.taybct.module.system.controller;
+package io.github.taybct.module.system.controller;
 
-import io.github.mangocrisp.spring.taybct.api.system.domain.SysRolePermission;
-import io.github.mangocrisp.spring.taybct.module.system.controller.impl.RolePermControllerRegister;
+import io.github.taybct.api.system.domain.SysRolePermission;
+import io.github.taybct.module.system.controller.impl.RolePermControllerRegister;
 import org.springframework.web.bind.annotation.RestController;
 
 /**

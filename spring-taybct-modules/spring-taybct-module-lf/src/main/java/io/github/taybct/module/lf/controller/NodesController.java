@@ -1,6 +1,6 @@
-package io.github.mangocrisp.spring.taybct.module.lf.controller;
+package io.github.taybct.module.lf.controller;
 
-import io.github.mangocrisp.spring.taybct.module.lf.controller.impl.NodesControllerRegister;
+import io.github.taybct.module.lf.controller.impl.NodesControllerRegister;
 import org.springframework.web.bind.annotation.RestController;
 
 /**

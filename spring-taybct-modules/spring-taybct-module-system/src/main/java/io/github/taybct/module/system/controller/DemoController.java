@@ -1,8 +1,8 @@
-package io.github.mangocrisp.spring.taybct.module.system.controller;
+package io.github.taybct.module.system.controller;
 
-import io.github.mangocrisp.spring.taybct.tool.core.annotation.ApiLog;
-import io.github.mangocrisp.spring.taybct.tool.core.constant.OperateType;
-import io.github.mangocrisp.spring.taybct.tool.core.result.R;
+import io.github.taybct.tool.core.annotation.ApiLog;
+import io.github.taybct.tool.core.constant.OperateType;
+import io.github.taybct.tool.core.result.R;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

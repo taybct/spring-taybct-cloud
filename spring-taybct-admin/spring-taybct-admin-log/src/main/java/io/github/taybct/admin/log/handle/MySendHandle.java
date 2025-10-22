@@ -1,10 +1,10 @@
-package io.github.mangocrisp.spring.taybct.admin.log.handle;
+package io.github.taybct.admin.log.handle;
 
 import com.alibaba.fastjson2.JSONObject;
-import io.github.mangocrisp.spring.taybct.admin.log.domain.ApiLog;
-import io.github.mangocrisp.spring.taybct.admin.log.service.IApiLogService;
-import io.github.mangocrisp.spring.taybct.tool.core.message.IMessageSendService;
-import io.github.mangocrisp.spring.taybct.tool.core.message.Message;
+import io.github.taybct.admin.log.domain.ApiLog;
+import io.github.taybct.admin.log.service.IApiLogService;
+import io.github.taybct.tool.core.message.IMessageSendService;
+import io.github.taybct.tool.core.message.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,8 @@
-package io.github.mangocrisp.spring.taybct.module.system.controller;
+package io.github.taybct.module.system.controller;
 
-import io.github.mangocrisp.spring.taybct.api.system.domain.SysMenu;
-import io.github.mangocrisp.spring.taybct.module.system.controller.impl.SysMenuControllerRegister;
-import io.github.mangocrisp.spring.taybct.module.system.service.ISysMenuService;
+import io.github.taybct.api.system.domain.SysMenu;
+import io.github.taybct.module.system.controller.impl.SysMenuControllerRegister;
+import io.github.taybct.module.system.service.ISysMenuService;
 import org.springframework.web.bind.annotation.RestController;
 
 /**

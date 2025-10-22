@@ -1,6 +1,6 @@
-package io.github.mangocrisp.spring.taybct.gateway;
+package io.github.taybct.gateway;
 
-import io.github.mangocrisp.spring.taybct.tool.core.auto.ControllerRegisterAutoConfigure;
+import io.github.taybct.tool.core.auto.ControllerRegisterAutoConfigure;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;

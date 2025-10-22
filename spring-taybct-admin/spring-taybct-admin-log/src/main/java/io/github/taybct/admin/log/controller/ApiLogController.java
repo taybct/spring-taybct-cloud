@@ -1,6 +1,6 @@
-package io.github.mangocrisp.spring.taybct.admin.log.controller;
+package io.github.taybct.admin.log.controller;
 
-import io.github.mangocrisp.spring.taybct.admin.log.controller.impl.ApiLogControllerRegister;
+import io.github.taybct.admin.log.controller.impl.ApiLogControllerRegister;
 import org.springframework.web.bind.annotation.RestController;
 
 /**

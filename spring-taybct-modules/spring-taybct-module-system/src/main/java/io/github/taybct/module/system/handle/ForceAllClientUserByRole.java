@@ -1,6 +1,6 @@
-package io.github.mangocrisp.spring.taybct.module.system.handle;
+package io.github.taybct.module.system.handle;
 
-import io.github.mangocrisp.spring.taybct.module.system.config.IForceAllClientUserByRole;
+import io.github.taybct.module.system.config.IForceAllClientUserByRole;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 
 import java.util.Collection;

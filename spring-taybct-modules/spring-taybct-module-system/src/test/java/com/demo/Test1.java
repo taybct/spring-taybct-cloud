@@ -1,7 +1,7 @@
 package com.demo;
 
 import com.alibaba.fastjson2.JSONObject;
-import io.github.mangocrisp.spring.taybct.tool.core.message.apilog.ApiLogDTO;
+import io.github.taybct.tool.core.message.apilog.ApiLogDTO;
 import org.junit.Test;
 import org.springframework.boot.SpringBootVersion;
 import org.springframework.boot.test.context.SpringBootTest;

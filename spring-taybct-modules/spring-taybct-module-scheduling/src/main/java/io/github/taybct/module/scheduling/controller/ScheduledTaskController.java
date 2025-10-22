@@ -1,6 +1,6 @@
-package io.github.mangocrisp.spring.taybct.module.scheduling.controller;
+package io.github.taybct.module.scheduling.controller;
 
-import io.github.mangocrisp.spring.taybct.module.scheduling.controller.impl.ScheduledTaskControllerRegister;
+import io.github.taybct.module.scheduling.controller.impl.ScheduledTaskControllerRegister;
 import org.springframework.web.bind.annotation.RestController;
 
 /**

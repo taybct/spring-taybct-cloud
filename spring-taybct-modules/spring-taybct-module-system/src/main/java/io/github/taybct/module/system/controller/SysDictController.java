@@ -1,12 +1,12 @@
-package io.github.mangocrisp.spring.taybct.module.system.controller;
+package io.github.taybct.module.system.controller;
 
-import io.github.mangocrisp.spring.taybct.api.system.domain.SysDict;
-import io.github.mangocrisp.spring.taybct.module.system.controller.impl.SysDictControllerRegister;
-import io.github.mangocrisp.spring.taybct.module.system.service.ISysDictService;
-import io.github.mangocrisp.spring.taybct.tool.core.annotation.ApiVersion;
-import io.github.mangocrisp.spring.taybct.tool.core.annotation.WebLog;
-import io.github.mangocrisp.spring.taybct.tool.core.request.SqlQueryParams;
-import io.github.mangocrisp.spring.taybct.tool.core.result.R;
+import io.github.taybct.api.system.domain.SysDict;
+import io.github.taybct.module.system.controller.impl.SysDictControllerRegister;
+import io.github.taybct.module.system.service.ISysDictService;
+import io.github.taybct.tool.core.annotation.ApiVersion;
+import io.github.taybct.tool.core.annotation.WebLog;
+import io.github.taybct.tool.core.request.SqlQueryParams;
+import io.github.taybct.tool.core.result.R;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

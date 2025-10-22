@@ -1,8 +1,8 @@
-package io.github.mangocrisp.spring.taybct.module.system.handle;
+package io.github.taybct.module.system.handle;
 
-import io.github.mangocrisp.spring.taybct.api.system.domain.SysUser;
-import io.github.mangocrisp.spring.taybct.common.constants.CacheConstants;
-import io.github.mangocrisp.spring.taybct.module.system.config.ILoginCacheClear;
+import io.github.taybct.api.system.domain.SysUser;
+import io.github.taybct.common.constants.CacheConstants;
+import io.github.taybct.module.system.config.ILoginCacheClear;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;

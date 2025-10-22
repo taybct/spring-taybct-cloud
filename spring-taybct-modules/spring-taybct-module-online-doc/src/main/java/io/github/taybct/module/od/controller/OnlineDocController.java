@@ -1,6 +1,6 @@
-package io.github.mangocrisp.spring.taybct.module.od.controller;
+package io.github.taybct.module.od.controller;
 
-import io.github.mangocrisp.spring.taybct.module.od.service.IOnlineDocService;
+import io.github.taybct.module.od.service.IOnlineDocService;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
