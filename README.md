@@ -1,5 +1,9 @@
 # Spring TayBct Cloud
 
+[![GitHub license](https://img.shields.io/github/license/taybct/spring-taybct-cloud?style=flat)](./LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/taybct/spring-taybct-cloud?color=fa6470&style=flat)](https://github.com/taybct/spring-taybct-cloud/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/taybct/spring-taybct-cloud?style=flat)](https://github.com/taybct/spring-taybct-cloud/network/members)
+
 ## 介绍
 
 Spring TayBct Cloud 是一个 Spring 业务组件基础集成的基础业务（Spring Cloud 微服务），对一些常用的系统管理，
