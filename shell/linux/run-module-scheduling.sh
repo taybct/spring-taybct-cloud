@@ -1,1 +1,1 @@
-./run.sh module-scheduling-3.5.0.jar
+./run.sh spring-taybct-module-scheduling-${application.version}.jar

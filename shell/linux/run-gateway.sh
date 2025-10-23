@@ -1,1 +1,1 @@
-./run.sh gateway-3.5.0.jar
+./run.sh spring-taybct-gateway-${application.version}.jar

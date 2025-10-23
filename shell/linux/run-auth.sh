@@ -1,1 +1,1 @@
-./run.sh auth-3.5.0.jar
+./run.sh spring-taybct-auth-${application.version}.jar

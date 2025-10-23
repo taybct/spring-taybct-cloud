@@ -1,3 +1,3 @@
 @echo off
-start cmd /k "run.bat admin-file-3.5.0.jar"
+start cmd /k "run.bat spring-taybct-admin-file-${application.version}.jar"
 exit

@@ -1,1 +1,1 @@
-./run.sh admin-file-3.5.0.jar
+./run.sh spring-taybct-admin-file-${application.version}.jar

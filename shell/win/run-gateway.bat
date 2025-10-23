@@ -1,3 +1,3 @@
 @echo off
-start cmd /k "run.bat gateway-3.5.0.jar"
+start cmd /k "run.bat spring-taybct-gateway-${application.version}.jar"
 exit

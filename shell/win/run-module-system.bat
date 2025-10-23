@@ -1,3 +1,3 @@
 @echo off
-start cmd /k "run.bat module-system-3.5.0.jar"
+start cmd /k "run.bat spring-taybct-module-system-${application.version}.jar"
 exit

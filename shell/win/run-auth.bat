@@ -1,3 +1,3 @@
 @echo off
-start cmd /k "run.bat auth-3.5.0.jar"
+start cmd /k "run.bat spring-taybct-auth-${application.version}.jar"
 exit
