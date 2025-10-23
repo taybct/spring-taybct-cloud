@@ -26,14 +26,14 @@
         <dependency>
             <groupId>io.github.taybct</groupId>
             <artifactId>spring-taybct-tool-launch</artifactId>
-            <version>${project.version}</version>
+            <version>${spring-taybct-tools.version}</version>
         </dependency>
 
         <!--核心模块-->
         <dependency>
             <groupId>io.github.taybct</groupId>
             <artifactId>spring-taybct-tool-core</artifactId>
-            <version>${project.version}</version>
+            <version>${spring-taybct-tools.version}</version>
         </dependency>
 
         <!-- webflux -->
