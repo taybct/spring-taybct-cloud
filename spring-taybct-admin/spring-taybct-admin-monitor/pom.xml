@@ -63,7 +63,6 @@
         <dependency>
             <groupId>io.github.taybct</groupId>
             <artifactId>spring-taybct-tool-launch</artifactId>
-            <version>${spring-taybct-tools.version}</version>
         </dependency>
 
         <!-- SpringCloud Alibaba Nacos -->
