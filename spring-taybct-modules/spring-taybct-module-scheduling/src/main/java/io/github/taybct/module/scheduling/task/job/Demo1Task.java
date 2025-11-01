@@ -1,18 +1,19 @@
-package io.github.taybct.module.scheduling.task.handle.job;
+package io.github.taybct.module.scheduling.task.job;
 
 import com.alibaba.fastjson2.JSONObject;
-import io.github.taybct.api.system.feign.INoticeClient;
+import io.github.taybct.common.message.websocket.WebSocketMessageDTO;
 import io.github.taybct.module.scheduling.service.IScheduledLogService;
 import io.github.taybct.tool.core.annotation.Scheduler;
 import io.github.taybct.tool.core.constant.DateConstants;
+import io.github.taybct.tool.core.message.IMessageSendService;
 import io.github.taybct.tool.core.util.StringPool;
 import io.github.taybct.tool.core.websocket.enums.MessageUserType;
 import io.github.taybct.tool.core.websocket.support.MessageUser;
 import io.github.taybct.tool.core.websocket.support.WSR;
 import io.github.taybct.tool.scheduling.job.AbstractScheduledTaskJob;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 
 import java.time.LocalDateTime;
@@ -36,8 +37,8 @@ public class Demo1Task extends AbstractScheduledTaskJob {
 
     final IScheduledLogService scheduledLogService;
 
-    @DubboReference
-    private INoticeClient noticeClient;
+    @Resource
+    private IMessageSendService messageSendService;
 
     @Override
     protected Consumer<JSONObject> getLogRecorder() {
@@ -57,7 +58,7 @@ public class Demo1Task extends AbstractScheduledTaskJob {
                     .map(Long::parseLong)
                     .map(id -> new MessageUser(MessageUserType.USER, id, null)).toList()));
         }
-        noticeClient.sendMessage(message);
+        messageSendService.send(new WebSocketMessageDTO(message, true));
 //        stopRecord(OperateStatus.SUCCESS.getCode(), "我自己记录一个消息");
 //        throw new RuntimeException("最后个报错");
     }

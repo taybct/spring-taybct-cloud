@@ -1,4 +1,4 @@
-package io.github.taybct.module.scheduling.task.handle.job;
+package io.github.taybct.module.scheduling.task.job;
 
 import com.alibaba.fastjson2.JSONObject;
 import io.github.taybct.api.system.feign.INoticeClient;
