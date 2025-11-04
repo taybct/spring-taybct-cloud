@@ -1,13 +1,10 @@
 package io.github.taybct.module.scheduling.auto;
 
-import io.github.taybct.api.system.feign.INoticeClient;
-import io.github.taybct.common.message.websocket.WebSocketMessageHandler;
 import io.github.taybct.module.scheduling.service.IScheduledLogService;
 import io.github.taybct.module.scheduling.service.IScheduledTaskService;
 import io.github.taybct.module.scheduling.service.impl.ScheduledLogServiceImpl;
 import io.github.taybct.module.scheduling.service.impl.ScheduledTaskServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -35,14 +32,6 @@ public class SchedulingServiceAutoConfigure {
     public IScheduledLogService scheduledLogService() {
         return new ScheduledLogServiceImpl() {
         };
-    }
-
-    @DubboReference
-    INoticeClient noticeClient;
-
-    @Bean("webSocketMessageHandler")
-    public WebSocketMessageHandler webSocketMessageHandler() {
-        return new WebSocketMessageHandler(noticeClient);
     }
 
 }
