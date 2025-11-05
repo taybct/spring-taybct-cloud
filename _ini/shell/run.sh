@@ -1,4 +1,4 @@
-#!/bin/ash
+#!/bin/bash
 java=/path/to/java
 jar=$1
 vm=-Dfile.encoding=utf-8 \
