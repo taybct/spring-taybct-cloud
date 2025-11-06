@@ -1,6 +1,6 @@
 #!/bin/bash
 # 镜像仓库地址
-registry_url="crpi-p3j3l56qfuzd5nzg.cn-shenzhen.personal.cr.aliyuncs.com"
+registry_url="ghcr.io"
 # 镜像组名
 group_name="taybct"
 # 镜像版本
