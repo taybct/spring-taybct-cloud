@@ -25,14 +25,9 @@ run() {
   docker rm $image_name
   echo "---- run container ----"
   echo "docker image name $docker_image"
-  # 可以指定一下 Java 变量
-  #--hostname=54498263e31f \
-  #--env=PATH=/opt/openjdk-17/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
-  #--env=JAVA_HOME=/opt/openjdk-17 \
-  #--env=JAVA_VERSION=17-ea+14 \
-  eval "docker run -e=$e -p $p --name $image_name --restart=no --runtime=runc $a -d $docker_image"
+  #eval "docker run -e=$e -p $p --name $image_name --restart=no --runtime=runc $a -d $docker_image"
   # 或者使用这个 bash -c 在子 Shell 中执行字符串命令
-  #bash -c "docker run -e=$e -p $p --name $image_name --restart=no --runtime=runc $a -d $docker_image"
+  bash -c "docker run -e=$e -p $p --name $image_name --restart=no --runtime=runc $a -d $docker_image"
 }
 # 镜像仓库地址
 registry_url=
