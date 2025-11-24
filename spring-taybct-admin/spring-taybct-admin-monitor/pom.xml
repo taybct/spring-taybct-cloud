@@ -6,11 +6,11 @@
     <parent>
         <groupId>io.github.taybct</groupId>
         <artifactId>spring-taybct-admin</artifactId>
-        <version>3.5.0</version>
+        <version>3.5.1</version>
     </parent>
 
     <artifactId>spring-taybct-admin-monitor</artifactId>
-    <version>3.5.0</version>
+    <version>3.5.1</version>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
     <description>监控中心</description>

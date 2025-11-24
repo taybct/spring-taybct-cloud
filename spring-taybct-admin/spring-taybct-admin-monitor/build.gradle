@@ -1,0 +1,37 @@
+description = "监控中心"
+
+// 自身作为父模块，无需打包（如果没有代码的话）
+jar.enabled = true // 禁用自身打包（可选，若模块无代码）
+bootJar.enabled = true
+
+dependencies {
+    // 启动监听（内部模块，使用项目依赖）
+    implementation 'io.github.taybct:spring-taybct-tool-launch'
+
+    // SpringCloud Alibaba Nacos
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${findProperty('taybct-project.spring-cloud-alibaba.version')}"
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:${findProperty('taybct-project.spring-cloud-alibaba.version')}"
+
+    // SpringBoot Admin
+    implementation "de.codecentric:spring-boot-admin-starter-server:${findProperty('taybct-project.spring-boot-admin.version')}"
+
+    // SpringBoot Actuator 端点通过 JMX 和HTTP 公开暴露给外界访问
+    implementation "org.springframework.boot:spring-boot-starter-actuator:${findProperty('taybct-project.spring-boot.version')}"
+
+    // SpringBoot Admin Client 客户端
+    implementation "de.codecentric:spring-boot-admin-starter-client:${findProperty('taybct-project.spring-boot-admin.version')}"
+
+    // SpringBoot Admin UI
+    implementation "de.codecentric:spring-boot-admin-server-ui:${findProperty('taybct-project.spring-boot-admin.version')}"
+
+    // Spring Security
+    implementation "org.springframework.boot:spring-boot-starter-security:${findProperty('taybct-project.spring-boot.version')}"
+
+    // SpringBoot Web（排除tomcat依赖）
+    implementation("org.springframework.boot:spring-boot-starter-web:${findProperty('taybct-project.spring-boot.version')}") {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    }
+
+    // 排除Tomcat依赖 使用 undertow
+    implementation "org.springframework.boot:spring-boot-starter-undertow:${findProperty('taybct-project.spring-boot.version')}"
+}

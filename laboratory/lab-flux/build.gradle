@@ -1,0 +1,16 @@
+description = "模拟 webflux 模块"
+
+// 自身作为父模块，无需打包（如果没有代码的话）
+jar.enabled = true // 禁用自身打包（可选，若模块无代码）
+bootJar.enabled = false
+
+dependencies {
+    // 启动模块（内部模块，使用项目依赖）
+    implementation 'io.github.taybct:spring-taybct-tool-launch'
+
+    // 核心模块（内部模块，使用项目依赖）
+    implementation 'io.github.taybct:spring-taybct-tool-core'
+
+    // webflux
+    implementation "org.springframework.boot:spring-boot-starter-webflux:${findProperty('taybct-project.spring-boot.version')}"
+}

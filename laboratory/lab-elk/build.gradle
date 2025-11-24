@@ -1,0 +1,27 @@
+description = "elasticsearch 搜索引擎"
+
+// 自身作为父模块，无需打包（如果没有代码的话）
+jar.enabled = true // 禁用自身打包（可选，若模块无代码）
+bootJar.enabled = false
+
+dependencies {
+    // 启动模块（内部模块，使用项目依赖）
+    implementation 'io.github.taybct:spring-taybct-tool-launch'
+
+    // 微服务依赖（内部模块，使用项目依赖）
+    implementation 'io.github.taybct:spring-taybct-tool-cloud'
+
+    // 通用工具（内部模块，使用项目依赖）
+    implementation project(':spring-taybct-common')
+
+    // spring web（排除tomcat依赖）
+    implementation("org.springframework.boot:spring-boot-starter-web:${findProperty('taybct-project.spring-boot.version')}") {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    }
+
+    // 排除Tomcat依赖 使用 undertow
+    implementation "org.springframework.boot:spring-boot-starter-undertow:${findProperty('taybct-project.spring-boot.version')}"
+
+    // es 操作
+    implementation "org.springframework.boot:spring-boot-starter-data-elasticsearch:${findProperty('taybct-project.spring-boot.version')}"
+}
