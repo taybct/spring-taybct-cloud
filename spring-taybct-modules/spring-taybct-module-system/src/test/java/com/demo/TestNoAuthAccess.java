@@ -3,7 +3,7 @@ package com.demo;
 import io.github.taybct.tool.core.util.sm.SM4Coder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.nio.charset.StandardCharsets;
@@ -16,7 +16,6 @@ import java.nio.charset.StandardCharsets;
  * @author XiJieYin
  * @since 2024/12/2 15:05
  */
-@SpringBootTest
 @Slf4j
 public class TestNoAuthAccess {
 
