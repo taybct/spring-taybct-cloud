@@ -2,16 +2,16 @@ description = "系统模块"
 
 // 自身作为父模块，无需打包（如果没有代码的话）
 jar.enabled = true // 禁用自身打包（可选，若模块无代码）
-bootJar.enabled = false
+bootJar.enabled = true
 
 dependencies {
     // 启动模块（内部模块，核心依赖）
     api ('io.github.taybct:spring-taybct-tool-launch')
 
-    // 微服务依赖
-    compileOnly ('io.github.taybct:spring-taybct-tool-cloud')
+    // 微服务依赖（内部模块，核心依赖）
+    api ('io.github.taybct:spring-taybct-tool-cloud')
 
-    // 常量工具（内部模块，核心依赖）
+    // 常量工具（内部模块，核心依赖，去重保留一个）
     api project(':spring-taybct-common')
 
     // 系统接口（内部模块，核心依赖）
@@ -23,15 +23,15 @@ dependencies {
     // mybatis-plus 依赖配置（核心依赖）
     api "com.baomidou:mybatis-plus-spring-boot3-starter:${findProperty('taybct-project.mybatis-plus.version')}"
 
-    // 数据库驱动
-    compileOnly "org.postgresql:postgresql:${findProperty('taybct-project.postgresql.version')}"
-    compileOnly "com.mysql:mysql-connector-j:${findProperty('taybct-project.mysql-connector-j.version')}"
-    compileOnly "com.oracle.database.jdbc:ojdbc11:${findProperty('taybct-project.ojdbc.version')}"
-    compileOnly "com.oracle.database.nls:orai18n:${findProperty('taybct-project.orai18n.version')}"
+    // 数据库驱动（核心依赖）
+    api "org.postgresql:postgresql:${findProperty('taybct-project.postgresql.version')}"
+    api "com.mysql:mysql-connector-j:${findProperty('taybct-project.mysql-connector-j.version')}"
+    api "com.oracle.database.jdbc:ojdbc11:${findProperty('taybct-project.ojdbc.version')}"
+    api "com.oracle.database.nls:orai18n:${findProperty('taybct-project.orai18n.version')}"
 
-    // 连接池与多数据源
-    compileOnly "com.alibaba:druid-spring-boot-3-starter:${findProperty('taybct-project.druid.version')}"
-    compileOnly "com.baomidou:dynamic-datasource-spring-boot3-starter:${findProperty('taybct-project.dynamic-datasource.version')}"
+    // 连接池与多数据源（核心依赖）
+    api "com.alibaba:druid-spring-boot-3-starter:${findProperty('taybct-project.druid.version')}"
+    api "com.baomidou:dynamic-datasource-spring-boot3-starter:${findProperty('taybct-project.dynamic-datasource.version')}"
 
     // 安全模块（内部模块，核心依赖）
     api ('io.github.taybct:spring-taybct-tool-security')
@@ -39,32 +39,33 @@ dependencies {
     // 任务调度（内部模块，核心依赖）
     api ('io.github.taybct:spring-taybct-tool-scheduling')
 
-    // 如果要使用 dubbo 就引入这个依赖
-    compileOnly "org.apache.dubbo:dubbo-spring-boot-starter:${findProperty('taybct-project.dubbo.version')}"
+    // rabbit-mq（核心依赖）
+    api "org.springframework.boot:spring-boot-starter-amqp:${findProperty('taybct-project.spring-boot.version')}"
 
-    // mvc websocket（optional=true + scope=provided，对应 compileOnly，排除 tomcat 依赖）
-    compileOnly("org.springframework.boot:spring-boot-starter-websocket:${findProperty('taybct-project.spring-boot.version')}") {
-        // 原注释：使用 undertow 替代 tomcat
+    // mvc websocket（核心依赖，排除 tomcat 容器，原注释：使用 undertow 替代 tomcat）
+    api("org.springframework.boot:spring-boot-starter-websocket:${findProperty('taybct-project.spring-boot.version')}") {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
     }
 
-    // Excel 操作相关
+    // Excel 操作相关（核心依赖）
     // easyexcel poi 操作导入导出 excel
-    compileOnly "com.alibaba:easyexcel:${findProperty('taybct-project.easyexcel.version')}"
+    api "com.alibaba:easyexcel:${findProperty('taybct-project.easyexcel.version')}"
     // easypoi的支持
-    compileOnly "cn.afterturn:easypoi-base:${findProperty('taybct-project.easypoi.version')}"
-    compileOnly "cn.afterturn:easypoi-web:${findProperty('taybct-project.easypoi.version')}"
-    compileOnly "cn.afterturn:easypoi-annotation:${findProperty('taybct-project.easypoi.version')}"
+    api "cn.afterturn:easypoi-base:${findProperty('taybct-project.easypoi.version')}"
+    api "cn.afterturn:easypoi-web:${findProperty('taybct-project.easypoi.version')}"
+    api "cn.afterturn:easypoi-annotation:${findProperty('taybct-project.easypoi.version')}"
+    // excel模板导出
+    api "net.sf.jxls:jxls-core:${findProperty('taybct-project.jxls-core.version')}"
 
-    // API 文档相关
+    // API 文档相关（核心依赖）
     // knife4j 集成 springdoc-openapi（修复兼容 springdoc-openapi 2.7.x 以上版本）
-    compileOnly "io.github.mangocrisp:knife4j-openapi3-jakarta-spring-boot-starter:${findProperty('taybct-project.knife4j-fix.version')}"
+    api "io.github.mangocrisp:knife4j-openapi3-jakarta-spring-boot-starter:${findProperty('taybct-project.knife4j-fix.version')}"
     // springdoc-openapi 核心依赖（包含 OpenAPI 3 规范生成和 Swagger UI）
-    compileOnly "org.springdoc:springdoc-openapi-starter-webmvc-ui:${findProperty('taybct-project.springdoc-openapi.version')}"
+    api "org.springdoc:springdoc-openapi-starter-webmvc-ui:${findProperty('taybct-project.springdoc-openapi.version')}"
 
-    // 监控相关
+    // 监控相关（核心依赖）
     // SpringBoot Actuator 端点通过 JMX 和HTTP 公开暴露给外界访问
-    compileOnly "org.springframework.boot:spring-boot-starter-actuator:${findProperty('taybct-project.spring-boot.version')}"
+    api "org.springframework.boot:spring-boot-starter-actuator:${findProperty('taybct-project.spring-boot.version')}"
     // SpringBoot Admin Client 客户端
-    compileOnly "de.codecentric:spring-boot-admin-starter-client:${findProperty('taybct-project.spring-boot-admin.version')}"
+    api "de.codecentric:spring-boot-admin-starter-client:${findProperty('taybct-project.spring-boot-admin.version')}"
 }

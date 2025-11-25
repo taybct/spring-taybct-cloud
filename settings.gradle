@@ -15,7 +15,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'spring-taybct'
+rootProject.name = 'spring-taybct-cloud'
 include ':spring-taybct-common'
 include ':spring-taybct-api:spring-taybct-api-system'
 include ':spring-taybct-auth'

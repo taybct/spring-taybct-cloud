@@ -171,15 +171,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!--如果要使用 dubbo 就引入 这个依赖-->
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-spring-boot-starter</artifactId>
-            <version>${dubbo.version}</version>
-            <optional>true</optional>
-            <scope>provided</scope>
-        </dependency>
-
         <!--knife4j 集成 springdoc-openapi（修复兼容 springdoc-openapi 2.7.x 以上版本）-->
         <dependency>
             <groupId>io.github.mangocrisp</groupId>
