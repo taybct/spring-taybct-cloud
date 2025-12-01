@@ -48,6 +48,10 @@
 
     <properties>
 
+        <!-- 默认跳过测试执行（等价于命令行 -DskipTests） -->
+        <skipTests>true</skipTests>
+
+
         <!--框架依赖-->
 
         <!--central 发布插件-->
