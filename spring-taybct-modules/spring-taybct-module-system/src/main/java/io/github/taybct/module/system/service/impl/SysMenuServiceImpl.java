@@ -1,5 +1,6 @@
 package io.github.taybct.module.system.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -13,17 +14,24 @@ import io.github.taybct.api.system.vo.RouterVO;
 import io.github.taybct.api.system.vo.SysMenuVO;
 import io.github.taybct.common.constants.CacheConstants;
 import io.github.taybct.module.system.service.ISysMenuService;
+import io.github.taybct.module.system.support.route.RouteCountConfig;
+import io.github.taybct.module.system.support.route.RouteCounter;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
 import io.github.taybct.tool.core.constant.ISysParamsObtainService;
 import io.github.taybct.tool.core.exception.def.BaseException;
 import io.github.taybct.tool.core.result.ResultCode;
 import io.github.taybct.tool.core.util.MyBatisUtil;
+import io.github.taybct.tool.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.system.JavaVersion;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.core.task.TaskExecutor;
 
 import java.io.Serializable;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -38,6 +46,16 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu>
 
     @Autowired(required = false)
     protected ISysParamsObtainService sysParamsObtainService;
+
+    /**
+     * 任务执行器
+     */
+    Supplier<TaskExecutor> executor = ()->{
+        SimpleAsyncTaskExecutor simpleAsyncTaskExecutor = new SimpleAsyncTaskExecutor("SysMenuServiceTask");
+        // 如果是 JDK 21 可以设置 true 来开启虚拟线程，如果是 JDK 17 以下，需要设置成 false
+        simpleAsyncTaskExecutor.setVirtualThreads(JavaVersion.getJavaVersion().isEqualOrNewerThan(JavaVersion.TWENTY_ONE));
+        return simpleAsyncTaskExecutor;
+    };
 
     @Override
     public List<SysMenuVO> list(Map<String, Object> sqlQueryParams) {
@@ -92,7 +110,24 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu>
     @Override
     public List<RouterVO> loadRouterByRoleCode() {
         Set<String> authorities = checkAuthorities();
-        return getBaseMapper().loadRouterByRoleCode(authorities, checkRoot());
+        List<RouterVO> routerVOS = getBaseMapper().loadRouterByRoleCode(authorities, checkRoot());
+        final Long userId = securityUtil.getLoginUser().getUserId();
+        // 找出有配置了 routeCountConfig 的路由，然后去统计他们的数量
+        List<RouteCountConfig> countList = routerVOS.stream()
+                .map(RouterVO::getProps)
+                .filter(StringUtil::isNotBlank)
+                .map(JSONObject::parseObject)
+                .filter(propsObject -> propsObject.containsKey(RouteCounter.Constant.ROUTE_COUNT_KEY))
+                .map(propsObject -> propsObject.getJSONObject(RouteCounter.Constant.ROUTE_COUNT_KEY))
+                .map(routeCountConfig -> {
+                    routeCountConfig.put(RouteCounter.Constant.USER_ID_KEY, userId);
+                    return routeCountConfig.toJavaObject(RouteCountConfig.class);
+                })
+                .toList();
+        if (CollectionUtil.isNotEmpty(countList)){
+            executor.get().execute(() -> RouteCounter.count(countList));
+        }
+        return routerVOS;
     }
 
     @Override
