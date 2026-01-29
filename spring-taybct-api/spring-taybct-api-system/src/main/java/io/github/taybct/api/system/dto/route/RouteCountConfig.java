@@ -10,7 +10,7 @@ import java.util.Map;
  * 路由计数类型
  * @param name 路由名
  * @param params 参数
- * @param userId 当前登录用户 ID
+ * @param userId 需要通知的用户 ID 一般是当前登录用户 ID
  * @author xijieyin
  */
 @Schema(description = "路由计数类型")
@@ -19,7 +19,7 @@ public record RouteCountConfig(
         String name,
         @Schema(description = "计数参数配置")
         Map<String,Object> params,
-        @Schema(description = "当前登录用户 ID")
+        @Schema(description = "需要通知的用户 ID 一般是当前登录用户 ID")
         Long userId) implements Serializable {
 
     @Serial
