@@ -13,7 +13,7 @@ import java.io.Serializable;
  *
  * @param name 路由名
  * @param total 计数量
- * @param userId 当前登录用户 ID
+ * @param userId 需要通知的用户 ID 一般是当前登录用户 ID
  * @author XiJieYin
  * @since 2026/1/27 17:15
  */
@@ -23,7 +23,7 @@ public record RouteCountResult<T extends Number>(
         String name,
         @Schema(description = "计数量")
         T total,
-        @Schema(description = "当前登录用户 ID")
+        @Schema(description = "需要通知的用户 ID 一般是当前登录用户 ID")
         Long userId) implements Serializable {
 
     @Serial
