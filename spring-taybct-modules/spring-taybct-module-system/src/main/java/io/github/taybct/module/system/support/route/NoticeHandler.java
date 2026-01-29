@@ -1,7 +1,9 @@
 package io.github.taybct.module.system.support.route;
 
+import io.github.taybct.api.system.dto.route.RouteCountResult;
+
 import java.util.Collection;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 /**
  *
@@ -12,5 +14,5 @@ import java.util.function.Consumer;
  * @author XiJieYin
  * @since 2026/1/27 17:08
  */
-public interface NoticeHandler<T extends Number> extends Consumer<Collection<RouteCountResult<T>>> {
+public interface NoticeHandler<T extends Number> extends BiConsumer<Collection<RouteCountResult<T>>, Long> {
 }

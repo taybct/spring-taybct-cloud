@@ -1,8 +1,8 @@
 package io.github.taybct.module.system.support.route.def;
 
 import com.alibaba.fastjson2.JSONObject;
+import io.github.taybct.api.system.dto.route.RouteCountResult;
 import io.github.taybct.module.system.support.route.NoticeHandler;
-import io.github.taybct.module.system.support.route.RouteCountResult;
 import io.github.taybct.module.system.support.route.RouteCounter;
 import io.github.taybct.tool.core.websocket.endpoint.IWebSocketServer;
 import io.github.taybct.tool.core.websocket.enums.MessageUserType;
@@ -25,19 +25,13 @@ import java.util.LinkedHashSet;
 public class WebSocketNoticeHandler implements NoticeHandler<Number> {
 
     final IWebSocketServer<Session> webSocketServer;
-    long delay = 5000L;
 
     public WebSocketNoticeHandler(IWebSocketServer<Session> webSocketServer) {
         this.webSocketServer = webSocketServer;
     }
 
-    public WebSocketNoticeHandler(IWebSocketServer<Session> webSocketServer, long delay) {
-        this.webSocketServer = webSocketServer;
-        this.delay = delay;
-    }
-
     @Override
-    public void accept(Collection<RouteCountResult<Number>> resultCollection) {
+    public void accept(Collection<RouteCountResult<Number>> resultCollection, Long delay) {
         JSONObject data = new JSONObject();
         LinkedHashSet<MessageUser> toUser = new LinkedHashSet<>();
         resultCollection
@@ -47,7 +41,9 @@ public class WebSocketNoticeHandler implements NoticeHandler<Number> {
                     toUser.add(new MessageUser(MessageUserType.USER, result.userId(), null));
                 });
         try {
-            Thread.sleep(delay);
+            if (delay > 0) {
+                Thread.sleep(delay);
+            }
                 /*
                 存在用户才发送，如果不存在就等待几秒,再发送，如果一直不存在，超过3次就再也不发送了，这里的这个延迟时间要根据应用场景来定，要看实际 websocket 登录连接上需要的时间而定不然会发送不了：
                 第一种情况：没有用户连接，发送不了

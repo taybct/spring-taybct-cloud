@@ -1,12 +1,18 @@
 package io.github.taybct.module.system.support.route;
 
 import cn.hutool.core.collection.CollectionUtil;
+import io.github.taybct.api.system.dto.route.RouteCountConfig;
+import io.github.taybct.api.system.dto.route.RouteCountResult;
 import lombok.Getter;
+import org.springframework.boot.system.JavaVersion;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.core.task.TaskExecutor;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 
 /**
  *
@@ -23,6 +29,11 @@ public class RouteCounter {
     private static final ConcurrentHashMap<String, CountHandler<Number>> COUNTER_MAP = new ConcurrentHashMap<>();
 
     private static final List<NoticeHandler<Number>> NOTICE_HANDLER_LIST = new ArrayList<>();
+
+    /**
+     * 默认的延迟时间
+     */
+    public static Long DEFAULT_DELAY = 0L;
 
     /**
      * 静态常量
@@ -46,16 +57,44 @@ public class RouteCounter {
         String TOPIC = "route-notice";
     }
 
+    /**
+     * 任务执行器
+     */
+    private final static Supplier<TaskExecutor> executor = () -> {
+        SimpleAsyncTaskExecutor simpleAsyncTaskExecutor = new SimpleAsyncTaskExecutor("RouteCounterTask");
+        // 如果是 JDK 21 可以设置 true 来开启虚拟线程，如果是 JDK 17 以下，需要设置成 false
+        simpleAsyncTaskExecutor.setVirtualThreads(JavaVersion.getJavaVersion().isEqualOrNewerThan(JavaVersion.TWENTY_ONE));
+        return simpleAsyncTaskExecutor;
+    };
+
+    /**
+     * 统计
+     *
+     * @param config 配置
+     */
     public static void count(Collection<RouteCountConfig> config) {
-        List<RouteCountResult<Number>> list = config.stream().filter(c -> COUNTER_MAP.get(c.name()) != null)
-                .map(c -> {
-                    CountHandler<? extends Number> handler = COUNTER_MAP.get(c.name());
-                    Number result = handler.apply(c);
-                    return new RouteCountResult<>(c.name(), result, c.userId());
-                })
-                .toList();
+        if (CollectionUtil.isNotEmpty(config)) {
+            executor.get().execute(() -> {
+                List<RouteCountResult<Number>> list = config.stream().filter(c -> COUNTER_MAP.get(c.name()) != null)
+                        .map(c -> {
+                            CountHandler<? extends Number> handler = COUNTER_MAP.get(c.name());
+                            Number result = handler.apply(c);
+                            return new RouteCountResult<>(c.name(), result, c.userId());
+                        })
+                        .toList();
+                notice(list, DEFAULT_DELAY);
+            });
+        }
+    }
+
+    /**
+     * 通知前端
+     *
+     * @param list 结果列表
+     */
+    public static void notice(List<RouteCountResult<Number>> list, Long delay) {
         if (CollectionUtil.isNotEmpty(list)) {
-            NOTICE_HANDLER_LIST.forEach(handler -> handler.accept(list));
+            executor.get().execute(() -> NOTICE_HANDLER_LIST.forEach(handler -> handler.accept(list, delay)));
         }
     }
 

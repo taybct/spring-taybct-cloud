@@ -1,12 +1,12 @@
 package io.github.taybct.module.system.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.github.taybct.api.system.domain.SysMenu;
 import io.github.taybct.api.system.domain.SysRoleMenu;
 import io.github.taybct.api.system.dto.SysMenuQueryDTO;
+import io.github.taybct.api.system.dto.route.RouteCountConfig;
 import io.github.taybct.api.system.mapper.SysMenuMapper;
 import io.github.taybct.api.system.mapper.SysRoleMenuMapper;
 import io.github.taybct.api.system.vo.RouterPerm;
@@ -14,7 +14,6 @@ import io.github.taybct.api.system.vo.RouterVO;
 import io.github.taybct.api.system.vo.SysMenuVO;
 import io.github.taybct.common.constants.CacheConstants;
 import io.github.taybct.module.system.service.ISysMenuService;
-import io.github.taybct.module.system.support.route.RouteCountConfig;
 import io.github.taybct.module.system.support.route.RouteCounter;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
 import io.github.taybct.tool.core.constant.ISysParamsObtainService;
@@ -24,14 +23,10 @@ import io.github.taybct.tool.core.util.MyBatisUtil;
 import io.github.taybct.tool.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.system.JavaVersion;
-import org.springframework.core.task.SimpleAsyncTaskExecutor;
-import org.springframework.core.task.TaskExecutor;
 
 import java.io.Serializable;
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -46,16 +41,6 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu>
 
     @Autowired(required = false)
     protected ISysParamsObtainService sysParamsObtainService;
-
-    /**
-     * 任务执行器
-     */
-    Supplier<TaskExecutor> executor = ()->{
-        SimpleAsyncTaskExecutor simpleAsyncTaskExecutor = new SimpleAsyncTaskExecutor("SysMenuServiceTask");
-        // 如果是 JDK 21 可以设置 true 来开启虚拟线程，如果是 JDK 17 以下，需要设置成 false
-        simpleAsyncTaskExecutor.setVirtualThreads(JavaVersion.getJavaVersion().isEqualOrNewerThan(JavaVersion.TWENTY_ONE));
-        return simpleAsyncTaskExecutor;
-    };
 
     @Override
     public List<SysMenuVO> list(Map<String, Object> sqlQueryParams) {
@@ -124,9 +109,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu>
                     return routeCountConfig.toJavaObject(RouteCountConfig.class);
                 })
                 .toList();
-        if (CollectionUtil.isNotEmpty(countList)){
-            executor.get().execute(() -> RouteCounter.count(countList));
-        }
+        RouteCounter.count(countList);
         return routerVOS;
     }
 

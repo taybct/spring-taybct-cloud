@@ -35,9 +35,9 @@ public class RouteCounterAutoRegister implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         // 获取消息通知延时
-        Long delay = sysParamsObtainService.getObject(CacheConstants.Params.ROUTE_AUTO_NOTICE_DELAY, Long.class, 5000L);
+        RouteCounter.DEFAULT_DELAY = sysParamsObtainService.getObject(CacheConstants.Params.ROUTE_AUTO_NOTICE_DELAY, Long.class, 5000L);
         // 先注册消息通知处理器（统计完结果之后怎么发送通知到调用端）
-        RouteCounter.register(new WebSocketNoticeHandler(webSocketServer, delay));
+        RouteCounter.register(new WebSocketNoticeHandler(webSocketServer));
 
         // 注册路由统计处理器, 多个路由就注册多个处理器
         RouteCounter.<Long>register("user", config -> sysUserService.count());

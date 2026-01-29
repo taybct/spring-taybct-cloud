@@ -1,4 +1,4 @@
-package io.github.taybct.module.system.support.route;
+package io.github.taybct.api.system.dto.route;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

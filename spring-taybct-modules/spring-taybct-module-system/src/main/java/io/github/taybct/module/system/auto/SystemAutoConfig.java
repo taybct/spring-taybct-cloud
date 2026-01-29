@@ -7,6 +7,8 @@ import io.github.taybct.module.system.config.ILoginCacheClear;
 import io.github.taybct.module.system.server.WebSocketServer;
 import io.github.taybct.module.system.service.ISysUserOnlineService;
 import io.github.taybct.module.system.service.ISysUserService;
+import io.github.taybct.module.system.support.route.RouteNoticeService;
+import io.github.taybct.tool.core.bean.ISecurityUtil;
 import io.github.taybct.tool.core.util.rsa.RSACoder;
 import io.github.taybct.tool.core.util.rsa.RSAProperties;
 import io.github.taybct.tool.core.websocket.endpoint.IWebSocketServer;
@@ -84,6 +86,11 @@ public class SystemAutoConfig {
         WebSocketServer.keyPair = keyPair;
         WebSocketServer.sysUserFunction = sysUserService::getById;
         return (WebSocketServer) webSocketServer;
+    }
+
+    @Bean
+    public RouteNoticeService routeNoticeService(ISecurityUtil securityUtil) {
+        return new RouteNoticeService(securityUtil);
     }
 
 }

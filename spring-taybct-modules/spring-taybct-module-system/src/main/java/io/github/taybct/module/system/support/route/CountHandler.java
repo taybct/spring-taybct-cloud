@@ -1,5 +1,7 @@
 package io.github.taybct.module.system.support.route;
 
+import io.github.taybct.api.system.dto.route.RouteCountConfig;
+
 import java.util.function.Function;
 
 /**
