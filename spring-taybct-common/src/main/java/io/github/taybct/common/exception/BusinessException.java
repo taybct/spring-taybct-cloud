@@ -50,6 +50,7 @@ public class BusinessException extends BaseException {
      * @param code code
      * @return 异常类
      */
+    @Override
     public BusinessException setCode(String code) {
         this.code = code;
         return this;
@@ -62,6 +63,7 @@ public class BusinessException extends BaseException {
      * @return 异常类
      * @see HttpStatus
      */
+    @Override
     public BusinessException setHttpStatus(HttpStatus httpStatus) {
         this.httpStatus = httpStatus;
         return this;

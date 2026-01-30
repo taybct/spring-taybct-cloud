@@ -61,6 +61,7 @@ public interface ISysDeptController extends QueryBaseController<SysDept, ISysDep
         return R.data(TreeUtil.tree(getBaseService().tree(dto), CollectionSortUtil.comparingAny(SysDept::getSort), dto.getParentId()));
     }
 
+    @Override
     @Operation(summary = "获取分页")
     @PostMapping("page")
     @WebLog

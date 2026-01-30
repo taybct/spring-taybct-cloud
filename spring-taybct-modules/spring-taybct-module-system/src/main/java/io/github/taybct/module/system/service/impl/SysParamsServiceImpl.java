@@ -36,6 +36,7 @@ public class SysParamsServiceImpl extends BaseServiceImpl<SysParamsMapper, SysPa
      * @param paramsKey 键
      * @return 参数
      */
+    @Override
     @CacheTimeOut(cacheName = CacheConstants.System.PARAMS, key = "#paramsKey")
     public String cache(String paramsKey) {
         Assert.hasLength(paramsKey, "参数键不能为空");

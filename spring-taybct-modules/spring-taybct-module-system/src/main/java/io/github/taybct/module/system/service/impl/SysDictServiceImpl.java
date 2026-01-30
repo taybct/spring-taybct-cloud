@@ -35,6 +35,7 @@ public class SysDictServiceImpl extends BaseServiceImpl<SysDictMapper, SysDict>
      * @param dictCode 字典类型
      * @return 字典
      */
+    @Override
     @Cacheable(cacheNames = CacheConstants.System.DICT, key = "#dictCode")
     public List<SysDict> cache(String dictCode) {
         return getBaseMapper().selectList(Wrappers.<SysDict>lambdaQuery()

@@ -102,13 +102,16 @@ public class OnlineDocServiceImpl extends ServiceImpl<OnlineDocMapper, OnlineDoc
             // 创建一个信任所有证书的 TrustManager
             TrustManager[] trustAllCerts = new TrustManager[]{
                     new X509TrustManager() {
+                        @Override
                         public X509Certificate[] getAcceptedIssuers() {
                             return null;
                         }
 
+                        @Override
                         public void checkClientTrusted(X509Certificate[] certs, String authType) throws CertificateException {
                         }
 
+                        @Override
                         public void checkServerTrusted(X509Certificate[] certs, String authType) throws CertificateException {
                         }
                     }
@@ -118,11 +121,7 @@ public class OnlineDocServiceImpl extends ServiceImpl<OnlineDocMapper, OnlineDoc
             sc.init(null, trustAllCerts, new java.security.SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
             // 创建一个信任所有主机名的 HostnameVerifier
-            HostnameVerifier allHostsValid = new HostnameVerifier() {
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            };
+            HostnameVerifier allHostsValid = (hostname, session) -> true;
             HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
             throw new RuntimeException(e);
