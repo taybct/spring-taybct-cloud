@@ -387,7 +387,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${maven-javadoc-plugin.version}</version>
                 <configuration>
-                    <outputDirectory>D:\dev\projects\gitee\javadoc\3.5.1\spring-taybct-doc</outputDirectory>
+                    <outputDirectory>D:\dev\projects\gitee\javadoc\3.5.2\spring-taybct-doc</outputDirectory>
                     <charset>UTF-8</charset>
                     <encoding>UTF-8</encoding>
                     <docencoding>UTF-8</docencoding>
@@ -397,9 +397,9 @@
                     <author>true</author>
                     <version>true</version>
                     <!-- 文档标题配置 -->
-                    <windowtitle>Spring Taybct 3.5.1 API文档</windowtitle>
-                    <doctitle><![CDATA[<h1>Spring Taybct 3.5.1 官方API文档</h1>]]></doctitle>
-                    <header><![CDATA[<b>Spring Taybct</b> v3.5.1]]></header>
+                    <windowtitle>Spring Taybct 3.5.2 API文档</windowtitle>
+                    <doctitle><![CDATA[<h1>Spring Taybct 3.5.2 官方API文档</h1>]]></doctitle>
+                    <header><![CDATA[<b>Spring Taybct</b> v3.5.2]]></header>
                     <!-- 聚合所有模块的文档（关键参数）
                     <aggregate>true</aggregate>
                      -->
