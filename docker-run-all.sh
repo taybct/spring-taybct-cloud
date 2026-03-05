@@ -4,7 +4,7 @@ registry_url="ghcr.io"
 # 镜像组名
 group_name="taybct"
 # 镜像版本
-image_version="3.5.0"
+image_version="3.5.2"
 # 需要 build 哪些 jar 包的名都往这个数组里面放
 # 有哪些应用
 apps=('spring-taybct-gateway')
