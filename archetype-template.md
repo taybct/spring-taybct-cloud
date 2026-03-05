@@ -70,6 +70,9 @@ include `:spring-taybct` 为 `:${package}`
 因为是有多个子模块引用的，所以需要全局替换所有的 *.gradle 文件里面的
 注意，因为 tools 也是这个开头，不要替换错了
 
+`spring-taybct` 为 `${package}`
+`${package}-tool` 为 `spring-taybct-tool`
+
 根目录的 build.gradle 里面需要替换
 
 ```groovy
