@@ -11,7 +11,7 @@ const URL = modulePath + '/v1/${tableClass.shortClassName?uncap_first}';
 export default class ${tableClass.shortClassName}Api {
 
 /**
-* 参数管理列表(分页)
+* 列表(分页)
 * @param params 查询参数
 * @returns 分页
 */

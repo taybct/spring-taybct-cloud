@@ -6,9 +6,9 @@
 
     <groupId>io.github.taybct</groupId>
     <artifactId>spring-taybct</artifactId>
-    <version>3.5.1</version>
-    <name>Spring TayBct Cloud</name>
-    <description>Spring TayBct Cloud</description>
+    <version>3.5.2</version>
+    <name>Spring TayBct</name>
+    <description>Spring TayBct</description>
     <url>https://github.com/taybct/spring-taybct</url>
     <packaging>pom</packaging>
 
@@ -157,7 +157,7 @@
         <!--项目打包编码设置-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--基础工具版本-->
-        <spring-taybct-tools.version>3.5.1.1</spring-taybct-tools.version>
+        <spring-taybct-tools.version>3.5.2</spring-taybct-tools.version>
         <!-- Sentinel规则持久化至Nacos配置 -->
         <sentinel-datasource-nacos.version>1.8.9</sentinel-datasource-nacos.version>
         <!--skywalking 日志记录-->
