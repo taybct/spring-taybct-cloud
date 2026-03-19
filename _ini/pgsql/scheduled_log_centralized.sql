@@ -12,7 +12,7 @@
  Target Server Version : 150005 (150005)
  File Encoding         : 65001
 
- Date: 18/03/2026 16:43:59
+ Date: 19/03/2026 11:56:38
 */
 
 
@@ -59,6 +59,9 @@ CREATE INDEX "idx_scheduled_log_centralized_run_id" ON "public"."scheduled_log_c
 );
 CREATE INDEX "idx_scheduled_log_centralized_status" ON "public"."scheduled_log_centralized" USING btree (
   "status" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
+);
+CREATE INDEX "idx_scheduled_log_centralized_success_time" ON "public"."scheduled_log_centralized" USING btree (
+  "success_time" "pg_catalog"."timestamp_ops" ASC NULLS LAST
 );
 
 -- ----------------------------
