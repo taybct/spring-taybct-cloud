@@ -16,6 +16,7 @@ import io.github.taybct.common.constants.CacheConstants;
 import io.github.taybct.common.constants.ROLE;
 import io.github.taybct.module.system.service.ISysRolePermissionService;
 import io.github.taybct.module.system.service.ISysRoleService;
+import io.github.taybct.module.system.support.route.RouteNoticeService;
 import io.github.taybct.tool.core.bean.ILoginUser;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
 import io.github.taybct.tool.core.constant.ISysParamsObtainService;
@@ -45,6 +46,9 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole>
 
     @Resource
     ISysParamsObtainService sysParamsObtainService;
+
+    @Resource
+    RouteNoticeService routeNoticeService;
 
     @Override
     public List<SysRole> customizeList(Map<String, Object> params) {
@@ -129,6 +133,8 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole>
                     , Collections.singletonList(entity));
             return super.save(entity);
         } finally {
+            // 添加完角色之后统计角色列表的数量
+            routeNoticeService.notice("role", count());
             // 添加角色的同时有赋予角色权限，这里需要初始化到缓存里面去
             sysRolePermissionService.iniConfig();
         }

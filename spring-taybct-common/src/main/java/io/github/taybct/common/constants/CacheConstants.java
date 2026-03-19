@@ -204,6 +204,10 @@ public class CacheConstants {
          * 要求修改密码的时间间隔(单位：月)
          */
         String PASSWD_REQUIRE = "passwd_require";
+        /**
+         * 自动通知的延时的系统参数配置键
+         */
+        String ROUTE_AUTO_NOTICE_DELAY = "route_auto_notice_delay";
 
     }
 

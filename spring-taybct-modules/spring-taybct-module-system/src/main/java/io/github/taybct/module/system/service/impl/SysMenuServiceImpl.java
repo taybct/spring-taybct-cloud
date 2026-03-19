@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.github.taybct.api.system.domain.SysMenu;
 import io.github.taybct.api.system.domain.SysRoleMenu;
 import io.github.taybct.api.system.dto.SysMenuQueryDTO;
+import io.github.taybct.api.system.dto.route.RouteCountConfig;
 import io.github.taybct.api.system.mapper.SysMenuMapper;
 import io.github.taybct.api.system.mapper.SysRoleMenuMapper;
 import io.github.taybct.api.system.vo.RouterPerm;
@@ -13,11 +14,13 @@ import io.github.taybct.api.system.vo.RouterVO;
 import io.github.taybct.api.system.vo.SysMenuVO;
 import io.github.taybct.common.constants.CacheConstants;
 import io.github.taybct.module.system.service.ISysMenuService;
+import io.github.taybct.module.system.support.route.RouteCounter;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
 import io.github.taybct.tool.core.constant.ISysParamsObtainService;
 import io.github.taybct.tool.core.exception.def.BaseException;
 import io.github.taybct.tool.core.result.ResultCode;
 import io.github.taybct.tool.core.util.MyBatisUtil;
+import io.github.taybct.tool.core.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -92,7 +95,22 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu>
     @Override
     public List<RouterVO> loadRouterByRoleCode() {
         Set<String> authorities = checkAuthorities();
-        return getBaseMapper().loadRouterByRoleCode(authorities, checkRoot());
+        List<RouterVO> routerVOS = getBaseMapper().loadRouterByRoleCode(authorities, checkRoot());
+        final Long userId = securityUtil.getLoginUser().getUserId();
+        // 找出有配置了 routeCountConfig 的路由，然后去统计他们的数量
+        List<RouteCountConfig> countList = routerVOS.stream()
+                .map(RouterVO::getProps)
+                .filter(StringUtil::isNotBlank)
+                .map(JSONObject::parseObject)
+                .filter(propsObject -> propsObject.containsKey(RouteCounter.Constant.ROUTE_COUNT_KEY))
+                .map(propsObject -> propsObject.getJSONObject(RouteCounter.Constant.ROUTE_COUNT_KEY))
+                .map(routeCountConfig -> {
+                    routeCountConfig.put(RouteCounter.Constant.USER_ID_KEY, userId);
+                    return routeCountConfig.toJavaObject(RouteCountConfig.class);
+                })
+                .toList();
+        RouteCounter.count(countList);
+        return routerVOS;
     }
 
     @Override
