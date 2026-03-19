@@ -1,7 +1,7 @@
 package io.github.taybct.common.constants;
 
 import cn.hutool.core.lang.UUID;
-import io.github.taybct.common.message.cheduledlog.ScheduledLogDTO;
+import io.github.taybct.common.message.scheduledlog.ScheduledLogDTO;
 import io.github.taybct.common.message.sysfile.FileSendDTO;
 import io.github.taybct.common.message.websocket.WebSocketMessageDTO;
 import io.github.taybct.tool.core.message.MessageType;

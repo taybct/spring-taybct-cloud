@@ -1,7 +1,7 @@
 package io.github.taybct.module.system.task.job;
 
 import com.alibaba.fastjson2.JSONObject;
-import io.github.taybct.common.message.cheduledlog.ScheduledLogDTO;
+import io.github.taybct.common.message.scheduledlog.ScheduledLogDTO;
 import io.github.taybct.module.system.service.ISysRolePermissionService;
 import io.github.taybct.tool.core.annotation.Scheduler;
 import io.github.taybct.tool.core.message.IMessageSendService;

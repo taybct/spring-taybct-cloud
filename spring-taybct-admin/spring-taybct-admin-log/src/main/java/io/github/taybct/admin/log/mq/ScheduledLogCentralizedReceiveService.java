@@ -65,7 +65,7 @@ public class ScheduledLogCentralizedReceiveService {
                 scheduledLogCentralizedService.saveBatch(javaList);
             } finally {
                 //插入的数据是调用成功/失败，之后需要做什么
-                scheduledLogCentralizedFinishedActionService.atferFailedCollections(javaList);
+                scheduledLogCentralizedFinishedActionService.afterFailedCollections(javaList);
             }
         } catch (Exception e) {
             log.trace("保存失败！", e);
@@ -79,7 +79,7 @@ public class ScheduledLogCentralizedReceiveService {
                 scheduledLogCentralizedService.save(scheduledLogCentralized);
             } finally {
                 //插入的数据是调用成功/失败，之后需要做什么
-                scheduledLogCentralizedFinishedActionService.atferFailed(scheduledLogCentralized);
+                scheduledLogCentralizedFinishedActionService.afterFailed(scheduledLogCentralized);
             }
         } catch (Exception e) {
             log.trace("保存失败！", e);
