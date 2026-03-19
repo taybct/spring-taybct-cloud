@@ -162,7 +162,7 @@
                         <if test="_db_type_db_ == 'oracle'">
                             SELECT offset_start.* FROM (
                             SELECT rownum rn,offset_end.* FROM (
-                            <include refid="oracleRecursionSql"/>
+                            <include refid="queryColumn"/>
                             order by slc.success_time desc
                             ) offset_end WHERE rownum <![CDATA[<=]]> (#{offset}+#{size})
                             ) offset_start WHERE offset_start.rn <![CDATA[>]]> #{offset}
