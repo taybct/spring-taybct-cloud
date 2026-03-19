@@ -230,7 +230,7 @@
         <!--  定时任务日志管理      -->
         <dependency>
             <groupId>io.github.taybct</groupId>
-            <artifactId>spring-taybct-scheduled-log-centralized</artifactId>
+            <artifactId>spring-taybct-tool-scheduled-log-centralized</artifactId>
             <version>${spring-taybct-tools.version}</version>
         </dependency>
     </dependencies>
