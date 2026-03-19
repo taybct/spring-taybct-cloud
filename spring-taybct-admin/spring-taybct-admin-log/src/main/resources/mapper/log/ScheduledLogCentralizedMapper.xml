@@ -34,7 +34,7 @@
             UNION
             SELECT p.*,r.level + 1 AS level
             FROM scheduled_log_centralized p
-              JOIN r ON p.parent_run_id = r.run_id
+              JOIN r ON p.parent_run_id = r.run_id AND r.level &lt; 100
         )
         SELECT * FROM r slc
     </sql>
@@ -47,7 +47,7 @@
                  UNION ALL
                  SELECT B."ID",B."SUCCESS_TIME",B."RUN_ID",B."MODULE_NAME",B."METHOD_NAME",B."STATUS",B."LOG",B."INSERT_TIME",B."PARENT_RUN_ID",r."LEVEL"+1 AS "LEVEL"
                  FROM SCHEDULED_LOG_CENTRALIZED B
-                   JOIN r ON B.PARENT_RUN_ID = r.RUN_ID
+                   JOIN r ON B.PARENT_RUN_ID = r.RUN_ID AND r."LEVEL" &lt; 100
         )
         SELECT DISTINCT * FROM r
     </sql>
