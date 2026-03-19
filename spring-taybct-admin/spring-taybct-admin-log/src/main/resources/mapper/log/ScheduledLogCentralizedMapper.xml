@@ -55,6 +55,7 @@
     <sql id="queryColumn">
         select slc.id,slc.success_time,slc.run_id,slc.module_name,slc.method_name,slc.status,slc.log,slc.insert_time,slc.parent_run_id from scheduled_log_centralized slc
         <where>
+            slc.parent_run_id is null
             <if test="queryParams != null and queryParams.moduleName != null and queryParams.moduleName != ''">
                 and slc.module_name = #{queryParams.moduleName}
             </if>
