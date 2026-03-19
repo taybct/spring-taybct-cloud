@@ -21,12 +21,12 @@ public class ScheduledLogCentralizedFinishedActionServiceImpl implements ISchedu
     }
 
     @Override
-    public void atferSuccessedCollections(Collection<ScheduledLogCentralized> scheduledLogCentralizeds) {
+    public void afterSuccessedCollections(Collection<ScheduledLogCentralized> scheduledLogCentralizeds) {
         if (this.isSuccess(scheduledLogCentralizeds)) {}
     }
 
     @Override
-    public void atferSuccessed(ScheduledLogCentralized scheduledLogCentralized) {
+    public void afterSuccessed(ScheduledLogCentralized scheduledLogCentralized) {
         if (this.isSuccess(scheduledLogCentralized)) {}
     }
 }
