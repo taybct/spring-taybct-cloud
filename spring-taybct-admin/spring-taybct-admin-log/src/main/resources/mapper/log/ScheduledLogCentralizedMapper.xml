@@ -53,23 +53,23 @@
     </sql>
 
     <sql id="queryColumn">
-        select slc.id,slc.success_time,slc.run_id,slc.module_name,slc.method_name,slc.status,slc.log,slc.insert_time,slc.parent_run_id from scheduled_log_centralized slc
+        select slc."id",slc."success_time",slc."run_id",slc."module_name",slc."method_name",slc."status",slc."log",slc."insert_time",slc."parent_run_id" from scheduled_log_centralized slc
         <where>
-            slc.parent_run_id is null
+            slc."parent_run_id" is null
             <if test="queryParams != null and queryParams.moduleName != null and queryParams.moduleName != ''">
-                and slc.module_name = #{queryParams.moduleName}
+                and slc."module_name" = #{queryParams.moduleName}
             </if>
             <if test="queryParams != null and queryParams.methodName != null and queryParams.methodName != ''">
-                and slc.method_name = #{queryParams.methodName}
+                and slc."method_name" = #{queryParams.methodName}
             </if>
             <if test="queryParams != null and queryParams.status != null and queryParams.status != ''">
-                and slc.status = #{queryParams.status}
+                and slc."status" = #{queryParams.status}
             </if>
             <if test="queryParams != null and queryParams.successTimeStartTime != null">
-                and slc.success_time &gt;= #{queryParams.successTimeStartTime}
+                and slc."success_time" &gt;= #{queryParams.successTimeStartTime}
             </if>
             <if test="queryParams != null and queryParams.successTimeEndTime != null">
-                and slc.success_time &lt;= #{queryParams.successTimeEndTime}
+                and slc."success_time" &lt;= #{queryParams.successTimeEndTime}
             </if>
         </where>
     </sql>
@@ -86,12 +86,7 @@
                     </if>
                 </when>
                 <otherwise>
-                    <if test="_db_type_db_ == 'mysql' or _db_type_db_ == 'sqlite' or _db_type_db_ == 'postgresql'">
-                        <include refid="pgRecursionSql"/>
-                    </if>
-                    <if test="_db_type_db_ == 'oracle'">
-                        <include refid="oracleRecursionSql"/>
-                    </if>
+                    <include refid="queryColumn"/>
                 </otherwise>
             </choose>
         ) temp
