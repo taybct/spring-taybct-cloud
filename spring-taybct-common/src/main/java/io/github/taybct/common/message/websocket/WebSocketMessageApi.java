@@ -1,6 +1,6 @@
 package io.github.taybct.common.message.websocket;
 
-import io.github.taybct.tool.core.websocket.support.WSR;
+import io.github.taybct.tool.core.result.R;
 
 /**
  * <pre>
@@ -17,19 +17,19 @@ public interface WebSocketMessageApi {
      *
      * @param message 消息内容
      */
-    boolean sendCurrentUser(String message);
+    R<?> sendCurrentUserMessage(String message);
 
     /**
      * 发送简单消息
      *
      * @param message 消息内容
      */
-    boolean send(WSR<?> message);
+    R<?> sendMessage(String message);
 
     /**
      * 发送所有用户消息
      *
      * @param message 消息内容
      */
-    boolean sendAll(WSR<?> message);
+    R<?> sendAllMessage(String message);
 }

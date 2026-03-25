@@ -9,6 +9,7 @@ import io.github.taybct.api.system.domain.SysNotice;
 import io.github.taybct.api.system.domain.SysNoticeUser;
 import io.github.taybct.api.system.domain.SysUser;
 import io.github.taybct.api.system.dto.SysNoticeUserDTO;
+import io.github.taybct.api.system.feign.IWebSocketClient;
 import io.github.taybct.api.system.mapper.SysNoticeMapper;
 import io.github.taybct.api.system.mapper.SysUserMapper;
 import io.github.taybct.api.system.vo.SysNoticeVO;
@@ -20,11 +21,9 @@ import io.github.taybct.module.system.service.ISysNoticeUserService;
 import io.github.taybct.tool.core.bean.ILoginUser;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
 import io.github.taybct.tool.core.util.MyBatisUtil;
-import io.github.taybct.tool.core.websocket.endpoint.IWebSocketServer;
 import io.github.taybct.tool.core.websocket.enums.MessageUserType;
 import io.github.taybct.tool.core.websocket.support.MessageUser;
 import io.github.taybct.tool.core.websocket.support.WSR;
-import jakarta.websocket.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,7 +51,7 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
     protected SysUserMapper sysUserMapper;
 
     @Autowired(required = false)
-    protected IWebSocketServer<Session> webSocketServer;
+    protected IWebSocketClient webSocketClient;
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
@@ -89,18 +88,22 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
                 .eq(SysUser::getId, notice.getFromUser()));
         notice.setFromUserName(sysUser.getNickname());
         notice.setFromUserAvatar(sysUser.getAvatar());
-        if (webSocketServer != null) {
-            webSocketServer.sendMessage(WSR.<SysNotice>ok(notice.getMessage())
-                            .setTopic(notice.getTopic())
-                            .setTitle(notice.getTitle())
-                            .setFromUser(new MessageUser(MessageUserType.USER, notice.getFromUser(), null))
-                            .setAvatar(notice.getFromUserAvatar())
-                            .setName(notice.getFromUserName())
-                            .setSubType(notice.getSubType())
-                            .setData(notice)
-                    , noticeUsers.stream()
-                            .filter(nu -> nu.getNoticeType().equalsIgnoreCase(SysDict.NoticeType.USER.getKey()))
-                            .map(SysNoticeUserDTO::getRelatedId).toArray(Long[]::new));
+        if (webSocketClient != null) {
+            WSR<SysNotice> message = WSR.<SysNotice>ok(notice.getMessage())
+                    .setTopic(notice.getTopic())
+                    .setTitle(notice.getTitle())
+                    .setFromUser(new MessageUser(MessageUserType.USER, notice.getFromUser(), null))
+                    .setAvatar(notice.getFromUserAvatar())
+                    .setName(notice.getFromUserName())
+                    .setSubType(notice.getSubType())
+                    .setData(notice);
+            Long[] toUserId = noticeUsers.stream()
+                    .filter(nu -> nu.getNoticeType().equalsIgnoreCase(SysDict.NoticeType.USER.getKey()))
+                    .map(SysNoticeUserDTO::getRelatedId).toArray(Long[]::new);
+            LinkedHashSet<MessageUser> toUserSet = new LinkedHashSet<>(Arrays.stream(toUserId).map(id -> new MessageUser(MessageUserType.USER, id, null)).toList());
+            message.setToUser(toUserSet);
+
+            webSocketClient.sendMessage(JSONObject.toJSONString( message));
         }
         return !customizeSave(notice) ||
                 (noticeUsers == null || noticeUsers.size() <= 0) ||
@@ -125,30 +128,6 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
                         .eq(SysNoticeUser::getRelatedId, notice.getRelatedId())
                         .eq(SysNoticeUser::getNoticeType, notice.getNoticeType())));
         return sysNoticeUserService.saveBatch(collect);
-    }
-
-    @Override
-    public boolean sendCurrentUserMessage(String message) {
-        if (webSocketServer != null) {
-            webSocketServer.sendSimpleMessage(message, securityUtil.getLoginUser().getUserId());
-        }
-        return true;
-    }
-
-    @Override
-    public <E> boolean sendMessage(WSR<E> message) {
-        if (webSocketServer != null) {
-            webSocketServer.sendMessage(message);
-        }
-        return true;
-    }
-
-    @Override
-    public <E> boolean sendAllMessage(WSR<E> message) {
-        if (webSocketServer != null) {
-            webSocketServer.sendAllMessage(message);
-        }
-        return true;
     }
 
     /**

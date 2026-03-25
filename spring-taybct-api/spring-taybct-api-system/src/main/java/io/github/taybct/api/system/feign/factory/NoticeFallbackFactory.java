@@ -1,11 +1,8 @@
 package io.github.taybct.api.system.feign.factory;
 
-import io.github.taybct.api.system.domain.SysNotice;
-import io.github.taybct.api.system.dto.SysNoticeDTO;
 import io.github.taybct.api.system.feign.INoticeClient;
 import io.github.taybct.tool.core.result.R;
 import io.github.taybct.tool.core.result.ResultCode;
-import io.github.taybct.tool.core.websocket.support.WSR;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -26,27 +23,7 @@ public class NoticeFallbackFactory implements FallbackFactory<INoticeClient> {
     @Override
     public INoticeClient create(Throwable cause) {
         log.error("系统模块 - INoticeClient 调用失败！", cause);
-        return new INoticeClient() {
-            @Override
-            public R<SysNotice> addRelatedNotices(SysNoticeDTO dto) {
-                return getR("添加消息通知失败！");
-            }
-
-            @Override
-            public R<?> sendCurrentUserMessage(String message) {
-                return getR("发送当前用户消息失败！");
-            }
-
-            @Override
-            public R<?> sendMessage(WSR<?> message) {
-                return getR("发送消息失败！");
-            }
-
-            @Override
-            public R<?> sendAllMessage(WSR<?> message) {
-                return getR("发送所有消息失败！");
-            }
-        };
+        return dto -> getR("添加消息通知失败！");
     }
 
     private <S> R<S> getR(String message) {

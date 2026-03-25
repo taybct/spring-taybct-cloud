@@ -1,10 +1,8 @@
 package io.github.taybct.common.message.websocket;
 
-import com.alibaba.fastjson2.JSONObject;
 import io.github.taybct.common.constants.TypeConstant;
 import io.github.taybct.tool.core.message.IMessageSendHandler;
 import io.github.taybct.tool.core.message.MessageType;
-import io.github.taybct.tool.core.websocket.support.WSR;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
@@ -40,7 +38,7 @@ public class WebSocketMessageHandler implements IMessageSendHandler {
     @Override
     public boolean send(String message) {
         try {
-            webSocketMessageApi.send(JSONObject.parseObject(message, WSR.class));
+            webSocketMessageApi.sendMessage(message);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

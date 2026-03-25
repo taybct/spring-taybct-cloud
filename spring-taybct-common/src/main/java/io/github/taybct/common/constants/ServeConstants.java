@@ -43,6 +43,10 @@ public interface ServeConstants {
      */
     String ADMIN_LOG = ADMIN_PREFIX + "log";
     /**
+     * 即时通信
+     */
+    String ADMIN_WEBSOCKET = ADMIN_PREFIX + "websocket";
+    /**
      * 文件管理
      */
     String ADMIN_FILE = ADMIN_PREFIX + "file";
@@ -86,6 +90,10 @@ public interface ServeConstants {
      */
     String CONTEXT_PATH_ADMIN_LOG = "${" + SERVE + "." + ServeConstants.ADMIN_LOG + ".context-path}";
     /**
+     * —— 即时通信
+     */
+    String CONTEXT_PATH_ADMIN_WEBSOCKET = "${" + SERVE + "." + ServeConstants.ADMIN_WEBSOCKET + ".context-path}";
+    /**
      * —— 系统管理
      */
     String CONTEXT_PATH_SYSTEM = "${" + SERVE + "." + ServeConstants.SYSTEM + ".context-path}";
@@ -118,6 +126,10 @@ public interface ServeConstants {
      * 日志管理
      */
     String SERVE_ID_ADMIN_LOG = "${" + SERVE + "." + ServeConstants.ADMIN_LOG + ".service-id}";
+    /**
+     * 即时通信
+     */
+    String SERVE_ID_ADMIN_WEBSOCKET = "${" + SERVE + "." + ServeConstants.ADMIN_WEBSOCKET + ".service-id}";
     /**
      * 系统管理
      */

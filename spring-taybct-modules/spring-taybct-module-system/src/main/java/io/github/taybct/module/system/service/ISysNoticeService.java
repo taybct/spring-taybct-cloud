@@ -5,7 +5,6 @@ import io.github.taybct.api.system.domain.SysNotice;
 import io.github.taybct.api.system.dto.SysNoticeUserDTO;
 import io.github.taybct.api.system.vo.SysNoticeVO;
 import io.github.taybct.tool.core.bean.service.IBaseService;
-import io.github.taybct.tool.core.websocket.support.WSR;
 
 import java.util.Collection;
 import java.util.Map;
@@ -57,37 +56,4 @@ public interface ISysNoticeService extends IBaseService<SysNotice> {
      */
     boolean updateUserNotices(int status, Collection<Long> noticeIds);
 
-    /**
-     * 发送当前用户消息
-     *
-     * @param message 消息内容
-     * @return boolean 是否发送成功
-     * @author xijieyin <br> 2025/08/22 09:38:46
-     * @since 3。2。4
-     */
-    boolean sendCurrentUserMessage(String message);
-
-    /**
-     * <pre>
-     * 发送消息
-     * </pre>
-     *
-     * @param message 消息
-     * @return boolean
-     * @author xijieyin
-     * @since 3。2。4
-     */
-    <E> boolean sendMessage(WSR<E> message);
-
-    /**
-     * <pre>
-     * 发送消息给所有人
-     * </pre>
-     *
-     * @param message 消息
-     * @return boolean
-     * @author xijieyin
-     * @since 3。2。4
-     */
-    <E> boolean sendAllMessage(WSR<E> message);
 }

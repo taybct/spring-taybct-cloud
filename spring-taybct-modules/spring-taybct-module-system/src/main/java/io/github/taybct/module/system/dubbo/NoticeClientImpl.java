@@ -5,7 +5,6 @@ import io.github.taybct.api.system.dto.SysNoticeDTO;
 import io.github.taybct.api.system.feign.INoticeClient;
 import io.github.taybct.module.system.service.ISysNoticeService;
 import io.github.taybct.tool.core.result.R;
-import io.github.taybct.tool.core.websocket.support.WSR;
 import lombok.RequiredArgsConstructor;
 import org.apache.dubbo.config.ConfigCenterConfig;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -31,20 +30,5 @@ public class NoticeClientImpl implements INoticeClient {
     @Override
     public R<SysNotice> addRelatedNotices(SysNoticeDTO dto) {
         return sysNoticeService.addRelatedNotices(dto.getSysNotice(), dto.getNoticeUsers()) ? R.data(dto.getSysNotice()) : R.fail("添加通知失败");
-    }
-
-    @Override
-    public R<?> sendCurrentUserMessage(String message) {
-        return sysNoticeService.sendCurrentUserMessage(message) ? R.ok("发送成功") : R.fail("发送失败");
-    }
-
-    @Override
-    public R<?> sendMessage(WSR<?> message) {
-        return sysNoticeService.sendMessage(message) ? R.ok("发送成功") : R.fail("发送失败");
-    }
-
-    @Override
-    public R<?> sendAllMessage(WSR<?> message) {
-        return sysNoticeService.sendAllMessage(message) ? R.ok("发送成功") : R.fail("发送失败");
     }
 }
