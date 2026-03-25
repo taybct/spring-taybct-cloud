@@ -3,7 +3,7 @@ package io.github.taybct.module.scheduling.mq;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.rabbitmq.client.Channel;
-import io.github.taybct.common.message.cheduledlog.ScheduledLogMQConfig;
+import io.github.taybct.common.message.scheduledlog.ScheduledLogMQConfig;
 import io.github.taybct.module.scheduling.service.IScheduledLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

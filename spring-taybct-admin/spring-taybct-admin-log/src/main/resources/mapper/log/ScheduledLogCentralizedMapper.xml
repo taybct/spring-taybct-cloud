@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.taybct.admin.log.mapper.ScheduledLogCentralizedMapper">
+
+    <insert id="insertLog">
+        insert into scheduled_log_centralized(id,
+                                         success_time,
+                                         run_id,
+                                         module_name,
+                                         method_name,
+                                         status,
+                                         log,
+                                         insert_time,
+                                         parent_run_id)
+        values
+            (#{data.id},
+             #{data.successTime},
+             #{data.runId},
+             #{data.moduleName},
+             #{data.methodName},
+             #{data.status},
+             #{data.log},
+             now(),
+             #{data.parentRunId})
+    </insert>
+
+    <sql id="pgRecursionSql">
+        WITH RECURSIVE r AS (
+            SELECT t.*,0 AS level
+            FROM scheduled_log_centralized t
+            WHERE t.run_id = #{queryParams.runId}
+            UNION
+            SELECT p.*,r.level + 1 AS level
+            FROM scheduled_log_centralized p
+              JOIN r ON p.parent_run_id = r.run_id AND r.level &lt; 100
+        )
+        SELECT * FROM r slc
+    </sql>
+    <sql id="oracleRecursionSql">
+        WITH r (
+                "ID","SUCCESS_TIME","RUN_ID","MODULE_NAME","METHOD_NAME","STATUS","LOG","INSERT_TIME","PARENT_RUN_ID","LEVEL"
+            )AS (SELECT A."ID",A."SUCCESS_TIME",A."RUN_ID",A."MODULE_NAME",A."METHOD_NAME",A."STATUS",A."LOG",A."INSERT_TIME",A."PARENT_RUN_ID",0 AS "LEVEL"
+                 FROM SCHEDULED_LOG_CENTRALIZED A
+                 WHERE A.RUN_ID = #{queryParams.runId}
+                 UNION ALL
+                 SELECT B."ID",B."SUCCESS_TIME",B."RUN_ID",B."MODULE_NAME",B."METHOD_NAME",B."STATUS",B."LOG",B."INSERT_TIME",B."PARENT_RUN_ID",r."LEVEL"+1 AS "LEVEL"
+                 FROM SCHEDULED_LOG_CENTRALIZED B
+                   JOIN r ON B.PARENT_RUN_ID = r.RUN_ID AND r."LEVEL" &lt; 100
+        )
+        SELECT DISTINCT * FROM r
+    </sql>
+
+    <sql id="queryColumn">
+        select slc."id",slc."success_time",slc."run_id",slc."module_name",slc."method_name",slc."status",slc."log",slc."insert_time",slc."parent_run_id" from scheduled_log_centralized slc
+        <where>
+            slc."parent_run_id" is null
+            <if test="queryParams != null and queryParams.moduleName != null and queryParams.moduleName != ''">
+                and slc."module_name" = #{queryParams.moduleName}
+            </if>
+            <if test="queryParams != null and queryParams.methodName != null and queryParams.methodName != ''">
+                and slc."method_name" = #{queryParams.methodName}
+            </if>
+            <if test="queryParams != null and queryParams.status != null and queryParams.status != ''">
+                and slc."status" = #{queryParams.status}
+            </if>
+            <if test="queryParams != null and queryParams.successTimeStartTime != null">
+                and slc."success_time" &gt;= #{queryParams.successTimeStartTime}
+            </if>
+            <if test="queryParams != null and queryParams.successTimeEndTime != null">
+                and slc."success_time" &lt;= #{queryParams.successTimeEndTime}
+            </if>
+        </where>
+    </sql>
+
+    <select id="countQuery" resultType="java.lang.Long">
+        select count(1) from (
+            <choose>
+                <when test="queryParams != null and queryParams.runId != null and queryParams.runId != ''">
+                    <if test="_db_type_db_ == 'mysql' or _db_type_db_ == 'sqlite' or _db_type_db_ == 'postgresql'">
+                        <include refid="pgRecursionSql"/>
+                    </if>
+                    <if test="_db_type_db_ == 'oracle'">
+                        <include refid="oracleRecursionSql"/>
+                    </if>
+                </when>
+                <otherwise>
+                    <include refid="queryColumn"/>
+                </otherwise>
+            </choose>
+        ) temp
+    </select>
+
+    <select id="pageDataCount" resultType="java.lang.Long">
+        select count(1) from (
+        <choose>
+            <when test="queryParams != null and queryParams.runId != null and queryParams.runId != ''">
+                <if test="_db_type_db_ == 'mysql' or _db_type_db_ == 'sqlite' or _db_type_db_ == 'postgresql'">
+                    <include refid="pgRecursionSql"/>
+                </if>
+                <if test="_db_type_db_ == 'oracle'">
+                    <include refid="oracleRecursionSql"/>
+                </if>
+            </when>
+            <otherwise>
+                <include refid="queryColumn"/>
+            </otherwise>
+        </choose>
+        ) temp
+    </select>
+
+    <select id="getPageData"
+            resultType="io.github.taybct.scheduledLogCentralized.service.entity.ScheduledLogCentralized">
+        <choose>
+            <when test="queryParams != null and queryParams.runId != null and queryParams.runId != ''">
+                <choose>
+                    <when test="offset != null and size != null">
+                        <if test="_db_type_db_ == 'mysql' or _db_type_db_ == 'sqlite' or _db_type_db_ == 'postgresql'">
+                            <include refid="pgRecursionSql"/>
+                            ORDER BY slc.level,slc.success_time desc
+                            limit #{size} offset #{offset}
+                        </if>
+                        <if test="_db_type_db_ == 'oracle'">
+                            SELECT offset_start.* FROM (
+                            SELECT rownum rn,offset_end.* FROM (
+                                <include refid="oracleRecursionSql"/>
+                            order by slc.level,slc.success_time desc
+                            ) offset_end WHERE rownum <![CDATA[<=]]> (#{offset}+#{size})
+                            ) offset_start WHERE offset_start.rn <![CDATA[>]]> #{offset}
+                        </if>
+                    </when>
+                    <otherwise>
+                        <if test="_db_type_db_ == 'mysql' or _db_type_db_ == 'sqlite' or _db_type_db_ == 'postgresql'">
+                            <include refid="pgRecursionSql"/>
+                            ORDER BY slc.level,slc.success_time desc
+                        </if>
+                        <if test="_db_type_db_ == 'oracle'">
+                            <include refid="oracleRecursionSql"/>
+                            order by slc.level,slc.success_time desc
+                        </if>
+                    </otherwise>
+                </choose>
+            </when>
+            <otherwise>
+                <choose>
+                    <when test="offset != null and size != null">
+                        <if test="_db_type_db_ == 'mysql' or _db_type_db_ == 'sqlite' or _db_type_db_ == 'postgresql'">
+                            <include refid="queryColumn"/>
+                            ORDER BY slc.success_time desc
+                            limit #{size} offset #{offset}
+                        </if>
+                        <if test="_db_type_db_ == 'oracle'">
+                            SELECT offset_start.* FROM (
+                            SELECT rownum rn,offset_end.* FROM (
+                            <include refid="queryColumn"/>
+                            order by slc.success_time desc
+                            ) offset_end WHERE rownum <![CDATA[<=]]> (#{offset}+#{size})
+                            ) offset_start WHERE offset_start.rn <![CDATA[>]]> #{offset}
+                        </if>
+                    </when>
+                    <otherwise>
+                        <include refid="queryColumn"/>
+                        order by slc.success_time desc
+                    </otherwise>
+                </choose>
+            </otherwise>
+        </choose>
+    </select>
+</mapper>

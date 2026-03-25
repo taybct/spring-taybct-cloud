@@ -1,4 +1,4 @@
-package io.github.taybct.common.message.cheduledlog;
+package io.github.taybct.common.message.scheduledlog;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSONWriter;

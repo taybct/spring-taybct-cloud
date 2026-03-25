@@ -64,6 +64,11 @@ public interface ServeConstants {
     String ADMIN_OAM = ADMIN_PREFIX + "oam";
 
     /**
+     * 定时任务日志管理
+     */
+    String SCHEDULED_LOG_CENTRALIZED = ADMIN_PREFIX + "scheduled-log-centralized";
+
+    /**
      * 服务相关
      */
     String SERVE = PropertiesPrefixConstants.TAYBCT + ".serve";
@@ -104,6 +109,10 @@ public interface ServeConstants {
      * —— 鉴权管理
      */
     String CONTEXT_PATH_AUTH = "${" + SERVE + "." + ServeConstants.AUTH + ".context-path}";
+    /**
+     * —— 定时任务日志管理
+     */
+    String CONTEXT_PATH_CUSTOM_SCHEDULED_LOG = "${" + SERVE + "." + ServeConstants.SCHEDULED_LOG_CENTRALIZED + ".context-path}";
 
     /*
      * 服务 id 常量

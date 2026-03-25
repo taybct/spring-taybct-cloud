@@ -1,4 +1,4 @@
-package io.github.taybct.common.message.cheduledlog;
+package io.github.taybct.common.message.scheduledlog;
 
 import io.github.taybct.common.constants.TypeConstant;
 import io.github.taybct.tool.core.message.IMessageSendHandler;

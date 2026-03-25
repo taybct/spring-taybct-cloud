@@ -43,6 +43,11 @@
             <organizationUrl>https://github.com/taybct</organizationUrl>
             <timezone>Asia/Shanghai</timezone>
         </developer>
+        <developer>
+            <id>GTL</id>
+            <name>GTLscarlet</name>
+            <email>gtl.scralet@qq.com</email>
+        </developer>
     </developers>
 
     <scm>
@@ -199,6 +204,12 @@
             <version>${spring-boot-admin.version}</version>
         </dependency>
 
+        <!--  定时任务日志管理      -->
+        <dependency>
+            <groupId>io.github.taybct</groupId>
+            <artifactId>spring-taybct-tool-scheduled-log-centralized</artifactId>
+            <version>${spring-taybct-tools.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
