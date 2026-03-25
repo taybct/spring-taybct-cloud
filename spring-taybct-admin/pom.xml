@@ -55,6 +55,7 @@
         <module>spring-taybct-admin-log</module>
         <module>spring-taybct-admin-file</module>
         <module>spring-taybct-admin-monitor</module>
+        <module>spring-taybct-admin-websocket</module>
     </modules>
 
     <properties>

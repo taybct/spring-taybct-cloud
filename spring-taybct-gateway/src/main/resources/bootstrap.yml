@@ -114,9 +114,16 @@ spring:
                 - Path=/system/**
               filters:
                 - StripPrefix=1
-            # 系统模块
-            - id: module-system-websocket
-              uri: lb://module-system
+            # websocket 模块
+            - id: admin-websocket
+              uri: lb://admin-websocket
+              predicates:
+                - Path=/ws/**
+              filters:
+                - StripPrefix=1
+            # websocket 模块
+            - id: admin-websocket
+              uri: lb://admin-websocket
               predicates:
                 - Path=/websocket/**
             # 文件服务
@@ -235,6 +242,13 @@ knife4j:
           order: 5
           # 前端显示名称
           group-name: 日志管理
+          # 重新指定basePath，一般在OpenAPI3规范中需要
+          context-path: /
+        admin-websocket:
+          # 排序
+          order: 5
+          # 前端显示名称
+          group-name: websocket 统一入口
           # 重新指定basePath，一般在OpenAPI3规范中需要
           context-path: /
         module-lf:

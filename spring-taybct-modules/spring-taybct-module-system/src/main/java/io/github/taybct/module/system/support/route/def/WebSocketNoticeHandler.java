@@ -2,13 +2,12 @@ package io.github.taybct.module.system.support.route.def;
 
 import com.alibaba.fastjson2.JSONObject;
 import io.github.taybct.api.system.dto.route.RouteCountResult;
+import io.github.taybct.api.system.feign.IWebSocketClient;
 import io.github.taybct.module.system.support.route.NoticeHandler;
 import io.github.taybct.module.system.support.route.RouteCounter;
-import io.github.taybct.tool.core.websocket.endpoint.IWebSocketServer;
 import io.github.taybct.tool.core.websocket.enums.MessageUserType;
 import io.github.taybct.tool.core.websocket.support.MessageUser;
 import io.github.taybct.tool.core.websocket.support.WSR;
-import jakarta.websocket.Session;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -24,10 +23,10 @@ import java.util.LinkedHashSet;
  */
 public class WebSocketNoticeHandler implements NoticeHandler<Number> {
 
-    final IWebSocketServer<Session> webSocketServer;
+    final IWebSocketClient webSocketClient;
 
-    public WebSocketNoticeHandler(IWebSocketServer<Session> webSocketServer) {
-        this.webSocketServer = webSocketServer;
+    public WebSocketNoticeHandler(IWebSocketClient webSocketClient) {
+        this.webSocketClient = webSocketClient;
     }
 
     @Override
@@ -49,11 +48,12 @@ public class WebSocketNoticeHandler implements NoticeHandler<Number> {
                 第一种情况：没有用户连接，发送不了
                 第二种情况：有用户连接，但是是上一个 session 的，需要最新的 session
                  */
-            webSocketServer.sendMessage(WSR.<JSONObject>ok("路由数据统计")
+            WSR<JSONObject> message = WSR.<JSONObject>ok("路由数据统计")
                     .setTitle("路由数据统计")
                     .setTopic(RouteCounter.Constant.TOPIC)
                     .setData(data)
-                    .setToUser(toUser));
+                    .setToUser(toUser);
+            webSocketClient.sendMessage(JSONObject.toJSONString(message));
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

@@ -1,4 +1,4 @@
-package io.github.taybct.module.system.server;
+package io.github.taybct.admin.ws.server;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
@@ -8,7 +8,7 @@ import com.nimbusds.jose.JWSObject;
 import com.nimbusds.jose.crypto.RSASSAVerifier;
 import io.github.taybct.api.system.domain.SysUser;
 import io.github.taybct.api.system.domain.SysUserOnline;
-import io.github.taybct.module.system.service.ISysUserOnlineService;
+import io.github.taybct.api.system.mapper.SysUserOnlineMapper;
 import io.github.taybct.tool.core.constant.TokenConstants;
 import io.github.taybct.tool.core.exception.def.BaseException;
 import io.github.taybct.tool.core.result.ResultCode;
@@ -41,7 +41,7 @@ import java.util.function.Function;
 @ServerEndpoint("/websocket/{userId}")
 public class WebSocketServer extends AbstractWebSocketServer {
 
-    public static ISysUserOnlineService sysUserOnlineService;
+    public static SysUserOnlineMapper sysUserOnlineMapper;
 
     public static KeyPair keyPair;
 
@@ -54,8 +54,8 @@ public class WebSocketServer extends AbstractWebSocketServer {
         if (CollectionUtil.isEmpty((jtiList = getRequestParameterMap(session.getId()).get(TokenConstants.JWT_JTI)))) {
             noAuthorizationHandle(userId, session);
         }
-        SysUserOnline sysUserOnlineInfo = sysUserOnlineService.getOne(Wrappers.<SysUserOnline>lambdaQuery()
-                .eq(SysUserOnline::getJti, jtiList.get(0)));
+        SysUserOnline sysUserOnlineInfo = sysUserOnlineMapper.selectOne(Wrappers.<SysUserOnline>lambdaQuery()
+                .eq(SysUserOnline::getJti, jtiList.getFirst()));
         if (ObjectUtil.isEmpty(sysUserOnlineInfo)) {
             // 如果找不到对应的 token 信息
             noAuthorizationHandle(userId, session);

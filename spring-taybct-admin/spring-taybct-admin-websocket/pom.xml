@@ -4,17 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>io.github.taybct</groupId>
-        <artifactId>spring-taybct-modules</artifactId>
+        <artifactId>spring-taybct-admin</artifactId>
         <version>3.5.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.taybct</groupId>
-    <artifactId>spring-taybct-module-system</artifactId>
+    <artifactId>spring-taybct-admin-websocket</artifactId>
     <version>3.5.2</version>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
-    <description>系统模块</description>
+    <description>统一实时通讯 websocket 出入口</description>
     <url>https://github.com/taybct/spring-taybct</url>
 
     <licenses>
@@ -60,6 +60,12 @@
 
     <dependencies>
 
+        <!--日志 api 接口-->
+        <dependency>
+            <groupId>io.github.taybct</groupId>
+            <artifactId>spring-taybct-api-system</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!--启动模块-->
         <dependency>
             <groupId>io.github.taybct</groupId>
@@ -70,23 +76,22 @@
             <groupId>io.github.taybct</groupId>
             <artifactId>spring-taybct-tool-cloud</artifactId>
         </dependency>
-        <!-- 常量工具-->
+        <!-- 通用工具-->
+        <dependency>
+            <groupId>io.github.taybct</groupId>
+            <artifactId>spring-taybct-common</artifactId>
+        </dependency>
+        <!-- 通用工具-->
         <dependency>
             <groupId>io.github.taybct</groupId>
             <artifactId>spring-taybct-common</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- 常量工具-->
+        <!-- mybatis-plus 依赖配置-->
         <dependency>
-            <groupId>io.github.taybct</groupId>
-            <artifactId>spring-taybct-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!--系统接口-->
-        <dependency>
-            <groupId>io.github.taybct</groupId>
-            <artifactId>spring-taybct-api-system</artifactId>
-            <version>${project.version}</version>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <version>${mybatis-plus.version}</version>
         </dependency>
         <!--Redis-->
         <dependency>
@@ -95,11 +100,11 @@
             <version>${spring-boot.version}</version>
         </dependency>
 
-        <!-- mybatis-plus 依赖配置-->
+        <!--jdbc 驱动-->
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
-            <version>${mybatis-plus.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
 
         <!--    postgresql 驱动   -->
@@ -143,52 +148,25 @@
             <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
             <version>${dynamic-datasource.version}</version>
         </dependency>
+
+        <!--mvc websocket-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+            <version>${spring-boot.version}</version>
+            <exclusions>
+                <!--使用 undertow 替代 tomcat-->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <!--安全模块-->
         <dependency>
             <groupId>io.github.taybct</groupId>
             <artifactId>spring-taybct-tool-security</artifactId>
-        </dependency>
-
-        <!--任务调度-->
-        <dependency>
-            <groupId>io.github.taybct</groupId>
-            <artifactId>spring-taybct-tool-scheduling</artifactId>
-        </dependency>
-
-        <!--rabbit-mq-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-            <version>${spring-boot.version}</version>
-        </dependency>
-
-        <!--easyexcel poi 操作导入导出 excel-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>easyexcel</artifactId>
-            <version>${easyexcel.version}</version>
-        </dependency>
-        <!-- easypoi的支持 -->
-        <dependency>
-            <groupId>cn.afterturn</groupId>
-            <artifactId>easypoi-base</artifactId>
-            <version>${easypoi.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.afterturn</groupId>
-            <artifactId>easypoi-web</artifactId>
-            <version>${easypoi.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.afterturn</groupId>
-            <artifactId>easypoi-annotation</artifactId>
-            <version>${easypoi.version}</version>
-        </dependency>
-        <!--excel模板导出-->
-        <dependency>
-            <groupId>net.sf.jxls</groupId>
-            <artifactId>jxls-core</artifactId>
-            <version>${jxls-core.version}</version>
         </dependency>
 
         <!--knife4j 集成 springdoc-openapi（修复兼容 springdoc-openapi 2.7.x 以上版本）-->
