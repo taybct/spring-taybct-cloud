@@ -1,7 +1,7 @@
 package io.github.taybct.module.scheduling.task.job;
 
 import com.alibaba.fastjson2.JSONObject;
-import io.github.taybct.api.system.feign.INoticeClient;
+import io.github.taybct.api.system.feign.IWebSocketClient;
 import io.github.taybct.module.scheduling.service.IScheduledLogService;
 import io.github.taybct.tool.core.annotation.Scheduler;
 import io.github.taybct.tool.core.constant.DateConstants;
@@ -37,7 +37,7 @@ public class Demo2Task extends AbstractScheduledTaskJob {
     final IScheduledLogService scheduledLogService;
 
     @DubboReference
-    private INoticeClient noticeClient;
+    private IWebSocketClient webSocketClient;
 
     @Override
     protected Consumer<JSONObject> getLogRecorder() {
@@ -57,7 +57,7 @@ public class Demo2Task extends AbstractScheduledTaskJob {
                     .map(Long::parseLong)
                     .map(id -> new MessageUser(MessageUserType.USER, id, null)).toList()));
         }
-        noticeClient.sendMessage(message);
+        webSocketClient.sendMessage(JSONObject.toJSONString(message));
 //        stopRecord(OperateStatus.SUCCESS.getCode(), "我自己记录一个消息");
 //        throw new RuntimeException("最后个报错");
     }
