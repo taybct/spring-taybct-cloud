@@ -1,12 +1,10 @@
 package com.demo;
 
-import io.github.taybct.tool.core.util.sm.SM4Coder;
+import io.github.taybct.tool.core.util.sm.SM2Coder;
+import io.github.taybct.tool.core.util.sm.SM2Properties;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import java.nio.charset.StandardCharsets;
 
 /**
  * <pre>
@@ -26,18 +24,19 @@ public class TestNoAuthAccess {
                 {
                     "uid":"1",
                     "nbf":1732851466,
-                    "grant_type":"gx_cloud",
+                    "grant_type":"taybct",
                     "user_name":"root",
                     "scope":["all"],
                     "atm":"username",
                     "exp":1732855066,
                     "iat":1732851466,
                     "jti":"ae8109f4257847b68747c644d31c43f4",
-                    "client_id":"gx_cloud_pc",
+                    "client_id":"taybct_pc",
                     "authorities":["ROOT"],
                     "tni":"000000"
                 }""";
-        String payload = SM4Coder.getSM4().encryptBase64(jsonStr, StandardCharsets.UTF_8);
+        SM2Coder.ini(new SM2Properties());
+        String payload = SM2Coder.encryptBase64StringByPublicKey(jsonStr);
         System.out.printf("payload:%s", payload);
 
         //可以直接使用 SM4 加密成一个字符串，然后加入到请求头：

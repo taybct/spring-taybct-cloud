@@ -14,7 +14,6 @@ import io.github.taybct.tool.scheduling.job.AbstractScheduledTaskJob;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,7 +28,6 @@ import java.util.function.Consumer;
  * @author xijieyin <br> 2022/11/1 11:37
  * @since 1.1.0
  */
-@AutoConfiguration
 @RequiredArgsConstructor
 @Slf4j
 @Scheduler("demo1")

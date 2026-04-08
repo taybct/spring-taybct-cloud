@@ -58,3 +58,65 @@ taybct:
     await-termination-seconds: 60
     thread-name-prefix: "Scheduler-"
     wait-for-tasks-to-complete-on-shutdown: true
+    packages-to-scan:
+      - io.github.taybct.module.scheduling.task.job
+    tasks:
+      serviceApiTask_01:
+        task-key: serviceApiTask
+        cron: 0 0/1 * * * ?
+        description: "接口调度01"
+        auto-start: 1
+        sort: 0
+        params:
+          serviceId: module-system
+          method: POST
+          mapping: /demo/testSchedule1?param1=1&param2=2
+          auth:
+            username: admin
+            userId: 2
+            role:
+              - ADMIN
+          queryParams:
+            param1: 1
+            param2: 2
+          queryBody:
+            name: "test"
+            age: 18
+            sex: "男"
+            address: "中国"
+            hobby:
+              - "football"
+              - "basketball"
+            birthday: "2026-04-03"
+            isMarried: true
+            height: 1.8
+            weight: 80.5
+            isStudent: false
+      serviceApiTask_02:
+        task-key: serviceApiTask
+        cron: 0 0/1 * * * ?
+        description: "接口调度02"
+        auto-start: 1
+        sort: 0
+        params:
+          serviceId: module-system
+          method: POST
+          mapping: /demo/testSchedule2?param1=1&param2=2
+          headerParams:
+            TEST-HEADER: "test header params"
+          queryParams:
+            param1: 1
+            param2: 2
+          queryBody:
+            name: "test"
+            age: 18
+            sex: "男"
+            address: "中国"
+            hobby:
+              - "football"
+              - "basketball"
+            birthday: "2026-04-03"
+            isMarried: true
+            height: 1.8
+            weight: 80.5
+            isStudent: false
