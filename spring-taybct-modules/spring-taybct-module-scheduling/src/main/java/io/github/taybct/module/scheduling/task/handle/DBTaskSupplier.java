@@ -1,6 +1,7 @@
 package io.github.taybct.module.scheduling.task.handle;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.convert.Convert;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.github.taybct.module.scheduling.domain.ScheduledTask;
@@ -32,9 +33,9 @@ public class DBTaskSupplier extends AbstractTaskSupplier {
     final ScheduledTaskMapper scheduledTaskMapper;
 
     @Override
-    public ScheduledTaskBean getByKey(String taskKey) {
+    public ScheduledTaskBean getByUniKey(String uniKey) {
         return Optional.ofNullable(scheduledTaskMapper.selectOne(Wrappers
-                        .<ScheduledTask>lambdaQuery().eq(ScheduledTask::getTaskKey, taskKey)))
+                        .<ScheduledTask>lambdaQuery().eq(ScheduledTask::getId, uniKey)))
                 .map(this::convert)
                 .orElse(null);
     }
@@ -47,9 +48,10 @@ public class DBTaskSupplier extends AbstractTaskSupplier {
     @Override
     public List<ScheduledTaskBean> getAllNeedStartTask() {
         List<ScheduledTaskBean> dbTask = new java.util.ArrayList<>(scheduledTaskMapper.getAllNeedStartTask().stream().map(this::convert).toList());
+        scheduledProperties.getTasks().forEach((k, v) -> v.setUniKey(k));
         List<ScheduledTaskBean> propertyTask = scheduledProperties.getTasks().values().stream()
                 // 过滤掉，所有的数据库已经存在的，这里默认数据库的优先级更高
-                .filter(s -> dbTask.stream().noneMatch(d -> d.getTaskKey().equals(s.getTaskKey())))
+                .filter(s -> dbTask.stream().noneMatch(d -> d.getUniKey().equals(s.getUniKey())))
                 .sorted(Comparator.comparingInt(ScheduledTaskBean::getSort))
                 .filter(s -> s.getAutoStart() == 1)
                 .toList();
@@ -68,7 +70,8 @@ public class DBTaskSupplier extends AbstractTaskSupplier {
         }
         // 这里把 tenantId 丢到 params 里面方便后面对租户做操作
         params.put("tenantId", task.getTenantId());
-        return new ScheduledTaskBean(task.getTaskKey(),
+        return new ScheduledTaskBean(Convert.toStr(task.getId())
+                , task.getTaskKey(),
                 task.getDescription(),
                 task.getCron(),
                 0,

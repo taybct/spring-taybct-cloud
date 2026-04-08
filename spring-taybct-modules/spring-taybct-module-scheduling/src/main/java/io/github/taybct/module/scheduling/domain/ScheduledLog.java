@@ -108,5 +108,13 @@ public class ScheduledLog implements Serializable {
     @Schema(description = "租户 id 区分不同租户的日志")
     @TableFieldDefault("000000")
     private String tenantId;
+    /**
+     * 唯一键
+     */
+    @NotBlank(message = "[唯一键]不能为空")
+    @Size(max = 64, message = "编码长度不能超过64")
+    @Schema(description = "唯一键")
+    @Length(max = 64, message = "编码长度不能超过64")
+    private String uniKey;
 
 }

@@ -1,3 +1,6 @@
+logging:
+  level:
+    io.github.taybct.tool.core.aop: debug
 springdoc:
   info:
     title: "系统模块"
@@ -72,6 +75,8 @@ taybct:
     await-termination-seconds: 60
     thread-name-prefix: "Scheduler-"
     wait-for-tasks-to-complete-on-shutdown: true
+    packages-to-scan:
+      - io.github.taybct.module.system.task.job
     tasks:
       clearDirtyData:
         task-key: clearDirtyData
