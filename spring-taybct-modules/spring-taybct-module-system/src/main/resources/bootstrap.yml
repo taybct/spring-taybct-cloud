@@ -1,6 +1,3 @@
-logging:
-  level:
-    io.github.taybct.tool.core.aop: debug
 springdoc:
   info:
     title: "系统模块"
