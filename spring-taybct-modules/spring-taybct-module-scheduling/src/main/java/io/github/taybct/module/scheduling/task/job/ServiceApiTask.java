@@ -9,13 +9,18 @@ import io.github.taybct.common.constants.JwtTokenKeyConstants;
 import io.github.taybct.module.scheduling.service.IScheduledLogService;
 import io.github.taybct.module.scheduling.task.support.ServiceApiTaskParams;
 import io.github.taybct.module.scheduling.task.support.TempAuthDTO;
+import io.github.taybct.scheduledLogCentralized.collector.ScheduledLogCollector;
+import io.github.taybct.scheduledLogCentralized.util.RedisScheduledJobTemplate;
 import io.github.taybct.tool.core.annotation.Scheduler;
 import io.github.taybct.tool.core.constant.TokenConstants;
 import io.github.taybct.tool.core.result.R;
 import io.github.taybct.tool.core.util.sm.SM2Coder;
 import io.github.taybct.tool.scheduling.job.AbstractScheduledTaskJob;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -69,9 +74,12 @@ public class ServiceApiTask extends AbstractScheduledTaskJob {
 
     final DiscoveryClient discoveryClient;
 
-    public ServiceApiTask(IScheduledLogService scheduledLogService, DiscoveryClient discoveryClient) {
+    final ScheduledLogCollector scheduledLogCollector;
+
+    public ServiceApiTask(IScheduledLogService scheduledLogService, DiscoveryClient discoveryClient,ScheduledLogCollector scheduledLogCollector) {
         this.scheduledLogService = scheduledLogService;
         this.discoveryClient = discoveryClient;
+        this.scheduledLogCollector = scheduledLogCollector;
     }
 
     @Override
@@ -81,6 +89,12 @@ public class ServiceApiTask extends AbstractScheduledTaskJob {
 
     @Override
     public void run(Map<String, Object> params) throws Exception {
+        ServiceApiTaskParams apiTaskParams = JSONObject.from(params).toJavaObject(ServiceApiTaskParams.class);
+        String path = apiTaskParams.getMapping();
+        RedisScheduledJobTemplate.dispatchExecute(path,()->this.originalRun(params),scheduledLogCollector);
+    }
+
+    private void originalRun(Map<String, Object> params){
         log.info("serviceApiTask => 当前线程名称 {} ", Thread.currentThread().getName());
         log.info("任务描述：{}", getTaskConfig().getDescription());
         log.info(">>>>>> 服务接口定时任务开始 >>>>>> ");
@@ -143,7 +157,6 @@ public class ServiceApiTask extends AbstractScheduledTaskJob {
         }
         log.info(">>>>>> 服务接口定时任务结束 >>>>>> ");
     }
-
     /**
      * 创建无鉴权访问的 token
      *
