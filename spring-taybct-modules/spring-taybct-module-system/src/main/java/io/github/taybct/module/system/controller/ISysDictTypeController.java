@@ -19,5 +19,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "系统字典类型相关接口")
 @RestControllerRegister(ServeConstants.CONTEXT_PATH_SYSTEM + "{version}/dictType")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface ISysDictTypeController extends BaseController<SysDictType, ISysDictTypeService> {
 }

@@ -9,6 +9,8 @@ import io.github.taybct.module.lf.service.IFormService;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -17,6 +19,8 @@ import java.util.List;
  * <br>description 针对表【lf_form(流程表单)】的数据库操作Service实现
  * @since 2023-07-21 15:18:29
  */
+@AutoConfiguration
+@Service
 public class FormServiceImpl extends BaseServiceImpl<FormMapper, Form>
         implements IFormService {
 

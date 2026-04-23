@@ -27,6 +27,7 @@ import java.util.Set;
  *
  * @author XiJieYin <br> 2023/6/8 14:07
  */
+@Deprecated(since = "3.5.3")
 public class SysDeptControllerRegister implements ISysDeptController {
 
     @Autowired(required = false)

@@ -18,11 +18,15 @@ import io.github.taybct.module.system.support.route.RouteCounter;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
 import io.github.taybct.tool.core.constant.ISysParamsObtainService;
 import io.github.taybct.tool.core.exception.def.BaseException;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
 import io.github.taybct.tool.core.result.ResultCode;
 import io.github.taybct.tool.core.util.MyBatisUtil;
 import io.github.taybct.tool.core.util.StringUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.*;
@@ -32,21 +36,22 @@ import java.util.stream.Collectors;
 /**
  * @author xijieyin
  */
+@AutoConfiguration
+@Service
 @Slf4j
+@RequiredArgsConstructor
 public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu>
         implements ISysMenuService {
 
-    @Autowired(required = false)
-    protected SysRoleMenuMapper sysRoleMenuMapper;
+    final SysRoleMenuMapper sysRoleMenuMapper;
 
-    @Autowired(required = false)
-    protected ISysParamsObtainService sysParamsObtainService;
+    final ISysParamsObtainService sysParamsObtainService;
 
     @Override
-    public List<SysMenuVO> list(Map<String, Object> sqlQueryParams) {
-        String pageOrder = MyBatisUtil.getPageOrder(sqlQueryParams);
+    public List<SysMenuVO> list(Map<String, Object> sqlPageParams) {
+        String pageOrder = SqlPageParams.of(sqlPageParams).allowedSort(SysMenuVO.class).getPageOrder();
         Set<String> authorities = checkAuthorities();
-        SysMenuQueryDTO dto = JSONObject.parseObject(JSONObject.toJSONString(sqlQueryParams), SysMenuQueryDTO.class);
+        SysMenuQueryDTO dto = JSONObject.parseObject(JSONObject.toJSONString(sqlPageParams), SysMenuQueryDTO.class);
         // 编辑的时候回显，需要反查这个树回来
         Long permCheckId = Convert.convert(Long.class, dto.getPermCheckId(), -1L);
         SysMenu sysMenu;

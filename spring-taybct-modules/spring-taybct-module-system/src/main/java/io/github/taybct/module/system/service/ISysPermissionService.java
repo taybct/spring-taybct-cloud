@@ -41,9 +41,9 @@ public interface ISysPermissionService extends IBaseService<SysPermission> {
     /**
      * 带菜单信息的权限分页
      *
-     * @param sqlQueryParams {@literal sql 查询参数}
+     * @param sqlPageParams {@literal sql 查询参数}
      * @return {@code IPage<PermissionVO>}
      */
-    IPage<PermissionVO> pageWithMenu(Map<String, Object> sqlQueryParams);
+    IPage<PermissionVO> pageWithMenu(Map<String, Object> sqlPageParams);
 
 }

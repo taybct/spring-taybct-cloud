@@ -10,8 +10,9 @@ import io.github.taybct.module.lf.domain.ReleasePermissions;
 import io.github.taybct.module.lf.mapper.ReleasePermissionsMapper;
 import io.github.taybct.module.lf.service.IReleasePermissionsService;
 import io.github.taybct.tool.core.exception.def.BaseException;
-import io.github.taybct.tool.core.request.SqlQueryParams;
-import io.github.taybct.tool.core.util.MyBatisUtil;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -24,6 +25,8 @@ import java.util.stream.Collectors;
  * <br>description 针对表【lf_release_permissions(流程发布权限表，用于关联指定流程，可以被哪些角色或者用户看到)】的数据库操作Service实现
  * @since 2023-07-03 11:32:23
  */
+@AutoConfiguration
+@Service
 public class ReleasePermissionsServiceImpl extends ServiceImpl<ReleasePermissionsMapper, ReleasePermissions>
         implements IReleasePermissionsService {
 
@@ -49,11 +52,12 @@ public class ReleasePermissionsServiceImpl extends ServiceImpl<ReleasePermission
     }
 
     @Override
-    public List<ReleasePermissions> getPermissions(Long releaseId, Long userId, SqlQueryParams sqlQueryParams) {
+    public List<ReleasePermissions> getPermissions(Long releaseId, Long userId, SqlPageParams sqlPageParams) {
         if (ObjectUtil.isNull(releaseId) && ObjectUtil.isNull(userId)) {
             throw new BaseException("请指定查询条件，按发布流程查询，或者是按用户查询");
         }
-        Page<ReleasePermissions> page = MyBatisUtil.genPage(sqlQueryParams);
+        sqlPageParams.allowedSort(ReleasePermissions.class);
+        Page<ReleasePermissions> page = sqlPageParams.genPage();
         // 这里不查询页数
         page.setSearchCount(false);
         LambdaQueryWrapper<ReleasePermissions> queryWrapper = Wrappers.lambdaQuery();

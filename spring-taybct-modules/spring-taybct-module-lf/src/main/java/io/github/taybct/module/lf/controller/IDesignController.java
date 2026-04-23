@@ -30,6 +30,7 @@ import java.util.List;
 @Tag(name = "流程图设计控制器")
 @RestControllerRegister("{version}/design")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface IDesignController extends BaseController<Design, IDesignService> {
 
     @Operation(tags = "分享流程图操作"

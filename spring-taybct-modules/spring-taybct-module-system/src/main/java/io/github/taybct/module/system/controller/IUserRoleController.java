@@ -29,6 +29,7 @@ import java.util.Map;
 @Tag(name = "系统用户角色关联相关接口")
 @RestControllerRegister(ServeConstants.CONTEXT_PATH_SYSTEM + "{version}/userRole")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface IUserRoleController {
 
     /**

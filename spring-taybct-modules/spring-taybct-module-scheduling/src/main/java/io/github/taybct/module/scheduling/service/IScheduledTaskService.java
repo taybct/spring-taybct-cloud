@@ -17,10 +17,10 @@ public interface IScheduledTaskService extends IBaseService<ScheduledTask> {
     /**
      * 任务分页（状态扩展）
      *
-     * @param sqlQueryParams {@literal sql 查询参数}
+     * @param sqlPageParams {@literal sql 查询参数}
      * @return {@code IPage<ScheduledTaskVO>} 任务分页
      */
-    IPage<ScheduledTaskVO> taskPage(Map<String, Object> sqlQueryParams);
+    IPage<ScheduledTaskVO> taskPage(Map<String, Object> sqlPageParams);
 
     /**
      * 获取需要自动启动的任务列表

@@ -27,12 +27,12 @@ public interface ISysNoticeService extends IBaseService<SysNotice> {
     /**
      * 用户消息分页
      *
-     * @param sqlQueryParams sql 查询参数
+     * @param sqlPageParams sql 查询参数
      * @return {@code IPage<SysNoticeVO>}
      * @author xijieyin <br> 2022/10/10 16:49
      * @since 1.0.5
      */
-    IPage<SysNoticeVO> userNoticesPage(Map<String, Object> sqlQueryParams);
+    IPage<SysNoticeVO> userNoticesPage(Map<String, Object> sqlPageParams);
 
     /**
      * 添加消息通知

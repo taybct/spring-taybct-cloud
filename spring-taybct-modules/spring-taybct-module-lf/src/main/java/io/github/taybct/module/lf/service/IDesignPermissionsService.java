@@ -3,7 +3,7 @@ package io.github.taybct.module.lf.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.taybct.module.lf.domain.DesignPermissions;
 import io.github.taybct.module.lf.enums.DesignPermissionsType;
-import io.github.taybct.tool.core.request.SqlQueryParams;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
 
 import java.util.Collection;
 import java.util.List;
@@ -36,11 +36,11 @@ public interface IDesignPermissionsService extends IService<DesignPermissions> {
      *
      * @param designId       流程 id
      * @param userId         用户 id
-     * @param sqlQueryParams 分布查询条件
+     * @param sqlPageParams 分布查询条件
      * @return list
      */
     List<DesignPermissions> getPermissions(Long designId
             , Long userId
-            , SqlQueryParams sqlQueryParams);
+            , SqlPageParams sqlPageParams);
 
 }

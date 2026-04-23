@@ -14,8 +14,11 @@ import io.github.taybct.api.system.vo.PermissionVO;
 import io.github.taybct.module.system.service.ISysPermissionService;
 import io.github.taybct.module.system.service.ISysRolePermissionService;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
-import io.github.taybct.tool.core.util.MyBatisUtil;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
 import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -26,11 +29,13 @@ import java.util.stream.Collectors;
 /**
  * @author xijieyin
  */
+@AutoConfiguration
+@Service
+@RequiredArgsConstructor
 public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermissionMapper, SysPermission>
         implements ISysPermissionService {
 
-    @Resource
-    ISysRolePermissionService sysRolePermissionService;
+    final ISysRolePermissionService sysRolePermissionService;
 
     @Override
     public boolean save(SysPermission entity) {
@@ -39,7 +44,7 @@ public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermissionMappe
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public boolean saveBatch(Collection<SysPermission> entityList) {
         PermissionsValidityCheckTool.checkOperateOnlineRoot(() -> securityUtil);
         boolean result = false;
@@ -182,9 +187,10 @@ public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermissionMappe
     }
 
     @Override
-    public IPage<PermissionVO> pageWithMenu(Map<String, Object> sqlQueryParams) {
-        Page<PermissionVO> page = MyBatisUtil.genPage(sqlQueryParams);
-        SysPermission dto = JSONObject.parseObject(JSONObject.toJSONString(sqlQueryParams), SysPermission.class);
+    public IPage<PermissionVO> pageWithMenu(Map<String, Object> sqlPageParams) {
+        SqlPageParams pageParams = SqlPageParams.of(sqlPageParams).allowedSort(PermissionVO.class);
+        Page<PermissionVO> page = pageParams.genPage();
+        SysPermission dto = JSONObject.parseObject(JSONObject.toJSONString(sqlPageParams), SysPermission.class);
         JSONObject params = JSONObject.parseObject(JSONObject.toJSONString(dto));
         params.remove("expansion");
         authoritiesFilter(params);

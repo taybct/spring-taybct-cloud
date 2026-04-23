@@ -1,7 +1,6 @@
 package io.github.taybct.module.scheduling.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -11,7 +10,9 @@ import io.github.taybct.module.scheduling.domain.ScheduledLog;
 import io.github.taybct.module.scheduling.dto.ScheduledLogQueryDTO;
 import io.github.taybct.module.scheduling.mapper.ScheduledLogMapper;
 import io.github.taybct.module.scheduling.service.IScheduledLogService;
-import io.github.taybct.tool.core.util.MyBatisUtil;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -22,6 +23,8 @@ import java.util.Optional;
  *
  * @author 24154
  */
+@Service
+@AutoConfiguration
 public class ScheduledLogServiceImpl extends ServiceImpl<ScheduledLogMapper, ScheduledLog>
         implements IScheduledLogService {
 
@@ -38,17 +41,20 @@ public class ScheduledLogServiceImpl extends ServiceImpl<ScheduledLogMapper, Sch
     }
 
     @Override
-    public IPage<ScheduledLog> page(Map<String, Object> sqlQueryParams) {
-        Wrapper<ScheduledLog> scheduledLogWrapper = MyBatisUtil.genQueryWrapper(sqlQueryParams, ScheduledLog.class);
-        LambdaQueryWrapper<ScheduledLog> logLambdaQueryWrapper = ((QueryWrapper<ScheduledLog>) scheduledLogWrapper).lambda();
-        ScheduledLogQueryDTO dto = JSONObject.parseObject(JSONObject.toJSONString(sqlQueryParams), ScheduledLogQueryDTO.class);
+    public IPage<ScheduledLog> page(Map<String, Object> sqlPageParams) {
+        SqlPageParams pageParams = SqlPageParams.of(sqlPageParams);
+        pageParams.allowedSort(ScheduledLog.class);
+        QueryWrapper<ScheduledLog> queryWrapper = (QueryWrapper<ScheduledLog>) pageParams.genQueryWrapper(JSONObject.parseObject(JSONObject.toJSONString(sqlPageParams)).toJavaObject(getEntityClass()));
+
+        LambdaQueryWrapper<ScheduledLog> logLambdaQueryWrapper = queryWrapper.lambda();
+        ScheduledLogQueryDTO dto = JSONObject.parseObject(JSONObject.toJSONString(sqlPageParams), ScheduledLogQueryDTO.class);
         // 开始时间
         Optional.ofNullable(dto.getTimeBegin())
                 .ifPresent(timeBegin -> logLambdaQueryWrapper.ge(ScheduledLog::getStartTime, timeBegin));
         // 结束时间
         Optional.ofNullable(dto.getTimeEnd())
                 .ifPresent(timeEnd -> logLambdaQueryWrapper.le(ScheduledLog::getStartTime, timeEnd));
-        return page(MyBatisUtil.genPage(sqlQueryParams), scheduledLogWrapper);
+        return page(pageParams.genPage(), logLambdaQueryWrapper);
     }
 
 }

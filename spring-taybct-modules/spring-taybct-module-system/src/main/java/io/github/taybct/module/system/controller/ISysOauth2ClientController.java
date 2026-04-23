@@ -39,6 +39,7 @@ import java.util.Optional;
 @RestControllerRegister(ServeConstants.CONTEXT_PATH_SYSTEM + "{version}/oauth2Client")
 @ApiVersion
 @Tag(name = "客户端管理")
+@Deprecated(since = "3.5.3")
 public interface ISysOauth2ClientController extends BaseController<SysOauth2Client, ISysOauth2ClientService> {
 
     /**

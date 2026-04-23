@@ -16,10 +16,12 @@ import io.github.taybct.tool.core.bean.ISecurityUtil;
 import io.github.taybct.tool.core.enums.DataScopeGetNotDealType;
 import io.github.taybct.tool.core.exception.def.BaseException;
 import io.github.taybct.tool.core.mybatis.interceptor.DataScopeData;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
 import io.github.taybct.tool.core.mybatis.util.DataScopeUtil;
-import io.github.taybct.tool.core.request.SqlQueryParams;
-import io.github.taybct.tool.core.util.MyBatisUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
@@ -34,17 +36,15 @@ import java.util.stream.Collectors;
  * <br>description 针对表【lf_design_permissions(流程图权限表)】的数据库操作Service实现
  * @since 2023-07-06 10:21:37
  */
+@AutoConfiguration
+@Service
+@RequiredArgsConstructor
 public class DesignPermissionsServiceImpl extends ServiceImpl<DesignPermissionsMapper, DesignPermissions>
         implements IDesignPermissionsService {
 
-    @Autowired(required = false)
-    protected ISecurityUtil securityUtil;
+    final ISecurityUtil securityUtil;
 
-    @Autowired(required = false)
-    protected DataScopeUtil dataScopeUtil;
-
-    @Autowired(required = false)
-    protected DataSource dataSource;
+    final DataScopeUtil dataScopeUtil;
 
     @Override
     public boolean checkPermission(Collection<Long> designIdList, DesignPermissionsType[] permissionsTypes) {
@@ -99,11 +99,12 @@ public class DesignPermissionsServiceImpl extends ServiceImpl<DesignPermissionsM
     }
 
     @Override
-    public List<DesignPermissions> getPermissions(Long designId, Long userId, SqlQueryParams sqlQueryParams) {
+    public List<DesignPermissions> getPermissions(Long designId, Long userId, SqlPageParams sqlPageParams) {
         if (ObjectUtil.isNull(designId) && ObjectUtil.isNull(userId)) {
             throw new BaseException("请指定查询条件，按流程图查询，或者是按用户查询");
         }
-        Page<DesignPermissions> page = MyBatisUtil.genPage(sqlQueryParams);
+        sqlPageParams.allowedSort(DesignPermissions.class);
+        Page<DesignPermissions> page = sqlPageParams.genPage();
         // 这里不查询页数
         page.setSearchCount(false);
         LambdaQueryWrapper<DesignPermissions> queryWrapper = Wrappers.lambdaQuery();

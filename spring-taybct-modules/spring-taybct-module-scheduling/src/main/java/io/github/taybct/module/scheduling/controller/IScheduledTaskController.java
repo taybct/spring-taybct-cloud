@@ -32,6 +32,7 @@ import java.util.Set;
 @Tag(name = "任务调度相关接口")
 @RestControllerRegister(ServeConstants.CONTEXT_PATH_SCHEDULING + "{version}/scheduling")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface IScheduledTaskController extends BaseController<ScheduledTask, IScheduledTaskService> {
 
     @Operation(summary = "获取分页(带启动状态)")

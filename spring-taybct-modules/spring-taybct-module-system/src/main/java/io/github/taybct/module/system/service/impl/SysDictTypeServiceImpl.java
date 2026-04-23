@@ -7,7 +7,10 @@ import io.github.taybct.api.system.mapper.SysDictMapper;
 import io.github.taybct.api.system.mapper.SysDictTypeMapper;
 import io.github.taybct.module.system.service.ISysDictTypeService;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -15,15 +18,16 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author 24154
  */
-@Transactional(rollbackFor = Exception.class)
+@AutoConfiguration
+@Service
+@RequiredArgsConstructor
 public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, SysDictType>
         implements ISysDictTypeService {
 
-    @Autowired(required = false)
-    protected SysDictMapper sysDictMapper;
+    final SysDictMapper sysDictMapper;
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public boolean updateById(SysDictType entity) {
         SysDictType old = getBaseMapper().selectById(entity.getId());
         // 如果是字典类型 code 发生了变化，需要同时

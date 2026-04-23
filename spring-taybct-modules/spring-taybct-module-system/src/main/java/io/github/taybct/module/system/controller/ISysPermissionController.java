@@ -30,6 +30,7 @@ import java.util.Map;
 @Tag(name = "菜单权限相关接口")
 @RestControllerRegister(ServeConstants.CONTEXT_PATH_SYSTEM + "{version}/permission")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface ISysPermissionController extends BaseController<SysPermission, ISysPermissionService> {
 
     /**

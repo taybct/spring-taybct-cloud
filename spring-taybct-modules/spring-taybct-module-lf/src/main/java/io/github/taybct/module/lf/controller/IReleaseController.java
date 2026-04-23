@@ -33,6 +33,7 @@ import java.util.List;
 @Tag(name = "版本发布控制器")
 @RestControllerRegister("{version}/release")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface IReleaseController {
 
     @Operation(summary = "发布流程")

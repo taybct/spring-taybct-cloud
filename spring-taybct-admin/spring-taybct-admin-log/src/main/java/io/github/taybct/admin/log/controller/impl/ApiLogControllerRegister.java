@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @author XiJieYin <br> 2023/7/25 16:21
  */
+@Deprecated(since = "3.5.3")
 public class ApiLogControllerRegister implements IApiLogController {
 
 

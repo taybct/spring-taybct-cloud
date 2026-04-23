@@ -7,7 +7,7 @@ import io.github.taybct.api.system.dto.SysDeptQueryDTO;
 import io.github.taybct.api.system.vo.DeptUserTreeVO;
 import io.github.taybct.api.system.vo.SysDeptTreeVO;
 import io.github.taybct.tool.core.bean.service.IBaseService;
-import io.github.taybct.tool.core.request.SqlQueryParams;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
 
 import java.util.List;
 import java.util.Set;
@@ -66,6 +66,6 @@ public interface ISysDeptService extends IBaseService<SysDept> {
      * @param pageParams 分页参数
      * @return 分页结果
      */
-    IPage<? extends SysDept> page(SysDeptQueryDTO dto, IPage<?> page, SqlQueryParams pageParams);
+    IPage<? extends SysDept> page(SysDeptQueryDTO dto, IPage<?> page, SqlPageParams pageParams);
 
 }

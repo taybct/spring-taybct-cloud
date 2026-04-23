@@ -40,6 +40,7 @@ import java.util.Optional;
 @Tag(name = "文件处理相关接口")
 @RestControllerRegister(ServeConstants.CONTEXT_PATH_ADMIN_FILE + "{version}")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface IFileController {
 
     ISysFileService getSysFileService();

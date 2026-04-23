@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Tag(name = "表单管理控制器")
 @RestControllerRegister("{version}/form")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface IFormController extends BaseController<Form, IFormService> {
 
     @Operation(summary = "发布表单")

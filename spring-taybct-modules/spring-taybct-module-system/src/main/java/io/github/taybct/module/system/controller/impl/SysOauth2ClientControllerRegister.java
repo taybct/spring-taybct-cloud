@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @see ISysOauth2ClientService
  * @since 1.0.0
  */
+@Deprecated(since = "3.5.3")
 public class SysOauth2ClientControllerRegister implements ISysOauth2ClientController {
 
     @Autowired(required = false)

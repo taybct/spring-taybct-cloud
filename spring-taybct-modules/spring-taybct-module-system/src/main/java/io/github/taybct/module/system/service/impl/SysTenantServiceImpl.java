@@ -7,7 +7,10 @@ import io.github.taybct.module.system.service.ISysTenantService;
 import io.github.taybct.tool.core.bean.ILoginUser;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
 import io.github.taybct.tool.core.constant.ISysParamsObtainService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,11 +18,13 @@ import java.util.List;
 /**
  * @author xijieyin
  */
+@AutoConfiguration
+@Service
+@RequiredArgsConstructor
 public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTenant>
         implements ISysTenantService {
 
-    @Autowired(required = false)
-    protected ISysParamsObtainService sysParamsObtainService;
+    final ISysParamsObtainService sysParamsObtainService;
 
     @Override
     public boolean save(SysTenant entity) {

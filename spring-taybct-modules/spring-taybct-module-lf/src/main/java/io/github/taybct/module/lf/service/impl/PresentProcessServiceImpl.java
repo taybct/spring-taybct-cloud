@@ -6,6 +6,8 @@ import io.github.taybct.module.lf.domain.Nodes;
 import io.github.taybct.module.lf.domain.PresentProcess;
 import io.github.taybct.module.lf.mapper.PresentProcessMapper;
 import io.github.taybct.module.lf.service.IPresentProcessService;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -13,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
  * <br>description 针对表【lf_present_process(当前正在进行的流程)】的数据库操作Service实现
  * @since 2023-07-03 11:32:23
  */
+@AutoConfiguration
+@Service
 public class PresentProcessServiceImpl extends ServiceImpl<PresentProcessMapper, PresentProcess>
         implements IPresentProcessService {
 

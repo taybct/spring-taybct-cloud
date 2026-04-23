@@ -26,6 +26,7 @@ import java.util.List;
 @Tag(name = "系统角色相关接口")
 @RestControllerRegister(ServeConstants.CONTEXT_PATH_SYSTEM + "{version}/role")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface ISysRoleController extends BaseController<SysRole, ISysRoleService> {
 
     /**

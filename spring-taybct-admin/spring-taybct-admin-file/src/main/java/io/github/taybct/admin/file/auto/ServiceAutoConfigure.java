@@ -1,7 +1,6 @@
 package io.github.taybct.admin.file.auto;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 
 /**
  * Service 自动配置
@@ -10,7 +9,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
  */
 //@Configuration
 @Slf4j
-@AutoConfiguration
+@Deprecated(since = "3.5.3")
 public class ServiceAutoConfigure {
 
 }

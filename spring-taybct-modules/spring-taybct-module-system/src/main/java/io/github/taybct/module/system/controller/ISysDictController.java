@@ -29,6 +29,7 @@ import java.util.*;
 @Tag(name = "系统字典相关接口")
 @RestControllerRegister(ServeConstants.CONTEXT_PATH_SYSTEM + "{version}/dict")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface ISysDictController extends BaseController<SysDict, ISysDictService> {
 
     /**

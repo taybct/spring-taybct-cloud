@@ -34,6 +34,7 @@ import java.util.Map;
 @Tag(name = "消息通知相关接口")
 @RestControllerRegister(ServeConstants.CONTEXT_PATH_SYSTEM + "{version}/notice")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface ISysNoticeController extends BaseController<SysNotice, ISysNoticeService> {
 
     /**

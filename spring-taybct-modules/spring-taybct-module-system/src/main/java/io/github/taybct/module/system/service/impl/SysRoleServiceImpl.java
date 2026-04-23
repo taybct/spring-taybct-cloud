@@ -21,10 +21,12 @@ import io.github.taybct.tool.core.bean.ILoginUser;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
 import io.github.taybct.tool.core.constant.ISysParamsObtainService;
 import io.github.taybct.tool.core.exception.def.BaseException;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
 import io.github.taybct.tool.core.result.ResultCode;
 import io.github.taybct.tool.core.util.MyBatisUtil;
-import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.*;
@@ -35,20 +37,19 @@ import java.util.stream.Collectors;
 /**
  * @author xijieyin
  */
+@AutoConfiguration
+@Service
+@RequiredArgsConstructor
 public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole>
         implements ISysRoleService {
 
-    @Resource
-    ISysRolePermissionService sysRolePermissionService;
+    final ISysRolePermissionService sysRolePermissionService;
 
-    @Autowired
-    SysUserRoleMapper sysUserRoleMapper;
+    final SysUserRoleMapper sysUserRoleMapper;
 
-    @Resource
-    ISysParamsObtainService sysParamsObtainService;
+    final ISysParamsObtainService sysParamsObtainService;
 
-    @Resource
-    RouteNoticeService routeNoticeService;
+    final RouteNoticeService routeNoticeService;
 
     @Override
     public List<SysRole> customizeList(Map<String, Object> params) {
@@ -78,7 +79,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole>
      * 获取用户，如果不传分页参数，就不分页
      *
      * @param dto            查询参数
-     * @param sqlQueryParams sql 查询参数
+     * @param sqlPageParams sql 查询参数
      * @param current        当前页码
      * @param size           页面大小
      * @param result         返回结果，因为会返回 总数 和 列表，所以这里是一个 BiConsumer
@@ -86,8 +87,8 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole>
      * @see BiConsumer
      * @since 1.0.4
      */
-    private void getSysRoles(SysRoleQueryDTO dto, Map<String, Object> sqlQueryParams, Long current, Long size, BiConsumer<Long, List<SysRole>> result) {
-        String pageOrder = MyBatisUtil.getPageOrder(sqlQueryParams);
+    private void getSysRoles(SysRoleQueryDTO dto, Map<String, Object> sqlPageParams, Long current, Long size, BiConsumer<Long, List<SysRole>> result) {
+        String pageOrder = SqlPageParams.of(sqlPageParams).allowedSort(SysRole.class).getPageOrder();
         SysRole convert = Convert.convert(SysRole.class, dto);
         JSONObject params = JSONObject.parseObject(JSONObject.toJSONString(convert));
         params.remove("expansion");
@@ -222,7 +223,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole>
 
     @Override
     public List<SysRole> listFilterRole(SysRole dto) {
-        QueryWrapper<SysRole> queryWrapper = (QueryWrapper<SysRole>) MyBatisUtil.genQueryWrapper(dto, null);
+        QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>(dto);
         LambdaQueryWrapper<SysRole> lambda = queryWrapper.lambda();
         // 不能查询 root 角色
         lambda.ne(SysRole::getCode, ROLE.ROOT);

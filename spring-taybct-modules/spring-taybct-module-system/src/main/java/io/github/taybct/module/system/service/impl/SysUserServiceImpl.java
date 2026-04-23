@@ -13,7 +13,6 @@ import io.github.taybct.api.system.domain.SysUserTenant;
 import io.github.taybct.api.system.dto.OAuth2UserDTO;
 import io.github.taybct.api.system.dto.SysUserQueryDTO;
 import io.github.taybct.api.system.dto.UserPassCheckDTO;
-import io.github.taybct.api.system.mapper.SysRoleMapper;
 import io.github.taybct.api.system.mapper.SysUserMapper;
 import io.github.taybct.api.system.mapper.SysUserRoleMapper;
 import io.github.taybct.api.system.mapper.SysUserTenantMapper;
@@ -25,21 +24,22 @@ import io.github.taybct.common.message.sysfile.FileLinkDTO;
 import io.github.taybct.common.message.sysfile.FileSendDTO;
 import io.github.taybct.module.system.service.ISysUserOnlineService;
 import io.github.taybct.module.system.service.ISysUserService;
-import io.github.taybct.module.system.util.RedisPageUtil;
 import io.github.taybct.tool.core.bean.ILoginUser;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
 import io.github.taybct.tool.core.constant.ISysParamsObtainService;
 import io.github.taybct.tool.core.exception.def.BaseException;
 import io.github.taybct.tool.core.message.IMessageSendService;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
 import io.github.taybct.tool.core.support.IEncryptedPassable;
 import io.github.taybct.tool.core.util.MyBatisUtil;
 import io.github.taybct.tool.core.util.ObjectUtil;
 import io.github.taybct.tool.core.util.StringUtil;
 import io.github.taybct.tool.core.util.sm.SM3Coder;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -53,36 +53,23 @@ import java.util.stream.Collectors;
 /**
  * @author xijieyin
  */
-@Transactional(rollbackFor = Exception.class)
+@AutoConfiguration
+@Service
+@RequiredArgsConstructor
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser>
         implements ISysUserService {
 
-    @Autowired(required = false)
-    protected RedisTemplate<Object, Object> redisTemplate;
+    final ISysUserOnlineService sysUserOnlineService;
 
-    @Autowired(required = false)
-    protected RedisPageUtil redisPageUtil;
+    final SysUserRoleMapper sysUserRoleMapper;
 
-    @Autowired(required = false)
-    protected ISysUserOnlineService sysUserOnlineService;
+    final SysUserTenantMapper sysUserTenantMapper;
 
-    @Autowired(required = false)
-    protected SysUserRoleMapper sysUserRoleMapper;
+    final ISysParamsObtainService sysParamsObtainService;
 
-    @Autowired(required = false)
-    protected SysRoleMapper sysRoleMapper;
+    final IEncryptedPassable encryptedPassable;
 
-    @Autowired(required = false)
-    protected SysUserTenantMapper sysUserTenantMapper;
-
-    @Autowired(required = false)
-    protected ISysParamsObtainService sysParamsObtainService;
-
-    @Autowired(required = false)
-    protected IEncryptedPassable encryptedPassable;
-
-    @Autowired(required = false)
-    protected IMessageSendService messageSendService;
+    final IMessageSendService messageSendService;
 
     @Override
     public List<SysUser> customizeList(Map<String, Object> params) {
@@ -112,7 +99,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser>
      * 获取用户，如果不传分页参数，就不分页
      *
      * @param dto            查询参数
-     * @param sqlQueryParams sql 查询参数
+     * @param sqlPageParams sql 查询参数
      * @param current        当前页码
      * @param size           页面大小
      * @param result         返回结果，因为会返回 总数 和 列表，所以这里是一个 BiConsumer
@@ -120,8 +107,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser>
      * @see BiConsumer
      * @since 1.0.4
      */
-    private void getSysUsers(SysUserQueryDTO dto, Map<String, Object> sqlQueryParams, Long current, Long size, BiConsumer<Long, List<SysUser>> result) {
-        String pageOrder = MyBatisUtil.getPageOrder(sqlQueryParams);
+    private void getSysUsers(SysUserQueryDTO dto, Map<String, Object> sqlPageParams, Long current, Long size, BiConsumer<Long, List<SysUser>> result) {
+        String pageOrder = SqlPageParams.of(sqlPageParams).allowedSort(SysUser.class).getPageOrder();
         SysUser convert = Convert.convert(SysUser.class, dto);
         JSONObject params = JSONObject.parseObject(JSONObject.toJSONString(convert));
         params.remove("expansion");
@@ -162,7 +149,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser>
      */
     @SneakyThrows
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public boolean save(SysUser entity) {
         PermissionsValidityCheckTool.checkOperateUser(() -> securityUtil, () -> sysParamsObtainService, Collections.singletonList(entity));
         // 这里不能修改 root 用户
@@ -392,7 +379,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser>
 
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public OAuth2UserDTO addWechatUser(JSONObject wechatUserInfo) {
         // 创建用户
         SysUser sysUser = createDefault(sysParamsObtainService.get(CacheConstants.Params.USER_PASSWD));

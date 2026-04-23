@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Tag(name = "流程节点控制器")
 @RestControllerRegister("{version}/nodes")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface INodesController {
 
     @Operation(summary = "流程节点详情")

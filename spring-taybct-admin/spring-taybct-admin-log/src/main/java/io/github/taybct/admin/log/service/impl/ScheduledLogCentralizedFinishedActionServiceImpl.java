@@ -2,11 +2,13 @@ package io.github.taybct.admin.log.service.impl;
 
 import io.github.taybct.scheduledLogCentralized.service.IScheduledLogCentralizedFinishedActionService;
 import io.github.taybct.scheduledLogCentralized.service.entity.ScheduledLogCentralized;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+@AutoConfiguration
 @Service
 @Async
 public class ScheduledLogCentralizedFinishedActionServiceImpl implements IScheduledLogCentralizedFinishedActionService {

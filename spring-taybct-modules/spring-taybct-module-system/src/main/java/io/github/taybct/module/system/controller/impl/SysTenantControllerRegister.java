@@ -35,6 +35,7 @@ import java.util.Optional;
  * @see ISysTenantService
  * @since 1.0.1
  */
+@Deprecated(since = "3.5.3")
 public class SysTenantControllerRegister implements ISysTenantController {
 
     @Autowired(required = false)

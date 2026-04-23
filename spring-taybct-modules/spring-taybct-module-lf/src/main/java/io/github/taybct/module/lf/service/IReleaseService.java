@@ -5,7 +5,7 @@ import io.github.taybct.module.lf.domain.Release;
 import io.github.taybct.module.lf.dto.ReleasePublishDTO;
 import io.github.taybct.module.lf.dto.ReleaseQueryDTO;
 import io.github.taybct.tool.core.bean.service.IBaseService;
-import io.github.taybct.tool.core.request.SqlQueryParams;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
 
 /**
  * @author admin
@@ -26,10 +26,10 @@ public interface IReleaseService extends IBaseService<Release> {
      * 发布列表
      *
      * @param dto            查询参数
-     * @param sqlQueryParams 分页参数
+     * @param sqlPageParams 分页参数
      * @return page
      */
-    IPage<? extends Release> publishList(ReleaseQueryDTO dto, SqlQueryParams sqlQueryParams);
+    IPage<? extends Release> publishList(ReleaseQueryDTO dto, SqlPageParams sqlPageParams);
 
     /**
      * 发布详情

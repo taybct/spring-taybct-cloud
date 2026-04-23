@@ -53,6 +53,7 @@ import java.util.Optional;
 @ApiVersion
 @RequiredArgsConstructor
 @Slf4j
+@Deprecated(since = "3.5.3")
 public class OnlineDocControllerRegister implements LongKeyConvertibleController<OnlineDoc
         , IOnlineDocService
         , OnlineDocQueryBody

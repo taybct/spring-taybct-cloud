@@ -33,6 +33,7 @@ import java.util.Set;
 @Tag(name = "系统菜单相关接口")
 @RestControllerRegister(ServeConstants.CONTEXT_PATH_SYSTEM + "{version}/menu")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface ISysMenuController extends QueryBaseController<SysMenu, ISysMenuService, SysMenuQueryDTO> {
 
     /**

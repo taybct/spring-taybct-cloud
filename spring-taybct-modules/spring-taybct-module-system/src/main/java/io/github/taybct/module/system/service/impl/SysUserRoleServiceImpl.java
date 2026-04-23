@@ -19,7 +19,10 @@ import io.github.taybct.module.system.service.ISysUserRoleService;
 import io.github.taybct.tool.core.bean.ILoginUser;
 import io.github.taybct.tool.core.bean.ISecurityUtil;
 import io.github.taybct.tool.core.constant.ISysParamsObtainService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -29,19 +32,17 @@ import java.util.stream.Collectors;
 /**
  * @author xijieyin
  */
+@AutoConfiguration
+@Service
+@RequiredArgsConstructor
 public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUserRole>
         implements ISysUserRoleService {
 
-    @Autowired(required = false)
-    protected ISysUserOnlineService sysUserOnlineService;
-    @Autowired(required = false)
-    protected ISecurityUtil securityUtil;
-    @Autowired(required = false)
-    protected ISysParamsObtainService sysParamsObtainService;
-    @Autowired(required = false)
-    protected SysRoleMapper sysRoleMapper;
-    @Autowired(required = false)
-    protected SysUserMapper sysUserMapper;
+    final ISysUserOnlineService sysUserOnlineService;
+    final ISecurityUtil securityUtil;
+    final ISysParamsObtainService sysParamsObtainService;
+    final SysRoleMapper sysRoleMapper;
+    final SysUserMapper sysUserMapper;
 
     /**
      * 过滤 root
@@ -66,7 +67,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public boolean saveBatch(Collection<SysUserRole> entityList) {
 
         // 先检查数据的有效性，这里根据关联的角色 id 查询出检查需要的字段

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 /**
  * @author XiJieYin <br> 2023/7/25 16:36
  */
+@Deprecated(since = "3.5.3")
 public class NodesControllerRegister implements INodesController {
 
     @Autowired(required = false)

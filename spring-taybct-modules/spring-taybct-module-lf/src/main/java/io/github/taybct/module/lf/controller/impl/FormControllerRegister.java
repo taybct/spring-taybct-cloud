@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 /**
  * @author XiJieYin <br> 2023/7/25 16:35
  */
+@Deprecated(since = "3.5.3")
 public class FormControllerRegister implements IFormController {
     @Autowired(required = false)
     protected IFormReleaseService formReleaseService;
@@ -47,7 +48,9 @@ public class FormControllerRegister implements IFormController {
     @WebLog
     @Override
     public R<IPage<? extends FormRelease>> publishList(@RequestBody FormReleaseQueryDTO dto, SqlQueryParams sqlQueryParams) {
-        return R.data(getFormReleaseService().publishList(dto, sqlQueryParams));
+        //return R.data(getFormReleaseService().publishList(dto, sqlQueryParams));
+        // do nothing
+        return null;
     }
 
     @Override

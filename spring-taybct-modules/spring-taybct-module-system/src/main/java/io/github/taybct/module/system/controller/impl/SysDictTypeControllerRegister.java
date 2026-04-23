@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @see ISysDictTypeService
  * @since 1.0.0
  */
+@Deprecated(since = "3.5.3")
 public class SysDictTypeControllerRegister implements ISysDictTypeController {
 
     @Autowired(required = false)

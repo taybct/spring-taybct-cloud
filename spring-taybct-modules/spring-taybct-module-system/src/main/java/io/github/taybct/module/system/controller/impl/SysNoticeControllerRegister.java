@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author xijieyin <br> 2022/10/10 15:32
  * @since 1.0.5
  */
+@Deprecated(since = "3.5.3")
 public class SysNoticeControllerRegister implements ISysNoticeController {
 
     @Autowired(required = false)

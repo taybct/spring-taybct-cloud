@@ -25,6 +25,7 @@ import java.util.Set;
 /**
  * @author XiJieYin <br> 2023/7/25 16:36
  */
+@Deprecated(since = "3.5.3")
 public class ProcessControllerRegister implements IProcessController {
     @Autowired(required = false)
     protected IProcessService processService;
@@ -80,7 +81,9 @@ public class ProcessControllerRegister implements IProcessController {
 
     @Override
     public R<IPage<ProcessListVO>> todoList(@RequestBody TodoListQueryDTO dto, SqlQueryParams sqlQueryParams) {
-        return R.data(getTodoService().todoList(dto, sqlQueryParams));
+        //return R.data(getTodoService().todoList(dto, sqlQueryParams));
+        // do nothing
+        return null;
     }
 
     @Override
@@ -90,7 +93,9 @@ public class ProcessControllerRegister implements IProcessController {
 
     @Override
     public R<IPage<ProcessListVO>> userRequestList(@RequestBody UserRequestListQueryDTO dto, SqlQueryParams sqlQueryParams) {
-        return R.data(getProcessService().userRequestList(dto, sqlQueryParams));
+        //return R.data(getProcessService().userRequestList(dto, sqlQueryParams));
+        // do nothing
+        return null;
     }
 
     @Override

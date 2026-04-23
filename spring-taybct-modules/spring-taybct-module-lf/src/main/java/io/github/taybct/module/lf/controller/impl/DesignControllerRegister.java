@@ -18,6 +18,7 @@ import java.util.List;
 /**
  * @author XiJieYin <br> 2023/7/25 16:34
  */
+@Deprecated(since = "3.5.3")
 public class DesignControllerRegister implements IDesignController {
 
     @Autowired(required = false)
@@ -45,7 +46,9 @@ public class DesignControllerRegister implements IDesignController {
     @WebLog
     @Override
     public R<List<DesignPermissions>> getPermissions(@PathVariable Long designId, SqlQueryParams sqlQueryParams) {
-        return R.data(getDesignPermissionsService().getPermissions(designId, null, sqlQueryParams));
+        //return R.data(getDesignPermissionsService().getPermissions(designId, null, sqlQueryParams));
+        // do nothing
+        return null;
     }
 
 }

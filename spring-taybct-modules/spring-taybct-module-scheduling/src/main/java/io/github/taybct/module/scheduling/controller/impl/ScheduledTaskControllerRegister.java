@@ -20,6 +20,7 @@ import java.util.Set;
 /**
  * @author XiJieYin <br> 2023/7/26 11:14
  */
+@Deprecated(since = "3.5.3")
 public class ScheduledTaskControllerRegister implements IScheduledTaskController {
 
     @Autowired(required = false)

@@ -11,8 +11,11 @@ import io.github.taybct.module.lf.service.IDesignService;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
 import io.github.taybct.tool.core.exception.def.BaseException;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,11 +25,13 @@ import java.util.List;
  * <br>description 针对表【lf_design(流程图设计)】的数据库操作Service实现
  * @since 2023-04-18 17:11:59
  */
+@AutoConfiguration
+@Service
+@RequiredArgsConstructor
 public class DesignServiceImpl extends BaseServiceImpl<DesignMapper, Design>
         implements IDesignService {
 
-    @Autowired(required = false)
-    protected IDesignPermissionsService designPermissionsService;
+    final IDesignPermissionsService designPermissionsService;
 
     @Setter
     @Getter
@@ -53,7 +58,7 @@ public class DesignServiceImpl extends BaseServiceImpl<DesignMapper, Design>
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public boolean save(Design entity) {
         boolean save = super.save(entity);
         if (save) {

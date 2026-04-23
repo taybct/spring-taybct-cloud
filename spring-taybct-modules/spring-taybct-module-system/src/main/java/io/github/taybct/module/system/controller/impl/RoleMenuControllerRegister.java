@@ -1,5 +1,6 @@
 package io.github.taybct.module.system.controller.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.taybct.api.system.domain.SysRoleMenu;
 import io.github.taybct.api.system.vo.SysRoleMenuVO;
 import io.github.taybct.module.system.controller.IRoleMenuController;
@@ -7,7 +8,6 @@ import io.github.taybct.module.system.service.ISysRoleMenuService;
 import io.github.taybct.tool.core.annotation.ApiLog;
 import io.github.taybct.tool.core.constant.OperateType;
 import io.github.taybct.tool.core.result.R;
-import io.github.taybct.tool.core.util.MyBatisUtil;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +23,7 @@ import java.util.List;
  * @see SysRoleMenu
  * @since 1.0.0
  */
+@Deprecated(since = "3.5.3")
 public class RoleMenuControllerRegister implements IRoleMenuController {
 
     @Autowired(required = false)
@@ -42,7 +43,7 @@ public class RoleMenuControllerRegister implements IRoleMenuController {
      */
     @Override
     public R<List<SysRoleMenu>> list(SysRoleMenu dto) {
-        return R.data(getSysRoleMenuService().list(MyBatisUtil.genQueryWrapper(dto, null)));
+        return R.data(getSysRoleMenuService().list(new QueryWrapper<>(dto)));
     }
 
     /**
