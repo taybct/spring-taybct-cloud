@@ -13,10 +13,11 @@ import io.github.taybct.api.system.vo.SysDeptTreeVO;
 import io.github.taybct.module.system.service.ISysDeptService;
 import io.github.taybct.tool.core.bean.ILoginUser;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
-import io.github.taybct.tool.core.request.SqlQueryParams;
-import io.github.taybct.tool.core.util.MyBatisUtil;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
 import io.github.taybct.tool.core.util.StringUtil;
 import io.github.taybct.tool.core.util.tree.TreeUtil;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,6 +27,8 @@ import java.util.stream.Collectors;
  *
  * @author admin 2023-06-08 14:00:20
  */
+@AutoConfiguration
+@Service
 public class SysDeptServiceImpl extends BaseServiceImpl<SysDeptMapper, SysDept>
         implements ISysDeptService {
 
@@ -78,10 +81,11 @@ public class SysDeptServiceImpl extends BaseServiceImpl<SysDeptMapper, SysDept>
     }
 
     @Override
-    public IPage<? extends SysDept> page(SysDeptQueryDTO dto, IPage<?> page, SqlQueryParams pageParams) {
+    public IPage<? extends SysDept> page(SysDeptQueryDTO dto, IPage<?> page, SqlPageParams pageParams) {
+        pageParams.allowedSort(SysDept.class);
         ILoginUser loginUser = securityUtil.getLoginUser();
         // 排序字段
-        String pageOrder = MyBatisUtil.getPageOrder(pageParams);
+        String pageOrder = pageParams.getPageOrder();
         return getBaseMapper().deptFilterPage(page
                 , pageOrder
                 , dto

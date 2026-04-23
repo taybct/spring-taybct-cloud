@@ -24,6 +24,7 @@ import java.util.List;
 /**
  * @author XiJieYin <br> 2023/7/25 16:36
  */
+@Deprecated(since = "3.5.3")
 public class ReleaseControllerRegister implements IReleaseController {
     @Autowired(required = false)
     protected IReleaseService releaseService;
@@ -49,7 +50,9 @@ public class ReleaseControllerRegister implements IReleaseController {
     @WebLog
     @Override
     public R<IPage<? extends Release>> publishList(@RequestBody ReleaseQueryDTO dto, SqlQueryParams sqlQueryParams) {
-        return R.data(getReleaseService().publishList(dto, sqlQueryParams));
+//        return R.data(getReleaseService().publishList(dto, sqlQueryParams));
+        // do nothing
+        return null;
     }
 
     @Override
@@ -68,7 +71,9 @@ public class ReleaseControllerRegister implements IReleaseController {
     @WebLog
     @Override
     public R<List<ReleasePermissions>> getPermissions(@PathVariable Long releaseId, SqlQueryParams sqlQueryParams) {
-        return R.data(getReleasePermissionsService().getPermissions(releaseId, null, sqlQueryParams));
+        //return R.data(getReleasePermissionsService().getPermissions(releaseId, null, sqlQueryParams));
+        // do nothing
+        return null;
     }
 
 }

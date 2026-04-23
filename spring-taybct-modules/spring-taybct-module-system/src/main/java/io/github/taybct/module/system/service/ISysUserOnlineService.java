@@ -86,10 +86,10 @@ public interface ISysUserOnlineService extends IBaseService<SysUserOnline> {
     /**
      * 在线分页
      *
-     * @param sqlQueryParams 分页信息
+     * @param sqlPageParams 分页信息
      * @return {@code <E extends IPage<SysUserOnline>> E}
      */
-    IPage<SysUserOnline> onlinePage(Map<String, Object> sqlQueryParams);
+    IPage<SysUserOnline> onlinePage(Map<String, Object> sqlPageParams);
 
     /**
      * 强制登出

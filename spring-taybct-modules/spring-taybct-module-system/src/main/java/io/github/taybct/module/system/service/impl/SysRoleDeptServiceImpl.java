@@ -14,7 +14,10 @@ import io.github.taybct.module.system.service.ISysUserOnlineService;
 import io.github.taybct.tool.core.bean.ILoginUser;
 import io.github.taybct.tool.core.bean.ISecurityUtil;
 import io.github.taybct.tool.core.constant.ISysParamsObtainService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -28,20 +31,19 @@ import java.util.stream.Collectors;
  * @author admin
  * 2023-06-14 17:40:21
  */
+@AutoConfiguration
+@Service
+@RequiredArgsConstructor
 public class SysRoleDeptServiceImpl extends ServiceImpl<SysRoleDeptMapper, SysRoleDept>
         implements ISysRoleDeptService {
 
-    @Autowired(required = false)
-    protected ISysUserOnlineService sysUserOnlineService;
-    @Autowired(required = false)
-    protected SysRoleMapper sysRoleMapper;
-    @Autowired(required = false)
-    protected ISecurityUtil securityUtil;
-    @Autowired(required = false)
-    protected ISysParamsObtainService sysParamsObtainService;
+    final ISysUserOnlineService sysUserOnlineService;
+    final SysRoleMapper sysRoleMapper;
+    final ISecurityUtil securityUtil;
+    final ISysParamsObtainService sysParamsObtainService;
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public boolean updateRoleDept(Set<SysRoleDept> entityList) {
         Optional<SysRoleDept> first = entityList.stream().findFirst();
         Assert.isTrue(first.isPresent() && first.get().getRoleId() != null,

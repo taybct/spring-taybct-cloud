@@ -7,9 +7,12 @@ import io.github.taybct.api.system.mapper.SysDictMapper;
 import io.github.taybct.common.constants.CacheConstants;
 import io.github.taybct.module.system.service.ISysDictService;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -23,11 +26,13 @@ import java.util.stream.Collectors;
  *
  * @author 24154
  */
+@AutoConfiguration
+@Service
+@RequiredArgsConstructor
 public class SysDictServiceImpl extends BaseServiceImpl<SysDictMapper, SysDict>
         implements ISysDictService {
 
-    @Autowired(required = false)
-    protected RedisTemplate<Object, Object> redisTemplate;
+    final RedisTemplate<Object, Object> redisTemplate;
 
     /**
      * 一个一个的获取存缓存

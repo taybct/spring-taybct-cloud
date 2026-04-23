@@ -20,11 +20,15 @@ import io.github.taybct.module.system.service.ISysNoticeService;
 import io.github.taybct.module.system.service.ISysNoticeUserService;
 import io.github.taybct.tool.core.bean.ILoginUser;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
 import io.github.taybct.tool.core.util.MyBatisUtil;
 import io.github.taybct.tool.core.websocket.enums.MessageUserType;
 import io.github.taybct.tool.core.websocket.support.MessageUser;
 import io.github.taybct.tool.core.websocket.support.WSR;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
@@ -37,21 +41,19 @@ import java.util.stream.Collectors;
  * @author xijieyin <br> 2022/10/10 15:46
  * @since 1.0.5
  */
-@Transactional(rollbackFor = Exception.class)
+@AutoConfiguration
+@Service
+@RequiredArgsConstructor
 public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNotice>
         implements ISysNoticeService {
 
-    @Autowired(required = false)
-    protected ISysDictService sysDictService;
+    final ISysDictService sysDictService;
 
-    @Autowired(required = false)
-    protected ISysNoticeUserService sysNoticeUserService;
+    final ISysNoticeUserService sysNoticeUserService;
 
-    @Autowired(required = false)
-    protected SysUserMapper sysUserMapper;
+    final SysUserMapper sysUserMapper;
 
-    @Autowired(required = false)
-    protected IWebSocketClient webSocketClient;
+    final IWebSocketClient webSocketClient;
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
@@ -68,10 +70,11 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
     }
 
     @Override
-    public IPage<SysNoticeVO> userNoticesPage(Map<String, Object> sqlQueryParams) {
-        IPage<SysNoticeVO> page = MyBatisUtil.genPage(sqlQueryParams);
-        SysNotice dto = JSONObject.parseObject(JSONObject.toJSONString(sqlQueryParams), SysNotice.class);
-        getNotices(dto, sqlQueryParams, page.getCurrent(), page.getSize(), (total, list) -> {
+    public IPage<SysNoticeVO> userNoticesPage(Map<String, Object> sqlPageParams) {
+        SqlPageParams pageParams = SqlPageParams.of(sqlPageParams).allowedSort(SysNoticeVO.class);
+        IPage<SysNoticeVO> page = pageParams.genPage();
+        SysNotice dto = JSONObject.parseObject(JSONObject.toJSONString(sqlPageParams), SysNotice.class);
+        getNotices(dto, sqlPageParams, page.getCurrent(), page.getSize(), (total, list) -> {
             page.setTotal(total);
             page.setRecords(list);
         });
@@ -79,7 +82,7 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public boolean addRelatedNotices(SysNotice notice, Collection<SysNoticeUserDTO> noticeUsers) {
         ILoginUser loginUser = securityUtil.getLoginUser();
         notice.setFromUser(loginUser.getUserId());
@@ -116,7 +119,7 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public boolean updateUserNotices(int status, Collection<Long> noticeIds) {
         ILoginUser loginUser = securityUtil.getLoginUser();
         Set<SysNoticeUser> collect = noticeIds.stream().map(noticeId ->
@@ -134,15 +137,15 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
      * 获取通知消息
      *
      * @param dto            {@literal 请求参数}
-     * @param sqlQueryParams {@literal sql 查询参数}
+     * @param sqlPageParams {@literal sql 查询参数}
      * @param current        页码
      * @param size           分布大小
      * @param result         返回结果
      * @author xijieyin <br> 2022/10/10 18:23
      * @since 1.0.5
      */
-    private void getNotices(SysNotice dto, Map<String, Object> sqlQueryParams, Long current, Long size, BiConsumer<Long, List<SysNoticeVO>> result) {
-        String pageOrder = MyBatisUtil.getPageOrder(sqlQueryParams);
+    private void getNotices(SysNotice dto, Map<String, Object> sqlPageParams, Long current, Long size, BiConsumer<Long, List<SysNoticeVO>> result) {
+        String pageOrder = SqlPageParams.of(sqlPageParams).allowedSort(SysNoticeVO.class).getPageOrder();
         JSONObject params = JSONObject.parseObject(JSONObject.toJSONString(dto));
         params.remove("expansion");
         List<SysNoticeVO> list = Collections.emptyList();

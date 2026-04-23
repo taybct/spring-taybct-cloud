@@ -34,6 +34,7 @@ import java.util.Map;
  * @see ISysUserService
  * @since 1.0.0
  */
+@Deprecated(since = "3.5.3")
 public class SysUserControllerRegister implements ISysUserController {
 
     @Autowired(required = false)

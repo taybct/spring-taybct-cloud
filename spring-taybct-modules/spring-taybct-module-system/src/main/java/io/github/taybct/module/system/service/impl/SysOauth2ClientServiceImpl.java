@@ -12,12 +12,15 @@ import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
 import io.github.taybct.tool.core.exception.def.BaseException;
 import io.github.taybct.tool.core.util.ObjectUtil;
 import io.github.taybct.tool.core.util.StringUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
@@ -33,28 +36,26 @@ import java.util.stream.Collectors;
  *
  * @author 24154
  */
+@AutoConfiguration
+@Service
+@RequiredArgsConstructor
 public class SysOauth2ClientServiceImpl extends BaseServiceImpl<SysOauth2ClientMapper, SysOauth2Client>
         implements ISysOauth2ClientService {
 
-    @Autowired(required = false)
-    protected RedisTemplate<Object, Object> redisTemplate;
+    final RedisTemplate<Object, Object> redisTemplate;
 
-    @Autowired(required = false)
-    protected SysUserMapper sysUserMapper;
+    final ISysUserOnlineService sysUserOnlineService;
 
-    @Autowired(required = false)
-    protected ISysUserOnlineService sysUserOnlineService;
-    @Autowired(required = false)
-    protected JdbcTemplate jdbcTemplate;
+    final JdbcTemplate jdbcTemplate;
     @Nullable
     @Autowired(required = false)
-    protected AuthServeClientHandle authServeClientHandle;
+    private AuthServeClientHandle authServeClientHandle;
     private static final String TABLE_NAME = "oauth2_registered_client";
     private static final String PK_FILTER = "id = ?";
     private static final String DELETE_REGISTERED_CLIENT_SQL = "DELETE FROM " + TABLE_NAME + " WHERE " + PK_FILTER;
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public boolean save(SysOauth2Client entity) {
         if (StringUtil.isEmpty(entity.getClientName())) {
             entity.setClientName(entity.getClientId());
@@ -67,7 +68,7 @@ public class SysOauth2ClientServiceImpl extends BaseServiceImpl<SysOauth2ClientM
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public boolean updateById(SysOauth2Client entity) {
         checkClientInfo(Collections.singletonList(entity));
         clearCache(Collections.singletonList(entity));
@@ -90,7 +91,7 @@ public class SysOauth2ClientServiceImpl extends BaseServiceImpl<SysOauth2ClientM
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public boolean removeById(Serializable id) {
         SysOauth2Client sysOauth2Client = getBaseMapper().selectById(id);
         if (ObjectUtil.isNotEmpty(sysOauth2Client)) {

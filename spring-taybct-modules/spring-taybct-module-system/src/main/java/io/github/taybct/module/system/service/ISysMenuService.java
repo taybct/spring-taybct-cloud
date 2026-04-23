@@ -22,12 +22,12 @@ public interface ISysMenuService extends IBaseService<SysMenu> {
     /**
      * 获取菜单列表
      *
-     * @param sqlQueryParams sql 查询参数
+     * @param sqlPageParams sql 查询参数
      * @return {@code List<SysMenuVO>}
      * @author xijieyin <br> 2022/8/5 22:03
      * @since 1.0.0
      */
-    List<SysMenuVO> list(Map<String, Object> sqlQueryParams);
+    List<SysMenuVO> list(Map<String, Object> sqlPageParams);
 
     /**
      * 根据角色 code 获取权限列表

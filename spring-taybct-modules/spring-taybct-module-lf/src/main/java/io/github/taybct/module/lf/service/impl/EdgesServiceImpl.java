@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.taybct.module.lf.domain.Edges;
 import io.github.taybct.module.lf.mapper.EdgesMapper;
 import io.github.taybct.module.lf.service.IEdgesService;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
@@ -15,11 +17,13 @@ import java.util.List;
  * <br>description 针对表【lf_edges(流程连线表)】的数据库操作Service实现
  * @since 2023-07-03 11:32:23
  */
+@AutoConfiguration
+@Service
 public class EdgesServiceImpl extends ServiceImpl<EdgesMapper, Edges>
         implements IEdgesService {
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public boolean insertBatchSelective(Collection<Edges> records) {
         records.forEach(baseMapper::insertSelective);
         return true;

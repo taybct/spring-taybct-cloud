@@ -12,7 +12,7 @@ import io.github.taybct.module.lf.dto.ProcessNewDTO;
 import io.github.taybct.module.lf.dto.UserRequestListQueryDTO;
 import io.github.taybct.module.lf.vo.ProcessListVO;
 import io.github.taybct.tool.core.bean.service.IBaseService;
-import io.github.taybct.tool.core.request.SqlQueryParams;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
 
 import java.util.Map;
 import java.util.function.Supplier;
@@ -86,10 +86,10 @@ public interface IProcessService extends IBaseService<Process> {
      * 用户的任务列表查询
      *
      * @param dto            查询参数
-     * @param sqlQueryParams 分布查询参数
+     * @param sqlPageParams 分布查询参数
      * @return 分页
      */
-    IPage<ProcessListVO> userRequestList(UserRequestListQueryDTO dto, SqlQueryParams sqlQueryParams);
+    IPage<ProcessListVO> userRequestList(UserRequestListQueryDTO dto, SqlPageParams sqlPageParams);
 
     /**
      * 更新流程表单字段

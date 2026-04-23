@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @see ISysPermissionGroupService
  * @since 1.0.4
  */
+@Deprecated(since = "3.5.3")
 public class SysPermissionGroupControllerRegister implements ISysPermissionGroupController {
 
     @Autowired(required = false)

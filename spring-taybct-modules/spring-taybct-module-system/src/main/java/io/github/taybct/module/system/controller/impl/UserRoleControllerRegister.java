@@ -1,5 +1,7 @@
 package io.github.taybct.module.system.controller.impl;
 
+import com.alibaba.fastjson2.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.taybct.api.system.domain.SysUserRole;
 import io.github.taybct.module.system.controller.IUserRoleController;
 import io.github.taybct.module.system.service.ISysUserRoleService;
@@ -7,7 +9,6 @@ import io.github.taybct.tool.core.annotation.ApiLog;
 import io.github.taybct.tool.core.annotation.WebLog;
 import io.github.taybct.tool.core.constant.OperateType;
 import io.github.taybct.tool.core.result.R;
-import io.github.taybct.tool.core.util.MyBatisUtil;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import java.util.Map;
  * @author xijieyin <br> 2022/8/5 21:42
  * @since 1.0.0
  */
+@Deprecated(since = "3.5.3")
 public class UserRoleControllerRegister implements IUserRoleController {
 
     @Autowired(required = false)
@@ -35,15 +37,15 @@ public class UserRoleControllerRegister implements IUserRoleController {
     /**
      * 获取列表
      *
-     * @param sqlQueryParams {@literal sql 查询参数}
+     * @param sqlPageParams {@literal sql 查询参数}
      * @return {@code R<List<SysUserRole>>}
      * @author xijieyin <br> 2022/8/5 21:43
      * @since 1.0.0
      */
     @WebLog
     @Override
-    public R<List<SysUserRole>> list(@RequestParam(required = false) Map<String, Object> sqlQueryParams) {
-        return R.data(getSysUserRoleService().list(MyBatisUtil.genQueryWrapper(sqlQueryParams, SysUserRole.class)));
+    public R<List<SysUserRole>> list(@RequestParam(required = false) Map<String, Object> sqlPageParams) {
+        return R.data(getSysUserRoleService().list(new QueryWrapper<>(JSONObject.parseObject(JSONObject.toJSONString(sqlPageParams)).toJavaObject(SysUserRole.class))));
     }
 
     /**

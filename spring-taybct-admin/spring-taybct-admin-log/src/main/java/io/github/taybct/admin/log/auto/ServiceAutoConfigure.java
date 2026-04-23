@@ -1,28 +1,11 @@
 package io.github.taybct.admin.log.auto;
 
-import io.github.taybct.admin.log.service.IApiLogService;
-import io.github.taybct.admin.log.service.impl.ApiLogServiceImpl;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 /**
  * Service 自动配置
  *
  * @author XiJieYin <br> 2023/7/24 11:38
  */
-@Configuration
-@Slf4j
-@AutoConfiguration
+@Deprecated(since = "3.5.3")
 public class ServiceAutoConfigure {
-
-    @Bean
-    @ConditionalOnMissingBean
-    public IApiLogService apiLogService() {
-        return new ApiLogServiceImpl() {
-        };
-    }
 
 }

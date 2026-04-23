@@ -26,8 +26,8 @@ import io.github.taybct.tool.core.exception.def.BaseException;
 import io.github.taybct.tool.core.message.IMessageSendService;
 import io.github.taybct.tool.core.message.apilog.ApiLogDTO;
 import io.github.taybct.tool.core.mybatis.handle.ITenantSupplier;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
 import io.github.taybct.tool.core.result.ResultCode;
-import io.github.taybct.tool.core.util.MyBatisUtil;
 import io.github.taybct.tool.core.util.ServletUtil;
 import io.github.taybct.tool.core.util.StringUtil;
 import io.github.taybct.tool.security.util.LoginUser;
@@ -36,6 +36,7 @@ import org.apache.http.util.Asserts;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.system.JavaVersion;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
@@ -56,46 +57,33 @@ import java.util.function.Supplier;
  *
  * @author 24154
  */
+@AutoConfiguration
 @Service
 @RequiredArgsConstructor
 public class SysUserOnlineServiceImpl extends ServiceImpl<SysUserOnlineMapper, SysUserOnline>
         implements ISysUserOnlineService {
 
-    @Autowired(required = false)
-    protected RedisTemplate<Object, Object> redisTemplate;
+    final RedisTemplate<Object, Object> redisTemplate;
 
-    @Autowired(required = false)
-    protected SysOauth2ClientMapper sysOauth2ClientMapper;
+    final SysOauth2ClientMapper sysOauth2ClientMapper;
 
-    @Autowired(required = false)
-    protected IMessageSendService messageSendService;
+    final IMessageSendService messageSendService;
 
-    @Autowired(required = false)
-    protected SysUserMapper sysUserMapper;
+    final SysUserMapper sysUserMapper;
 
-    @Autowired(required = false)
-    protected SysUserRoleMapper sysUserRoleMapper;
+    final SysUserRoleMapper sysUserRoleMapper;
 
-    @Autowired(required = false)
-    protected ITenantSupplier tenantSupplier;
+    final ITenantSupplier tenantSupplier;
 
-    @Autowired(required = false)
-    protected SysTenantMapper sysTenantMapper;
+    final SysTenantMapper sysTenantMapper;
 
-    @Autowired(required = false)
-    protected SysRoleMapper sysRoleMapper;
+    final SysRoleMapper sysRoleMapper;
 
-    @Autowired(required = false)
-    protected ISysParamsService sysParamsService;
+    final ISysParamsObtainService sysParamsObtainService;
 
-    @Autowired(required = false)
-    protected ISysParamsObtainService sysParamsObtainService;
+    final ISecurityUtil securityUtil;
 
-    @Autowired(required = false)
-    protected ISecurityUtil securityUtil;
-
-    @Autowired(required = false)
-    protected JdbcTemplate jdbcTemplate;
+    final JdbcTemplate jdbcTemplate;
 
     private static final String TABLE_NAME = "oauth2_authorization";
     private static final String PK_FILTER = "access_token_value = ?";
@@ -357,11 +345,12 @@ public class SysUserOnlineServiceImpl extends ServiceImpl<SysUserOnlineMapper, S
     }
 
     @Override
-    public IPage<SysUserOnline> onlinePage(Map<String, Object> sqlQueryParams) {
-        IPage<SysUserOnline> page = MyBatisUtil.genPage(sqlQueryParams);
+    public IPage<SysUserOnline> onlinePage(Map<String, Object> sqlPageParams) {
+        SqlPageParams pageParams = SqlPageParams.of(sqlPageParams).allowedSort(SysUserOnline.class);
+        IPage<SysUserOnline> page = pageParams.genPage();
         return getBaseMapper().selectPage(page,
                 filterTenant(
-                        (QueryWrapper<SysUserOnline>) MyBatisUtil.genQueryWrapper(sqlQueryParams, SysUserOnline.class)));
+                        (QueryWrapper<SysUserOnline>) pageParams.genQueryWrapper(JSONObject.parseObject(JSONObject.toJSONString(sqlPageParams)).toJavaObject(SysUserOnline.class))));
     }
 
     /**

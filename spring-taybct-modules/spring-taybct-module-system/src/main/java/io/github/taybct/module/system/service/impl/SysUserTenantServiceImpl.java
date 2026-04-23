@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.taybct.api.system.domain.SysUserTenant;
 import io.github.taybct.api.system.mapper.SysUserTenantMapper;
 import io.github.taybct.module.system.service.ISysUserTenantService;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -17,11 +19,13 @@ import java.util.stream.Collectors;
 /**
  * @author xijieyin
  */
+@AutoConfiguration
+@Service
 public class SysUserTenantServiceImpl extends ServiceImpl<SysUserTenantMapper, SysUserTenant>
         implements ISysUserTenantService {
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public boolean saveBatch(Collection<SysUserTenant> entityList, Integer primaryBy) {
         if (primaryBy == null) {
             primaryBy = 1;

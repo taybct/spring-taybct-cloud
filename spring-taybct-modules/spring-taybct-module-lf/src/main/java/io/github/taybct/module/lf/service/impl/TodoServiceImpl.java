@@ -11,8 +11,9 @@ import io.github.taybct.module.lf.service.ITodoService;
 import io.github.taybct.module.lf.vo.ProcessListVO;
 import io.github.taybct.module.lf.vo.TodoListCountVO;
 import io.github.taybct.module.lf.vo.UnOperator;
-import io.github.taybct.tool.core.request.SqlQueryParams;
-import io.github.taybct.tool.core.util.MyBatisUtil;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +25,8 @@ import java.util.Set;
  * <br>description 针对表【lf_todo(待办、已办)】的数据库操作Service实现
  * @since 2023-07-17 10:05:31
  */
+@AutoConfiguration
+@Service
 public class TodoServiceImpl extends ServiceImpl<TodoMapper, Todo>
         implements ITodoService {
 
@@ -41,15 +44,16 @@ public class TodoServiceImpl extends ServiceImpl<TodoMapper, Todo>
     }
 
     @Override
-    public IPage<ProcessListVO> todoList(TodoListQueryDTO dto, SqlQueryParams sqlQueryParams) {
-        Page<ProcessListVO> page = MyBatisUtil.genPage(sqlQueryParams);
+    public IPage<ProcessListVO> todoList(TodoListQueryDTO dto, SqlPageParams sqlPageParams) {
+        sqlPageParams.allowedSort(ProcessListVO.class);
+        Page<ProcessListVO> page = sqlPageParams.genPage();
         long total = getBaseMapper().todoListCount(dto);
         List<ProcessListVO> list = Collections.emptyList();
         if (total > 0) {
             list = getBaseMapper().todoList(dto
                     , Optional.of(page.getCurrent()).map(c -> (c - 1) * page.getSize()).orElse(null)
                     , page.getSize()
-                    , MyBatisUtil.getPageOrder(sqlQueryParams));
+                    , sqlPageParams.getPageOrder());
         }
         page.setTotal(total);
         page.setRecords(list);

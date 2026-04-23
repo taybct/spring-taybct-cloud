@@ -127,6 +127,7 @@ public class SysFileController implements LongKeyConvertibleController<SysFile
     @Operation(summary = "获取分页")
     @Override
     public R<IPage<SysFile>> page(@RequestBody SysFileQueryBody dto, SqlPageParams sqlPageParams) {
+        sqlPageParams.allowedSort(SysFile.class);
         return R.data(getBaseService().page(JSONObject.from(dto), sqlPageParams));
     }
 
@@ -135,6 +136,7 @@ public class SysFileController implements LongKeyConvertibleController<SysFile
     @PostMapping("list")
     @Override
     public R<List<SysFile>> list(@RequestBody SysFileQueryBody dto, SqlPageParams sqlPageParams) {
+        sqlPageParams.allowedSort(SysFile.class);
         return R.data(getBaseService().list(JSONObject.from(dto), sqlPageParams));
     }
 
@@ -169,6 +171,7 @@ public class SysFileController implements LongKeyConvertibleController<SysFile
     @PostMapping("exp")
     @ApiLog(title = "excel 导出数据", description = "excel 导出【文件管理】", type = OperateType.EXPORT, isSaveRequestData = false, isSaveResultData = false)
     public void exp(@RequestBody SysFileQueryBody dto, SqlPageParams sqlPageParams, HttpServletResponse response) {
+        sqlPageParams.allowedSort(SysFile.class);
         EasyExcelUtil.export("【文件管理】导出数据", response, SysFileExpVO.class
                 , () -> BeanUtil.copyToList(getBaseService().list(JSONObject.from(dto), sqlPageParams), SysFileExpVO.class));
     }

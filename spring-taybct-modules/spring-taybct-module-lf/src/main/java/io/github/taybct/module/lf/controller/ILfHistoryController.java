@@ -20,6 +20,7 @@ import java.util.List;
 @Tag(name = "历史记录控制器")
 @RestControllerRegister("{version}/history")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface ILfHistoryController {
 
     @Operation(summary = "流程历史记录列表")

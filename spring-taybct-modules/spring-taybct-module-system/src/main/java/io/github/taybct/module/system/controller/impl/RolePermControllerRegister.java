@@ -22,6 +22,7 @@ import java.util.List;
  * @see SysRolePermission
  * @since 1.0.0
  */
+@Deprecated(since = "3.5.3")
 public class RolePermControllerRegister implements IRolePermController {
 
     @Autowired(required = false)

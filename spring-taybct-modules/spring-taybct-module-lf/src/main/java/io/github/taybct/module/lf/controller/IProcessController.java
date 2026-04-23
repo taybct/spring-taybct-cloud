@@ -35,6 +35,7 @@ import java.util.Set;
 @Tag(name = "流程控制器")
 @RestControllerRegister("{version}/process")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface IProcessController {
 
     @Operation(summary = "新建一个流程")

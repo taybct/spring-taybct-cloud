@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Tag(name = "接口日志管理相关接口")
 @RestControllerRegister(ServeConstants.CONTEXT_PATH_ADMIN_LOG + "{version}/apiLog")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface IApiLogController extends QueryBaseController<ApiLog, IApiLogService, ApiLogQueryDTO> {
 
     /**

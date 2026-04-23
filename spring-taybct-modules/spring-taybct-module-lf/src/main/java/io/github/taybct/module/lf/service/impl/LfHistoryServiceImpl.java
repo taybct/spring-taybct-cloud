@@ -8,6 +8,8 @@ import io.github.taybct.module.lf.dto.HistoryOperator;
 import io.github.taybct.module.lf.mapper.HistoryMapper;
 import io.github.taybct.module.lf.service.ILfHistoryService;
 import io.github.taybct.module.lf.vo.HistoryListVO;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -16,6 +18,8 @@ import java.util.List;
  * <br>description 针对表【lf_history(流程历史)】的数据库操作Service实现
  * @since 2023-07-03 11:32:23
  */
+@AutoConfiguration
+@Service
 public class LfHistoryServiceImpl extends ServiceImpl<HistoryMapper, History>
         implements ILfHistoryService {
 

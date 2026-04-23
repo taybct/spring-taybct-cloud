@@ -1,7 +1,6 @@
 package io.github.taybct.module.system.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.taybct.api.system.domain.SysDept;
 import io.github.taybct.api.system.domain.SysRoleDept;
 import io.github.taybct.api.system.domain.SysUserDept;
@@ -16,7 +15,6 @@ import io.github.taybct.tool.core.bean.controller.QueryBaseController;
 import io.github.taybct.tool.core.request.SqlQueryParams;
 import io.github.taybct.tool.core.result.R;
 import io.github.taybct.tool.core.util.CollectionSortUtil;
-import io.github.taybct.tool.core.util.MyBatisUtil;
 import io.github.taybct.tool.core.util.tree.TreeUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,6 +32,7 @@ import java.util.Set;
 @Tag(name = "部门相关接口")
 @RestControllerRegister(ServeConstants.CONTEXT_PATH_SYSTEM + "{version}/dept")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface ISysDeptController extends QueryBaseController<SysDept, ISysDeptService, SysDeptQueryDTO> {
 
     @Operation(summary = "获取列表")
@@ -66,7 +65,9 @@ public interface ISysDeptController extends QueryBaseController<SysDept, ISysDep
     @PostMapping("page")
     @WebLog
     default R<IPage<? extends SysDept>> page(@RequestBody SysDeptQueryDTO dto, SqlQueryParams sqlQueryParams) {
-        return R.data(getBaseService().page(dto, MyBatisUtil.genPage(sqlQueryParams), sqlQueryParams));
+//        return R.data(getBaseService().page(dto, MyBatisUtil.genPage(sqlQueryParams), sqlQueryParams));
+        // do nothing
+        return null;
     }
 
     @Operation(summary = "获取列表")
@@ -74,10 +75,12 @@ public interface ISysDeptController extends QueryBaseController<SysDept, ISysDep
     @WebLog
     @Override
     default R<List<? extends SysDept>> list(@RequestBody SysDeptQueryDTO dto, SqlQueryParams sqlQueryParams) {
-        Page<SysDept> page = MyBatisUtil.genPage(sqlQueryParams);
-        // 不查询 count
-        page.setSearchCount(false);
-        return R.data(getBaseService().page(dto, page, sqlQueryParams).getRecords());
+//        Page<SysDept> page = MyBatisUtil.genPage(sqlQueryParams);
+//        // 不查询 count
+//        page.setSearchCount(false);
+//        return R.data(getBaseService().page(dto, page, sqlQueryParams).getRecords());
+        // do nothing
+        return null;
     }
 
     @Operation(summary = "获取用户与部门关联的列表")

@@ -27,9 +27,10 @@ import io.github.taybct.module.lf.vo.ProcessListVO;
 import io.github.taybct.tool.core.bean.ILoginUser;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
 import io.github.taybct.tool.core.exception.def.BaseException;
-import io.github.taybct.tool.core.request.SqlQueryParams;
-import io.github.taybct.tool.core.util.MyBatisUtil;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
@@ -42,11 +43,13 @@ import java.util.stream.Collectors;
  * <br>description 针对表【lf_process(流程管理)】的数据库操作Service实现
  * @since 2023-07-03 11:32:23
  */
+@AutoConfiguration
+@Service
 public class ProcessServiceImpl extends BaseServiceImpl<ProcessMapper, Process>
         implements IProcessService {
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public boolean newProcess(ProcessNewDTO dto
             , Supplier<INodesService> nodesServiceSupplier
             , Supplier<IEdgesService> edgesServiceSupplier
@@ -140,7 +143,7 @@ public class ProcessServiceImpl extends BaseServiceImpl<ProcessMapper, Process>
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public boolean userSubmit(NodesSubmitDTO nodes
             , Supplier<INodesService> nodesServiceSupplier
             , Supplier<IEdgesService> edgesServiceSupplier
@@ -263,7 +266,7 @@ public class ProcessServiceImpl extends BaseServiceImpl<ProcessMapper, Process>
         todoService.save(e);
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     @Override
     public void nextStep(Supplier<Process> processSupplier
             , Supplier<Nodes> nodesSupplier
@@ -444,15 +447,16 @@ public class ProcessServiceImpl extends BaseServiceImpl<ProcessMapper, Process>
     }
 
     @Override
-    public IPage<ProcessListVO> userRequestList(UserRequestListQueryDTO dto, SqlQueryParams sqlQueryParams) {
-        Page<ProcessListVO> page = MyBatisUtil.genPage(sqlQueryParams);
+    public IPage<ProcessListVO> userRequestList(UserRequestListQueryDTO dto, SqlPageParams sqlPageParams) {
+        SqlPageParams pageParams = sqlPageParams.allowedSort(ProcessListVO.class);
+        Page<ProcessListVO> page = pageParams.genPage();
         long total = getBaseMapper().userRequestListCount(dto);
         List<ProcessListVO> list = Collections.emptyList();
         if (total > 0) {
             list = getBaseMapper().userRequestList(dto
                     , Optional.of(page.getCurrent()).map(c -> (c - 1) * page.getSize()).orElse(null)
                     , page.getSize()
-                    , MyBatisUtil.getPageOrder(sqlQueryParams));
+                    , pageParams.getPageOrder());
         }
         page.setTotal(total);
         page.setRecords(list);

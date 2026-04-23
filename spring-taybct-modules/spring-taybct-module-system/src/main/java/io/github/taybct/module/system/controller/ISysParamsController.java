@@ -37,6 +37,7 @@ import java.util.Set;
 @Tag(name = "系统参数相关接口")
 @RestControllerRegister(ServeConstants.CONTEXT_PATH_SYSTEM + "{version}/params")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface ISysParamsController extends BaseController<SysParams, ISysParamsService> {
 
     @WebLog

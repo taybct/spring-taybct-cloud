@@ -18,11 +18,14 @@ import io.github.taybct.tool.core.bean.BaseEntity;
 import io.github.taybct.tool.core.bean.ILoginUser;
 import io.github.taybct.tool.core.bean.ISecurityUtil;
 import io.github.taybct.tool.core.constant.ISysParamsObtainService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -32,26 +35,23 @@ import java.util.stream.Collectors;
 /**
  * @author xijieyin
  */
+@AutoConfiguration
+@Service
 @Slf4j
 @EnableAsync
+@RequiredArgsConstructor
 public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionMapper, SysRolePermission>
         implements ISysRolePermissionService {
 
-    @Autowired(required = false)
-    protected SysPermissionMapper sysPermissionMapper;
-    @Autowired(required = false)
-    protected SysPermissionGroupMapper sysPermissionGroupMapper;
-    @Autowired(required = false)
-    protected RedisTemplate<Object, Object> redisTemplate;
-    @Autowired(required = false)
-    protected ISecurityUtil securityUtil;
-    @Autowired(required = false)
-    protected ISysParamsObtainService sysParamsObtainService;
-    @Autowired(required = false)
-    protected SysRoleMapper sysRoleMapper;
+    final SysPermissionMapper sysPermissionMapper;
+    final SysPermissionGroupMapper sysPermissionGroupMapper;
+    final RedisTemplate<Object, Object> redisTemplate;
+    final ISecurityUtil securityUtil;
+    final ISysParamsObtainService sysParamsObtainService;
+    final SysRoleMapper sysRoleMapper;
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public boolean saveBatch(Collection<SysRolePermission> entityList, Integer primaryBy) {
         if (primaryBy == null) {
             primaryBy = 1;

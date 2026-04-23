@@ -13,6 +13,7 @@ import java.util.List;
 /**
  * @author XiJieYin <br> 2023/7/25 16:36
  */
+@Deprecated(since = "3.5.3")
 public class LfHistoryControllerRegister implements ILfHistoryController {
     @Autowired(required = false)
     protected ILfHistoryService lfHistoryService;

@@ -7,7 +7,10 @@ import io.github.taybct.api.system.mapper.SysPermissionGroupMapper;
 import io.github.taybct.api.system.mapper.SysPermissionMapper;
 import io.github.taybct.module.system.service.ISysPermissionGroupService;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -16,11 +19,13 @@ import java.util.Collection;
  * @author xijieyin <br> 2022/9/23 9:34
  * @since 1.0.4
  */
+@AutoConfiguration
+@Service
+@RequiredArgsConstructor
 public class SysPermissionGroupServiceImpl extends BaseServiceImpl<SysPermissionGroupMapper, SysPermissionGroup>
         implements ISysPermissionGroupService {
 
-    @Autowired(required = false)
-    protected SysPermissionMapper sysPermissionMapper;
+    final SysPermissionMapper sysPermissionMapper;
 
     @Override
     public boolean removeByIds(Collection<?> list) {

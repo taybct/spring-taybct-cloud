@@ -7,7 +7,7 @@ import io.github.taybct.module.lf.dto.TodoListQueryDTO;
 import io.github.taybct.module.lf.vo.ProcessListVO;
 import io.github.taybct.module.lf.vo.TodoListCountVO;
 import io.github.taybct.module.lf.vo.UnOperator;
-import io.github.taybct.tool.core.request.SqlQueryParams;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
 
 import java.util.List;
 import java.util.Set;
@@ -30,10 +30,10 @@ public interface ITodoService extends IService<Todo> {
      * 待办、已办列表
      *
      * @param dto            查询参数
-     * @param sqlQueryParams 分布查询参数
+     * @param sqlPageParams 分布查询参数
      * @return 分页
      */
-    IPage<ProcessListVO> todoList(TodoListQueryDTO dto, SqlQueryParams sqlQueryParams);
+    IPage<ProcessListVO> todoList(TodoListQueryDTO dto, SqlPageParams sqlPageParams);
 
     /**
      * 查询流程未操作者

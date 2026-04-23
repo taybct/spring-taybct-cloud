@@ -17,7 +17,10 @@ import io.github.taybct.module.system.service.ISysUserOnlineService;
 import io.github.taybct.tool.core.bean.ILoginUser;
 import io.github.taybct.tool.core.bean.ISecurityUtil;
 import io.github.taybct.tool.core.constant.ISysParamsObtainService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -27,17 +30,16 @@ import java.util.stream.Collectors;
 /**
  * @author xijieyin
  */
+@AutoConfiguration
+@Service
+@RequiredArgsConstructor
 public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRoleMenu>
         implements ISysRoleMenuService {
 
-    @Autowired(required = false)
-    protected ISysUserOnlineService sysUserOnlineService;
-    @Autowired(required = false)
-    protected ISysParamsObtainService sysParamsObtainService;
-    @Autowired(required = false)
-    protected ISecurityUtil securityUtil;
-    @Autowired(required = false)
-    protected SysRoleMapper sysRoleMapper;
+    final ISysUserOnlineService sysUserOnlineService;
+    final ISysParamsObtainService sysParamsObtainService;
+    final ISecurityUtil securityUtil;
+    final SysRoleMapper sysRoleMapper;
 
     @Override
     public List<SysRoleMenuVO> list(SysRoleMenu dto) {
@@ -48,7 +50,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public boolean saveBatch(Collection<SysRoleMenu> entityList, Integer primaryBy) {
         // 先检查数据的有效性，这里根据关联的角色 id 查询出检查需要的字段
         PermissionsValidityCheckTool.checkOperateRole(() -> securityUtil

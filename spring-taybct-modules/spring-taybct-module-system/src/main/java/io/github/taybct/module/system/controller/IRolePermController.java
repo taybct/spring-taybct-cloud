@@ -29,6 +29,7 @@ import java.util.List;
 @Tag(name = "角色权限相关接口")
 @RestControllerRegister(ServeConstants.CONTEXT_PATH_SYSTEM + "{version}/rolePerm")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface IRolePermController {
 
     /**

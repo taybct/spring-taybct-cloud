@@ -5,7 +5,7 @@ import io.github.taybct.module.lf.domain.FormRelease;
 import io.github.taybct.module.lf.dto.FormReleasePublishDTO;
 import io.github.taybct.module.lf.dto.FormReleaseQueryDTO;
 import io.github.taybct.tool.core.bean.service.IBaseService;
-import io.github.taybct.tool.core.request.SqlQueryParams;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
 
 /**
  * @author admin
@@ -26,9 +26,9 @@ public interface IFormReleaseService extends IBaseService<FormRelease> {
      * 发布表单列表
      *
      * @param dto            查询参数
-     * @param sqlQueryParams 分页参数
+     * @param sqlPageParams 分页参数
      * @return page
      */
-    IPage<? extends FormRelease> publishList(FormReleaseQueryDTO dto, SqlQueryParams sqlQueryParams);
+    IPage<? extends FormRelease> publishList(FormReleaseQueryDTO dto, SqlPageParams sqlPageParams);
 
 }

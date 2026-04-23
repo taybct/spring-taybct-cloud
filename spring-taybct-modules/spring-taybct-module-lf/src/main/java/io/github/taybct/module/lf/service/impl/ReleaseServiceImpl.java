@@ -15,9 +15,11 @@ import io.github.taybct.module.lf.service.IDesignPermissionsService;
 import io.github.taybct.module.lf.service.IReleaseService;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
 import io.github.taybct.tool.core.exception.def.BaseException;
-import io.github.taybct.tool.core.request.SqlQueryParams;
-import io.github.taybct.tool.core.util.MyBatisUtil;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
@@ -27,17 +29,17 @@ import java.util.Collections;
  * <br>description 针对表【lf_release(流程发布表)】的数据库操作Service实现
  * @since 2023-07-03 11:31:36
  */
+@AutoConfiguration
+@Service
+@RequiredArgsConstructor
 public class ReleaseServiceImpl extends BaseServiceImpl<ReleaseMapper, Release>
         implements IReleaseService {
 
-    @Autowired(required = false)
-    protected DesignMapper designMapper;
+    final DesignMapper designMapper;
 
-    @Autowired(required = false)
-    protected IDesignPermissionsService designPermissionsService;
+    final IDesignPermissionsService designPermissionsService;
 
-    @Autowired(required = false)
-    protected ReleasePermissionsMapper releasePermissionsMapper;
+    final ReleasePermissionsMapper releasePermissionsMapper;
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
@@ -67,8 +69,9 @@ public class ReleaseServiceImpl extends BaseServiceImpl<ReleaseMapper, Release>
     }
 
     @Override
-    public IPage<? extends Release> publishList(ReleaseQueryDTO dto, SqlQueryParams sqlQueryParams) {
-        return getBaseMapper().page(MyBatisUtil.genPage(sqlQueryParams), dto);
+    public IPage<? extends Release> publishList(ReleaseQueryDTO dto, SqlPageParams sqlPageParams) {
+        sqlPageParams.allowedSort(Release.class);
+        return getBaseMapper().page(sqlPageParams.genPage(), dto);
     }
 
     @Override

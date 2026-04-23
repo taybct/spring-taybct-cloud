@@ -2,7 +2,7 @@ package io.github.taybct.module.lf.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.taybct.module.lf.domain.ReleasePermissions;
-import io.github.taybct.tool.core.request.SqlQueryParams;
+import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
 
 import java.util.List;
 
@@ -26,10 +26,10 @@ public interface IReleasePermissionsService extends IService<ReleasePermissions>
      *
      * @param releaseId      流程发布 id
      * @param userId         用户 id
-     * @param sqlQueryParams 分布查询条件
+     * @param sqlPageParams 分布查询条件
      * @return list
      */
     List<ReleasePermissions> getPermissions(Long releaseId
             , Long userId
-            , SqlQueryParams sqlQueryParams);
+            , SqlPageParams sqlPageParams);
 }

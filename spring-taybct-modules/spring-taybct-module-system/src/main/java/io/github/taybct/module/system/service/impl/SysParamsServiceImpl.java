@@ -9,8 +9,11 @@ import io.github.taybct.common.constants.CacheConstants;
 import io.github.taybct.module.system.service.ISysParamsService;
 import io.github.taybct.tool.core.annotation.CacheTimeOut;
 import io.github.taybct.tool.core.bean.service.BaseServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -24,11 +27,13 @@ import java.util.stream.Collectors;
  *
  * @author 24154
  */
+@AutoConfiguration
+@Service
+@RequiredArgsConstructor
 public class SysParamsServiceImpl extends BaseServiceImpl<SysParamsMapper, SysParams>
         implements ISysParamsService {
 
-    @Autowired(required = false)
-    protected RedisTemplate<String, String> redisTemplate;
+    final RedisTemplate<String, String> redisTemplate;
 
     /**
      * 一个一个的获取存缓存

@@ -24,10 +24,10 @@ public interface IScheduledLogService extends IService<ScheduledLog> {
     /**
      * 分页
      *
-     * @param sqlQueryParams {@literal sql 查询参数}
+     * @param sqlPageParams {@literal sql 查询参数}
      * @return 分页
      */
-    IPage<ScheduledLog> page(Map<String, Object> sqlQueryParams);
+    IPage<ScheduledLog> page(Map<String, Object> sqlPageParams);
 
 
 }

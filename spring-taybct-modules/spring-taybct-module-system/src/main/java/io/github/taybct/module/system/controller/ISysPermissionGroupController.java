@@ -19,5 +19,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "权限分组接口")
 @RestControllerRegister(ServeConstants.CONTEXT_PATH_SYSTEM + "{version}/permissionGroup")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface ISysPermissionGroupController extends BaseController<SysPermissionGroup, ISysPermissionGroupService> {
 }

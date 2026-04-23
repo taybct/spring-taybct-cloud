@@ -43,6 +43,7 @@ import java.util.Optional;
 @Tag(name = "系统用户相关接口")
 @RestControllerRegister(ServeConstants.CONTEXT_PATH_SYSTEM + "{version}/user")
 @ApiVersion
+@Deprecated(since = "3.5.3")
 public interface ISysUserController extends BaseController<SysUser, ISysUserService> {
 
     @Operation(summary = "用户有效性校验")
