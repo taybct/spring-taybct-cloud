@@ -1,3 +1,6 @@
+scheduled-log-centralized:
+  enabled: true
+  module: ALL
 logging:
   level:
     io.github.taybct.tool.core.aop: debug

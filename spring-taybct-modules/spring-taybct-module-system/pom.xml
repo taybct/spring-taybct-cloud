@@ -219,6 +219,14 @@
             <version>${spring-boot-admin.version}</version>
         </dependency>
 
+        <!--任务调度日志管理-->
+        <dependency>
+            <groupId>io.github.taybct</groupId>
+            <artifactId>spring-taybct-tool-scheduled-log-centralized</artifactId>
+            <version>${spring-taybct-tools.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

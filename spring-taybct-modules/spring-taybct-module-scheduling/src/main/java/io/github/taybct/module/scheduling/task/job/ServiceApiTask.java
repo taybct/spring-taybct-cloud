@@ -16,11 +16,8 @@ import io.github.taybct.tool.core.constant.TokenConstants;
 import io.github.taybct.tool.core.result.R;
 import io.github.taybct.tool.core.util.sm.SM2Coder;
 import io.github.taybct.tool.scheduling.job.AbstractScheduledTaskJob;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -51,6 +48,10 @@ import java.util.function.Consumer;
  *     "queryBody": {
  *         "k1":"v1",
  *         "k2":"v2"
+ *     },
+ *     "auth": {
+ *         "userId": "用户id",
+ *         "username": "用户名",
  *     }
  * }
  *
@@ -64,6 +65,8 @@ import java.util.function.Consumer;
  *
  * @author xijieyin
  * @since 2026/4/3 15:08
+ * @see ServiceApiTaskParams
+ * @see TempAuthDTO
  */
 @Slf4j
 @ConditionalOnClass(DiscoveryClient.class)
