@@ -47,7 +47,10 @@ dependencies {
     compileOnly "io.github.mangocrisp:knife4j-openapi3-jakarta-spring-boot-starter:${findProperty('taybct-project.knife4j-fix.version')}"
     compileOnly "org.springdoc:springdoc-openapi-starter-webmvc-ui:${findProperty('taybct-project.springdoc-openapi.version')}"
 
-    // 监控相关
+    // 监控相关（核心依赖）
     compileOnly "org.springframework.boot:spring-boot-starter-actuator:${findProperty('taybct-project.spring-boot.version')}"
     compileOnly "de.codecentric:spring-boot-admin-starter-client:${findProperty('taybct-project.spring-boot-admin.version')}"
+
+    // 任务调度日志管理
+    compileOnly ('io.github.taybct:spring-taybct-tool-scheduled-log-centralized')
 }
