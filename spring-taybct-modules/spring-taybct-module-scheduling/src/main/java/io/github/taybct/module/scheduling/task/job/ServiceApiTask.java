@@ -10,6 +10,8 @@ import io.github.taybct.module.scheduling.service.IScheduledLogService;
 import io.github.taybct.module.scheduling.task.support.ServiceApiTaskParams;
 import io.github.taybct.module.scheduling.task.support.TempAuthDTO;
 import io.github.taybct.scheduledLogCentralized.collector.ScheduledLogCollector;
+import io.github.taybct.scheduledLogCentralized.config.ScheduledLogContant;
+import io.github.taybct.scheduledLogCentralized.restTemplate.ScheduledRestTemplateInterceptor;
 import io.github.taybct.scheduledLogCentralized.util.RedisScheduledJobTemplate;
 import io.github.taybct.tool.core.annotation.Scheduler;
 import io.github.taybct.tool.core.constant.TokenConstants;
@@ -79,10 +81,16 @@ public class ServiceApiTask extends AbstractScheduledTaskJob {
 
     final ScheduledLogCollector scheduledLogCollector;
 
-    public ServiceApiTask(IScheduledLogService scheduledLogService, DiscoveryClient discoveryClient,ScheduledLogCollector scheduledLogCollector) {
+    final ScheduledRestTemplateInterceptor scheduledRestTemplateInterceptor;
+
+    public ServiceApiTask(IScheduledLogService scheduledLogService,
+                          DiscoveryClient discoveryClient,
+                          ScheduledLogCollector scheduledLogCollector,
+                          ScheduledRestTemplateInterceptor scheduledRestTemplateInterceptor) {
         this.scheduledLogService = scheduledLogService;
         this.discoveryClient = discoveryClient;
         this.scheduledLogCollector = scheduledLogCollector;
+        this.scheduledRestTemplateInterceptor = scheduledRestTemplateInterceptor;
     }
 
     @Override
@@ -122,7 +130,9 @@ public class ServiceApiTask extends AbstractScheduledTaskJob {
             path = path.substring(1);
         }
         for (ServiceInstance instance : instances) {
-            R<?> result = new RestTemplate().execute("http://" + instance.getHost() + ":" + instance.getPort() + "/" + path
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getInterceptors().add(scheduledRestTemplateInterceptor);
+            R<?> result = restTemplate.execute("http://" + instance.getHost() + ":" + instance.getPort() + "/" + path
                     , HttpMethod.valueOf((String) method)
                     , request -> {
                         Map<String, String> headerParams = apiTaskParams.getHeaderParams();
