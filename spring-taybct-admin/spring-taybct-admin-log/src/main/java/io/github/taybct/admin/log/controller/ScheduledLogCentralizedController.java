@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.taybct.admin.log.service.IScheduledLogCentralizedService;
 import io.github.taybct.common.constants.ServeConstants;
 import io.github.taybct.scheduledLogCentralized.dto.ScheduledLogCentralizedQueryDTO;
-import io.github.taybct.scheduledLogCentralized.service.entity.ScheduledLogCentralized;
+import io.github.taybct.scheduledLogCentralized.entity.ScheduledLogCentralized;
 import io.github.taybct.tool.core.annotation.ApiVersion;
 import io.github.taybct.tool.core.annotation.WebLog;
 import io.github.taybct.tool.core.request.SqlQueryParams;

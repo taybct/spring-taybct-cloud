@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.taybct.admin.log.mapper.ScheduledLogCentralizedMapper;
 import io.github.taybct.admin.log.service.IScheduledLogCentralizedService;
 import io.github.taybct.scheduledLogCentralized.dto.ScheduledLogCentralizedQueryDTO;
-import io.github.taybct.scheduledLogCentralized.service.entity.ScheduledLogCentralized;
+import io.github.taybct.scheduledLogCentralized.entity.ScheduledLogCentralized;
 import io.github.taybct.tool.core.request.SqlQueryParams;
 import io.github.taybct.tool.core.util.MyBatisUtil;
 import lombok.RequiredArgsConstructor;
