@@ -13,7 +13,8 @@
                                          status,
                                          log,
                                          insert_time,
-                                         parent_run_id)
+                                         parent_run_id,
+                                         execution_time)
         values
             (#{data.id},
              #{data.successTime},
@@ -23,7 +24,8 @@
              #{data.status},
              #{data.log},
              now(),
-             #{data.parentRunId})
+             #{data.parentRunId},
+             #{data.executionTime})
     </insert>
 
     <sql id="pgRecursionSql">
@@ -40,12 +42,12 @@
     </sql>
     <sql id="oracleRecursionSql">
         WITH r (
-                "ID","SUCCESS_TIME","RUN_ID","MODULE_NAME","METHOD_NAME","STATUS","LOG","INSERT_TIME","PARENT_RUN_ID","LEVEL"
-            )AS (SELECT A."ID",A."SUCCESS_TIME",A."RUN_ID",A."MODULE_NAME",A."METHOD_NAME",A."STATUS",A."LOG",A."INSERT_TIME",A."PARENT_RUN_ID",0 AS "LEVEL"
+                "ID","SUCCESS_TIME","RUN_ID","MODULE_NAME","METHOD_NAME","STATUS","LOG","INSERT_TIME","PARENT_RUN_ID","EXECUTION_TIME","LEVEL"
+            )AS (SELECT A."ID",A."SUCCESS_TIME",A."RUN_ID",A."MODULE_NAME",A."METHOD_NAME",A."STATUS",A."LOG",A."INSERT_TIME",A."PARENT_RUN_ID",A."EXECUTION_TIME",0 AS "LEVEL"
                  FROM SCHEDULED_LOG_CENTRALIZED A
                  WHERE A.RUN_ID = #{queryParams.runId}
                  UNION ALL
-                 SELECT B."ID",B."SUCCESS_TIME",B."RUN_ID",B."MODULE_NAME",B."METHOD_NAME",B."STATUS",B."LOG",B."INSERT_TIME",B."PARENT_RUN_ID",r."LEVEL"+1 AS "LEVEL"
+                 SELECT B."ID",B."SUCCESS_TIME",B."RUN_ID",B."MODULE_NAME",B."METHOD_NAME",B."STATUS",B."LOG",B."INSERT_TIME",B."PARENT_RUN_ID",B."EXECUTION_TIME",r."LEVEL"+1 AS "LEVEL"
                  FROM SCHEDULED_LOG_CENTRALIZED B
                    JOIN r ON B.PARENT_RUN_ID = r.RUN_ID AND r."LEVEL" &lt; 100
         )
@@ -53,7 +55,7 @@
     </sql>
 
     <sql id="queryColumn">
-        select slc."id",slc."success_time",slc."run_id",slc."module_name",slc."method_name",slc."status",slc."log",slc."insert_time",slc."parent_run_id" from scheduled_log_centralized slc
+        select slc."id",slc."success_time",slc."run_id",slc."module_name",slc."method_name",slc."status",slc."log",slc."insert_time",slc."parent_run_id",slc."execution_time" from scheduled_log_centralized slc
         <where>
             slc."parent_run_id" is null
             <if test="queryParams != null and queryParams.moduleName != null and queryParams.moduleName != ''">
@@ -111,7 +113,7 @@
     </select>
 
     <select id="getPageData"
-            resultType="io.github.taybct.scheduledLogCentralized.service.entity.ScheduledLogCentralized">
+            resultType="io.github.taybct.scheduledLogCentralized.entity.ScheduledLogCentralized">
         <choose>
             <when test="queryParams != null and queryParams.runId != null and queryParams.runId != ''">
                 <choose>
