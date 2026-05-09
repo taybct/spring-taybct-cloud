@@ -4,7 +4,6 @@ scheduled-log-centralized:
 logging:
   level:
     io.github.taybct.tool.core.aop: debug
-    io.github.taybct.api.system.mapper: debug
 springdoc:
   info:
     title: "系统模块"

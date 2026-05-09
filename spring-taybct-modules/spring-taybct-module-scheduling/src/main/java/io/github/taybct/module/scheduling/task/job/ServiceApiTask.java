@@ -10,7 +10,6 @@ import io.github.taybct.module.scheduling.service.IScheduledLogService;
 import io.github.taybct.module.scheduling.task.support.ServiceApiTaskParams;
 import io.github.taybct.module.scheduling.task.support.TempAuthDTO;
 import io.github.taybct.scheduledLogCentralized.collector.ScheduledLogCollector;
-import io.github.taybct.scheduledLogCentralized.config.ScheduledLogContant;
 import io.github.taybct.scheduledLogCentralized.restTemplate.ScheduledRestTemplateInterceptor;
 import io.github.taybct.scheduledLogCentralized.util.RedisScheduledJobTemplate;
 import io.github.taybct.tool.core.annotation.Scheduler;
