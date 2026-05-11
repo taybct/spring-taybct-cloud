@@ -69,5 +69,5 @@ dependencies {
     compileOnly "de.codecentric:spring-boot-admin-starter-client:${findProperty('taybct-project.spring-boot-admin.version')}"
 
     // 任务调度日志管理
-    api ('io.github.taybct:spring-taybct-tool-scheduled-log-centralized')
+    compileOnly ('io.github.taybct:spring-taybct-tool-scheduled-log-centralized')
 }
