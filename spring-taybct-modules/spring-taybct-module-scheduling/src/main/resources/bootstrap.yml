@@ -1,6 +1,9 @@
 scheduled-log-centralized:
   enabled: true
   module: ALL
+logging:
+  level:
+    io.github.taybct.module.scheduling.task.job: debug
 springdoc:
   info:
     title: 任务调度模块
