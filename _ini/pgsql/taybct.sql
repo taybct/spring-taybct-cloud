@@ -12,7 +12,7 @@
  Target Server Version : 150000 (150000)
  File Encoding         : 65001
 
- Date: 10/03/2026 18:04:29
+ Date: 12/05/2026 17:57:40
 */
 
 
@@ -604,7 +604,8 @@ CREATE TABLE "public"."scheduled_log" (
   "exception_info" text COLLATE "pg_catalog"."default",
   "start_time" timestamp(6) NOT NULL,
   "stop_time" timestamp(6) NOT NULL,
-  "update_time" timestamp(6)
+  "update_time" timestamp(6),
+  "uni_key" varchar(64) COLLATE "pg_catalog"."default"
 )
 ;
 COMMENT ON COLUMN "public"."scheduled_log"."id" IS '主键';
@@ -618,10 +619,43 @@ COMMENT ON COLUMN "public"."scheduled_log"."exception_info" IS '异常信息';
 COMMENT ON COLUMN "public"."scheduled_log"."start_time" IS '任务开始执行时间';
 COMMENT ON COLUMN "public"."scheduled_log"."stop_time" IS '任务结束执行时间';
 COMMENT ON COLUMN "public"."scheduled_log"."update_time" IS '修改时间';
+COMMENT ON COLUMN "public"."scheduled_log"."uni_key" IS '唯一键';
 COMMENT ON TABLE "public"."scheduled_log" IS '调度日志';
 
 -- ----------------------------
 -- Records of scheduled_log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for scheduled_log_centralized
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."scheduled_log_centralized";
+CREATE TABLE "public"."scheduled_log_centralized" (
+  "id" int8 NOT NULL,
+  "success_time" timestamp(6),
+  "run_id" varchar(255) COLLATE "pg_catalog"."default",
+  "module_name" varchar(255) COLLATE "pg_catalog"."default",
+  "method_name" varchar(255) COLLATE "pg_catalog"."default",
+  "status" varchar(255) COLLATE "pg_catalog"."default",
+  "log" text COLLATE "pg_catalog"."default",
+  "insert_time" timestamp(6),
+  "parent_run_id" varchar(255) COLLATE "pg_catalog"."default",
+  "execution_time" int8
+)
+;
+COMMENT ON COLUMN "public"."scheduled_log_centralized"."success_time" IS '生成日志时间';
+COMMENT ON COLUMN "public"."scheduled_log_centralized"."run_id" IS '本次运行id';
+COMMENT ON COLUMN "public"."scheduled_log_centralized"."module_name" IS '模块名称';
+COMMENT ON COLUMN "public"."scheduled_log_centralized"."method_name" IS '方法名称';
+COMMENT ON COLUMN "public"."scheduled_log_centralized"."status" IS '是否成功';
+COMMENT ON COLUMN "public"."scheduled_log_centralized"."log" IS '日志内容';
+COMMENT ON COLUMN "public"."scheduled_log_centralized"."insert_time" IS '插入时间';
+COMMENT ON COLUMN "public"."scheduled_log_centralized"."parent_run_id" IS '父级调用runId';
+COMMENT ON COLUMN "public"."scheduled_log_centralized"."execution_time" IS '执行耗时（毫秒）';
+COMMENT ON TABLE "public"."scheduled_log_centralized" IS '定时任务控制台日志管理';
+
+-- ----------------------------
+-- Records of scheduled_log_centralized
 -- ----------------------------
 
 -- ----------------------------
@@ -1167,6 +1201,13 @@ INSERT INTO "public"."sys_notice" VALUES (1993871901248221185, 19450599262718607
 INSERT INTO "public"."sys_notice" VALUES (1993873762168631297, 1945059926271860737, '2025-11-27 10:45:23.95269', 1945059926271860737, '2025-11-27 10:45:23.954209', 0, '通知', '通知6', '1', 0, '{"extra": "通知", "status": "warning"}', 'SYS_NOTICE', NULL, 1945059926271860737, NULL, NULL);
 INSERT INTO "public"."sys_notice" VALUES (1993875203176296450, 1945059926271860737, '2025-11-27 10:51:07.505317', 1945059926271860737, '2025-11-27 10:51:07.505317', 0, '通知', '通知6', '1', 0, '{"extra": "通知", "status": "warning"}', 'SYS_NOTICE', NULL, 1945059926271860737, NULL, NULL);
 INSERT INTO "public"."sys_notice" VALUES (1993875219483750402, 1945059926271860737, '2025-11-27 10:51:11.407347', 1945059926271860737, '2025-11-27 10:51:11.407347', 0, '通知', '通知6', '1', 0, '{"extra": "通知", "status": "warning"}', 'SYS_NOTICE', NULL, 1945059926271860737, NULL, NULL);
+INSERT INTO "public"."sys_notice" VALUES (2036738371955052546, 1945059926271860737, '2026-03-25 17:34:03.311997', 1945059926271860737, '2026-03-25 17:34:03.313661', 0, '来自你的朋友的一条私发消息', '这里是内容', '1', 1, '{"extra": "我是普通用户啊", "status": "info"}', 'SYS_MESSAGE', NULL, 1945059926271860737, NULL, NULL);
+INSERT INTO "public"."sys_notice" VALUES (2036739780503007233, 1945059926271860737, '2026-03-25 17:39:39.132619', 1945059926271860737, '2026-03-25 17:39:39.135144', 0, '来自你的朋友的一条私发消息', '这里是内容', '1', 1, '{"extra": "我是普通用户啊", "status": "info"}', 'SYS_MESSAGE', NULL, 1945059926271860737, NULL, NULL);
+INSERT INTO "public"."sys_notice" VALUES (2036739849679663106, 1945059926271860737, '2026-03-25 17:39:55.625006', 1945059926271860737, '2026-03-25 17:39:55.625006', 0, '来自你的朋友的一条私发消息', '这里是内容', '1', 1, '{"extra": "我是普通用户啊", "status": "info"}', 'SYS_MESSAGE', NULL, 1945059926271860737, NULL, NULL);
+INSERT INTO "public"."sys_notice" VALUES (2036739937357393921, 1945059926271860737, '2026-03-25 17:40:16.526648', 1945059926271860737, '2026-03-25 17:40:16.527653', 0, '来自你的朋友的一条私发消息', '这里是内容', '1', 1, '{"extra": "我是普通用户啊", "status": "info"}', 'SYS_MESSAGE', NULL, 1945059926271860737, NULL, NULL);
+INSERT INTO "public"."sys_notice" VALUES (2036739960828719106, 1945059926271860737, '2026-03-25 17:40:22.125078', 1945059926271860737, '2026-03-25 17:40:22.125078', 0, '通知', '通知6', '1', 0, '{"extra": "通知", "status": "warning"}', 'SYS_NOTICE', NULL, 1945059926271860737, NULL, NULL);
+INSERT INTO "public"."sys_notice" VALUES (2036739981888319490, 1945059926271860737, '2026-03-25 17:40:27.155622', 1945059926271860737, '2026-03-25 17:40:27.156147', 0, '待办', '待办4', '1', 1, '{"extra": "这里发一个待办给你看看吧", "status": "danger"}', 'SYS_TODO', NULL, 1945059926271860737, NULL, NULL);
+INSERT INTO "public"."sys_notice" VALUES (2036749452144398338, 1945059926271860737, '2026-03-25 18:18:05.034345', 1945059926271860737, '2026-03-25 18:18:05.035869', 0, '来自你的朋友的一条私发消息', '这里是内容', '1', 1, '{"extra": "我是普通用户啊", "status": "info"}', 'SYS_MESSAGE', NULL, 1945059926271860737, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_notice_user
@@ -1209,6 +1250,12 @@ INSERT INTO "public"."sys_notice_user" VALUES (1993871252066430978, 1, '1', 2);
 INSERT INTO "public"."sys_notice_user" VALUES (1993871267216257025, 1, '1', 2);
 INSERT INTO "public"."sys_notice_user" VALUES (1993871879609806849, 1, '1', 2);
 INSERT INTO "public"."sys_notice_user" VALUES (1993871901248221185, 1, '1', 2);
+INSERT INTO "public"."sys_notice_user" VALUES (2036738371955052546, 1, '1', 2);
+INSERT INTO "public"."sys_notice_user" VALUES (2036739780503007233, 1, '1', 2);
+INSERT INTO "public"."sys_notice_user" VALUES (2036739849679663106, 1, '1', 2);
+INSERT INTO "public"."sys_notice_user" VALUES (2036739937357393921, 1, '1', 2);
+INSERT INTO "public"."sys_notice_user" VALUES (2036739981888319490, 1, '1', 2);
+INSERT INTO "public"."sys_notice_user" VALUES (2036749452144398338, 1, '1', 2);
 
 -- ----------------------------
 -- Table structure for sys_oauth2_client
@@ -1870,6 +1917,8 @@ COMMENT ON TABLE "public"."sys_user_online" IS '在线用户';
 -- ----------------------------
 -- Records of sys_user_online
 -- ----------------------------
+INSERT INTO "public"."sys_user_online" VALUES (2054121912372142082, '359c161c7b5645d184207adc1f2fe5e7', '127.0.0.1', 'taybct_pc', 'root', '2026-05-12 16:50:02.308358', 1778579402000, '2026-05-12 17:50:02.305748', 1, 1, '2026-05-12 16:50:02.308358', 1, '2026-05-12 16:50:02.308358', '000000', 'username', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjM1OWMxNjFjN2I1NjQ1ZDE4NDIwN2FkYzFmMmZlNWU3Iiwia2lkIjoiZDU0NDRiOTJjY2VkNGZmZmIxODRhYjRmMzQ5Zjg1OTYifQ.eyJ1aWQiOiIxIiwibmJmIjoxNzc4NTc1ODAyLCJncmFudF90eXBlIjoidGF5YmN0IiwidXNlcl9uYW1lIjoicm9vdCIsInNjb3BlIjpbImFsbCJdLCJhdG0iOiJ1c2VybmFtZSIsImV4cCI6MTc3ODU3OTQwMiwiaWF0IjoxNzc4NTc1ODAyLCJqdGkiOiI2YjUyOGM0Yy04M2ViLTRjODItOTJlYS1iOTBmYmNhNDdiZWQiLCJjbGllbnRfaWQiOiJ0YXliY3RfcGMiLCJhdXRob3JpdGllcyI6WyIwMDAwMDA6Uk9PVCJdfQ.CqTaYwDKbPFBnX69EPQKllBaxn3H98TPpzzcaJfX7_glseDYzr0AwCE9QaBdmr3QqJunD5rUxan3Vyfyjmz53yMNqXYwjSDY6ItXxrseLvZ7wbWW7LPGZtg53QCIwRAyJdOPr_1_PlrV6ZSxU9YVS-wl4wWConpcZnWbVwj0ZTJzBbR5vX9pt-SZYmNxD78W9gp6s1vZHV-t2bar-GUB-LfRKX3J3dr2TKU_KoNuWF8-pN7guK_59gp4lRst8TQSFbRYO4j4InXxqZjSjTjV3kJqp-9TfomndVBHUgnmTg47N2ibv9ny6Ysxt1tz9nC13xkAUMXtXmw9bJRp5MpgjA');
+INSERT INTO "public"."sys_user_online" VALUES (2054128950229721089, '5b8a93b61e904f729851a8024fb7de13', '127.0.0.1', 'taybct_pc', 'root', '2026-05-12 17:18:00.265476', 1778581080000, '2026-05-12 18:18:00.260972', 1, 1, '2026-05-12 17:18:00.265476', 1, '2026-05-12 17:18:00.265476', '000000', 'username', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjViOGE5M2I2MWU5MDRmNzI5ODUxYTgwMjRmYjdkZTEzIiwia2lkIjoiMWY4MzA0YThkMTI3NGNiZmE5MmQ2MDY2ZDlhMzkwNzYifQ.eyJ1aWQiOiIxIiwibmJmIjoxNzc4NTc3NDgwLCJncmFudF90eXBlIjoidGF5YmN0IiwidXNlcl9uYW1lIjoicm9vdCIsInNjb3BlIjpbImFsbCJdLCJhdG0iOiJ1c2VybmFtZSIsImV4cCI6MTc3ODU4MTA4MCwiaWF0IjoxNzc4NTc3NDgwLCJqdGkiOiIzZTYzYTAzMC03MTM5LTQ4MjctOGUzNi02NmUxOGYyMTRkM2EiLCJjbGllbnRfaWQiOiJ0YXliY3RfcGMiLCJhdXRob3JpdGllcyI6WyIwMDAwMDA6Uk9PVCJdfQ.UEKQ2nSIG65puzPpptUmdiDLokD8nn9loojc6I_yAH_xn5EHWNWUb7pS8lBOQgotK0PMywb3vPz5QST3R7zXdqRIzSbYMTU9IrGt7bI1NtuUIvigG4_st6gd0hj-0ZLowN2IB0xWmRwlhDSoAyGYwk7PqzUxdoIKj_WX6kAJSVgi2lpNmg5vOsawBRnRvMv3jFdQ6j888qkpTwv1lS-RzH4HEH_0UFsRptflTdhjrlllWAIZnB5AXtfcTvTCdEIi1F7TFaQsrAsnVMNkibDQtNYaUKLvCRxzAzNh2okWMcnm0kVOnIn6c95k0qlQAGKDTIFi7d2ysDKIQIJWO52UFg');
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -2321,9 +2370,36 @@ ALTER TABLE "public"."oauth2_registered_client" ADD CONSTRAINT "oauth2_registere
 ALTER TABLE "public"."scheduled_log" ADD CONSTRAINT "scheduled_log_pkey" PRIMARY KEY ("id");
 
 -- ----------------------------
+-- Indexes structure for table scheduled_log_centralized
+-- ----------------------------
+CREATE INDEX "idx_scheduled_log_centralized_method_name" ON "public"."scheduled_log_centralized" USING btree (
+  "method_name" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
+);
+CREATE INDEX "idx_scheduled_log_centralized_module_name" ON "public"."scheduled_log_centralized" USING btree (
+  "module_name" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
+);
+CREATE INDEX "idx_scheduled_log_centralized_parent_run_id" ON "public"."scheduled_log_centralized" USING btree (
+  "parent_run_id" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
+);
+CREATE INDEX "idx_scheduled_log_centralized_run_id" ON "public"."scheduled_log_centralized" USING btree (
+  "run_id" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
+);
+CREATE INDEX "idx_scheduled_log_centralized_status" ON "public"."scheduled_log_centralized" USING btree (
+  "status" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
+);
+CREATE INDEX "idx_scheduled_log_centralized_success_time" ON "public"."scheduled_log_centralized" USING btree (
+  "success_time" "pg_catalog"."timestamp_ops" ASC NULLS LAST
+);
+
+-- ----------------------------
+-- Primary Key structure for table scheduled_log_centralized
+-- ----------------------------
+ALTER TABLE "public"."scheduled_log_centralized" ADD CONSTRAINT "custom_scheduled_log_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
 -- Indexes structure for table scheduled_task
 -- ----------------------------
-CREATE UNIQUE INDEX "scheduled_task_un" ON "public"."scheduled_task" USING btree (
+CREATE INDEX "idx_scheduled_task" ON "public"."scheduled_task" USING btree (
   "tenant_id" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST,
   "unique_key" "pg_catalog"."int8_ops" ASC NULLS LAST,
   "task_key" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
