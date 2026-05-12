@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.lang.UUID;
 import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.nacos.api.ai.listener.NacosAiEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.taybct.common.constants.JwtTokenKeyConstants;
 import io.github.taybct.module.scheduling.service.IScheduledLogService;
@@ -70,7 +71,7 @@ import java.util.function.Consumer;
  * @see TempAuthDTO
  */
 @Slf4j
-@ConditionalOnClass(DiscoveryClient.class)
+@ConditionalOnClass(NacosAiEvent.class)
 @Scheduler("serviceApiTask")
 public class ServiceApiTask extends AbstractScheduledTaskJob {
 
