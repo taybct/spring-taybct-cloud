@@ -58,6 +58,8 @@ taybct:
     await-termination-seconds: 60
     thread-name-prefix: "Scheduler-"
     wait-for-tasks-to-complete-on-shutdown: true
+    packages-to-scan:
+      - io.github.taybct.**.task.job
     tasks:
       cleanNotLinkedFile:
         task-key: cleanNotLinkedFile

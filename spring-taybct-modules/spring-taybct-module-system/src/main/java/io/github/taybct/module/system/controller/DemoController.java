@@ -37,8 +37,8 @@ public class DemoController {
     public R<?> testSchedule1(@RequestParam Map<String, String> params, @RequestBody Map<String, Object> body){
         ILoginUser loginUser = securityUtil.getLoginUser();
         log.info("任务调度测试任务1, 当前用户: {}", loginUser.getUsername());
-        params.forEach((k, v) -> System.out.println(k + ":" + v));
-        body.forEach((k, v) -> System.out.println(k + ":" + v));
+//        params.forEach((k, v) -> System.out.println(k + ":" + v));
+//        body.forEach((k, v) -> System.out.println(k + ":" + v));
         return R.data(JSONObject.of("params", params, "body", body));
     }
 
@@ -48,8 +48,8 @@ public class DemoController {
     public R<?> testSchedule2(@RequestParam Map<String, String> params, @RequestBody Map<String, Object> body){
         ILoginUser loginUser = securityUtil.getLoginUser();
         log.info("任务调度测试任务2, 当前用户: {}", loginUser.getUsername());
-        params.forEach((k, v) -> System.out.println(k + ":" + v));
-        body.forEach((k, v) -> System.out.println(k + ":" + v));
+//        params.forEach((k, v) -> System.out.println(k + ":" + v));
+//        body.forEach((k, v) -> System.out.println(k + ":" + v));
         return R.data(JSONObject.of("params", params, "body", body));
     }
 

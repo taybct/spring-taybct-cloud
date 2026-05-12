@@ -7,7 +7,6 @@ import io.github.taybct.tool.core.message.IMessageSendService;
 import io.github.taybct.tool.scheduling.job.RedisScheduledTaskJob;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -29,7 +28,6 @@ import java.util.function.Consumer;
  * @author xijieyin <br> 2022/11/1 11:31
  * @since 1.1.0
  */
-@AutoConfiguration
 @Slf4j
 @ConditionalOnClass({JdbcTemplate.class, RedisTemplate.class})
 @Scheduler("cleanAuthCache")
