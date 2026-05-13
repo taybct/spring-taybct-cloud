@@ -1,8 +1,8 @@
 package io.github.taybct.admin.log.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import io.github.taybct.scheduledLogCentralized.dto.ScheduledLogCentralizedQueryDTO;
-import io.github.taybct.scheduledLogCentralized.entity.ScheduledLogCentralized;
+import io.github.taybct.tool.scheduledlogcentralized.dto.ScheduledLogCentralizedQueryDTO;
+import io.github.taybct.tool.scheduledlogcentralized.entity.ScheduledLogCentralized;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

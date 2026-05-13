@@ -113,7 +113,7 @@
     </select>
 
     <select id="getPageData"
-            resultType="io.github.taybct.scheduledLogCentralized.entity.ScheduledLogCentralized">
+            resultType="io.github.taybct.tool.scheduledlogcentralized.entity.ScheduledLogCentralized">
         <choose>
             <when test="queryParams != null and queryParams.runId != null and queryParams.runId != ''">
                 <choose>
