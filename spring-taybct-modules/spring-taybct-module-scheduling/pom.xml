@@ -187,12 +187,6 @@
         <dependency>
             <groupId>io.github.taybct</groupId>
             <artifactId>spring-taybct-tool-scheduled-log-centralized</artifactId>
-            <version>${spring-taybct-tools.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.github.taybct</groupId>
-            <artifactId>spring-taybct-tool-scheduled-log-centralized</artifactId>
             <scope>compile</scope>
         </dependency>
 
