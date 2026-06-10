@@ -15,7 +15,6 @@ import java.io.Serial;
  * @since 1.0.0
  */
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "api_log")
 @Data
 @Schema(description = "用户安全输入对象")
 public class SysUserSafeIn extends SysUser {
