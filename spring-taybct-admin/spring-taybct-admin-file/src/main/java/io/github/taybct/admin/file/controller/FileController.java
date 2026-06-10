@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,6 +38,7 @@ import java.util.Optional;
 @RequestMapping(ServeConstants.CONTEXT_PATH_ADMIN_FILE + "{version}")
 @ApiVersion
 @RequiredArgsConstructor
+@Slf4j
 public class FileController {
 
     @Getter
@@ -123,7 +125,7 @@ public class FileController {
                 try {
                     is.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error("文件下载失败！", e);
                 }
             });
         }

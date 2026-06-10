@@ -123,7 +123,7 @@ public class OnlineDocControllerRegister implements LongKeyConvertibleController
                 try {
                     is.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error("文件下载失败！", e);
                 }
             });
         }
