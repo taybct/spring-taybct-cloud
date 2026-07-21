@@ -12,7 +12,7 @@
  Target Server Version : 150000 (150000)
  File Encoding         : 65001
 
- Date: 12/05/2026 17:57:40
+ Date: 21/07/2026 17:29:28
 */
 
 
@@ -544,6 +544,7 @@ COMMENT ON TABLE "public"."oauth2_authorization" IS '登录管理-记录各个 t
 -- ----------------------------
 -- Records of oauth2_authorization
 -- ----------------------------
+INSERT INTO "public"."oauth2_authorization" VALUES ('b796a589-b9a3-4547-8213-968f84976354', '1', 'root', 'taybct', 'all', '{"@class":"java.util.Collections$UnmodifiableMap"}', NULL, NULL, NULL, NULL, NULL, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjJhMjk4MzdhMzM2ZTQwNWRiZDAzZjljZjFiNDY2MzMwIiwia2lkIjoiMDdkMzMyNWFjZTUyNDcyYjgwOGFkZDRhZjY4YWUwMzIifQ.eyJ1aWQiOiIxIiwibmJmIjoxNzc4NjUzNjA4LCJncmFudF90eXBlIjoidGF5YmN0IiwidXNlcl9uYW1lIjoicm9vdCIsInNjb3BlIjpbImFsbCJdLCJhdG0iOiJ1c2VybmFtZSIsImV4cCI6MTc3ODY1NzIwOCwiaWF0IjoxNzc4NjUzNjA4LCJqdGkiOiI4OTM3Zjg4Ny0zNzk4LTQwNjEtOTUxYi04MmFjMDI1MTA1ZjAiLCJjbGllbnRfaWQiOiJ0YXliY3RfcGMiLCJhdXRob3JpdGllcyI6WyIwMDAwMDA6Uk9PVCJdfQ.C67V0pgqF_FXfjj1jB5NzYK5LpgJFwRdLaJM_SWFLoaZWZkMRbYIU9v7Zm_UqfZ7H9m43Uu9QoicbudXE3awhFpGSNgq_2JjY4fOqG1R2K-bDOmB962AIk5fmmXBD_bqGFTNvMerkogdqkZxveS7qSkeMZ4GyFrRnUQoQXg97_xDe4IHkbKm9R3VOOvmAqw1ibhOvIfBiqK8XlXi6Y0Tx0QFHWmiJIOGdvZ5Ex4wMmSP2kL8u4wD0vmedVtmHXXiICALDwCSbL3mzPZUQJ1y6KTJYaXFMI-Pd0nlwRbcK6GZDKFZmiriY56OYy8hprtJj4NTsyTNUNmcxOGjEh482Q', '2026-05-13 14:26:48.646049', '2026-05-13 15:26:48.646049', '{"@class":"java.util.Collections$UnmodifiableMap","metadata.token.claims":{"@class":"java.util.Collections$UnmodifiableMap","uid":"1","nbf":["java.time.Instant",1778653608.646048800],"grant_type":"taybct","user_name":"root","scope":["java.util.Collections$UnmodifiableSet",["all"]],"atm":"username","exp":["java.time.Instant",1778657208.646048800],"iat":["java.time.Instant",1778653608.646048800],"jti":"8937f887-3798-4061-951b-82ac025105f0","client_id":"taybct_pc","authorities":["java.util.ArrayList",["000000:ROOT"]]},"metadata.token.invalidated":false}', 'Bearer', 'all', NULL, NULL, NULL, NULL, '728wZOlswHdE_1NZDeek1eYXfJaaAvfEMg0H4tX0-J3NMkgl-JmfL-BTzoeMV9g7fS9-8-rTLAG0TZZjXIyiYtu0lK9u1Pe5oRqsH2PufjWuiu2nzgfz5Bd3Y9OWDfbf', '2026-05-13 14:26:48.657062', '2026-05-14 14:26:48.657062', '{"@class":"java.util.Collections$UnmodifiableMap","metadata.token.invalidated":false}', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for oauth2_authorization_consent
@@ -1917,8 +1918,6 @@ COMMENT ON TABLE "public"."sys_user_online" IS '在线用户';
 -- ----------------------------
 -- Records of sys_user_online
 -- ----------------------------
-INSERT INTO "public"."sys_user_online" VALUES (2054121912372142082, '359c161c7b5645d184207adc1f2fe5e7', '127.0.0.1', 'taybct_pc', 'root', '2026-05-12 16:50:02.308358', 1778579402000, '2026-05-12 17:50:02.305748', 1, 1, '2026-05-12 16:50:02.308358', 1, '2026-05-12 16:50:02.308358', '000000', 'username', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjM1OWMxNjFjN2I1NjQ1ZDE4NDIwN2FkYzFmMmZlNWU3Iiwia2lkIjoiZDU0NDRiOTJjY2VkNGZmZmIxODRhYjRmMzQ5Zjg1OTYifQ.eyJ1aWQiOiIxIiwibmJmIjoxNzc4NTc1ODAyLCJncmFudF90eXBlIjoidGF5YmN0IiwidXNlcl9uYW1lIjoicm9vdCIsInNjb3BlIjpbImFsbCJdLCJhdG0iOiJ1c2VybmFtZSIsImV4cCI6MTc3ODU3OTQwMiwiaWF0IjoxNzc4NTc1ODAyLCJqdGkiOiI2YjUyOGM0Yy04M2ViLTRjODItOTJlYS1iOTBmYmNhNDdiZWQiLCJjbGllbnRfaWQiOiJ0YXliY3RfcGMiLCJhdXRob3JpdGllcyI6WyIwMDAwMDA6Uk9PVCJdfQ.CqTaYwDKbPFBnX69EPQKllBaxn3H98TPpzzcaJfX7_glseDYzr0AwCE9QaBdmr3QqJunD5rUxan3Vyfyjmz53yMNqXYwjSDY6ItXxrseLvZ7wbWW7LPGZtg53QCIwRAyJdOPr_1_PlrV6ZSxU9YVS-wl4wWConpcZnWbVwj0ZTJzBbR5vX9pt-SZYmNxD78W9gp6s1vZHV-t2bar-GUB-LfRKX3J3dr2TKU_KoNuWF8-pN7guK_59gp4lRst8TQSFbRYO4j4InXxqZjSjTjV3kJqp-9TfomndVBHUgnmTg47N2ibv9ny6Ysxt1tz9nC13xkAUMXtXmw9bJRp5MpgjA');
-INSERT INTO "public"."sys_user_online" VALUES (2054128950229721089, '5b8a93b61e904f729851a8024fb7de13', '127.0.0.1', 'taybct_pc', 'root', '2026-05-12 17:18:00.265476', 1778581080000, '2026-05-12 18:18:00.260972', 1, 1, '2026-05-12 17:18:00.265476', 1, '2026-05-12 17:18:00.265476', '000000', 'username', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjViOGE5M2I2MWU5MDRmNzI5ODUxYTgwMjRmYjdkZTEzIiwia2lkIjoiMWY4MzA0YThkMTI3NGNiZmE5MmQ2MDY2ZDlhMzkwNzYifQ.eyJ1aWQiOiIxIiwibmJmIjoxNzc4NTc3NDgwLCJncmFudF90eXBlIjoidGF5YmN0IiwidXNlcl9uYW1lIjoicm9vdCIsInNjb3BlIjpbImFsbCJdLCJhdG0iOiJ1c2VybmFtZSIsImV4cCI6MTc3ODU4MTA4MCwiaWF0IjoxNzc4NTc3NDgwLCJqdGkiOiIzZTYzYTAzMC03MTM5LTQ4MjctOGUzNi02NmUxOGYyMTRkM2EiLCJjbGllbnRfaWQiOiJ0YXliY3RfcGMiLCJhdXRob3JpdGllcyI6WyIwMDAwMDA6Uk9PVCJdfQ.UEKQ2nSIG65puzPpptUmdiDLokD8nn9loojc6I_yAH_xn5EHWNWUb7pS8lBOQgotK0PMywb3vPz5QST3R7zXdqRIzSbYMTU9IrGt7bI1NtuUIvigG4_st6gd0hj-0ZLowN2IB0xWmRwlhDSoAyGYwk7PqzUxdoIKj_WX6kAJSVgi2lpNmg5vOsawBRnRvMv3jFdQ6j888qkpTwv1lS-RzH4HEH_0UFsRptflTdhjrlllWAIZnB5AXtfcTvTCdEIi1F7TFaQsrAsnVMNkibDQtNYaUKLvCRxzAzNh2okWMcnm0kVOnIn6c95k0qlQAGKDTIFi7d2ysDKIQIJWO52UFg');
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -2144,10 +2143,19 @@ COMMENT ON TABLE "public"."users" IS 'spring security 用户表';
 -- ----------------------------
 -- Indexes structure for table api_log
 -- ----------------------------
+CREATE INDEX "idx_api_log_module" ON "public"."api_log" USING btree (
+  "method" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
+);
 CREATE INDEX "idx_api_log_title" ON "public"."api_log" USING btree (
   "title" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
 );
 COMMENT ON INDEX "public"."idx_api_log_title" IS '模块名';
+CREATE INDEX "idx_api_log_username" ON "public"."api_log" USING btree (
+  "username" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
+);
+CREATE INDEX "idx_create_time" ON "public"."api_log" USING btree (
+  "create_time" "pg_catalog"."timestamp_ops" ASC NULLS LAST
+);
 
 -- ----------------------------
 -- Primary Key structure for table api_log
@@ -2294,6 +2302,9 @@ CREATE INDEX "idx_process_release_id" ON "public"."lf_process" USING btree (
   "release_id" "pg_catalog"."int8_ops" ASC NULLS LAST
 );
 COMMENT ON INDEX "public"."idx_process_release_id" IS '流程版本 id';
+CREATE INDEX "idx_process_status" ON "public"."lf_process" USING btree (
+  "status" "pg_catalog"."int2_ops" ASC NULLS LAST
+);
 CREATE INDEX "idx_process_user_id" ON "public"."lf_process" USING btree (
   "user_id" "pg_catalog"."int8_ops" ASC NULLS LAST
 );
@@ -2343,6 +2354,12 @@ CREATE INDEX "idx_todo_n_id" ON "public"."lf_todo" USING btree (
 CREATE INDEX "idx_todo_p_id" ON "public"."lf_todo" USING btree (
   "process_id" "pg_catalog"."int8_ops" ASC NULLS LAST
 );
+CREATE INDEX "idx_todo_process_id" ON "public"."lf_todo" USING btree (
+  "process_id" "pg_catalog"."int8_ops" ASC NULLS LAST
+);
+CREATE INDEX "idx_user_id_status" ON "public"."lf_todo" USING btree (
+  "status" "pg_catalog"."int2_ops" ASC NULLS LAST
+);
 
 -- ----------------------------
 -- Primary Key structure for table lf_todo
@@ -2363,6 +2380,16 @@ ALTER TABLE "public"."oauth2_authorization_consent" ADD CONSTRAINT "oac_pkey" PR
 -- Primary Key structure for table oauth2_registered_client
 -- ----------------------------
 ALTER TABLE "public"."oauth2_registered_client" ADD CONSTRAINT "oauth2_registered_client_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Indexes structure for table scheduled_log
+-- ----------------------------
+CREATE INDEX "idx_task_key" ON "public"."scheduled_log" USING btree (
+  "task_key" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
+);
+CREATE INDEX "idx_task_key_start_time" ON "public"."scheduled_log" USING btree (
+  "start_time" "pg_catalog"."timestamp_ops" ASC NULLS LAST
+);
 
 -- ----------------------------
 -- Primary Key structure for table scheduled_log
@@ -2421,6 +2448,9 @@ CREATE INDEX "idx_dept_name" ON "public"."sys_dept" USING btree (
 );
 CREATE INDEX "idx_dept_pid" ON "public"."sys_dept" USING btree (
   "pid" "pg_catalog"."int8_ops" ASC NULLS LAST
+);
+CREATE INDEX "idx_dept_tenant_id" ON "public"."sys_dept" USING btree (
+  "tenant_id" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
 );
 
 -- ----------------------------
@@ -2509,6 +2539,9 @@ ALTER TABLE "public"."sys_history_record" ADD CONSTRAINT "sys_history_record_pke
 CREATE INDEX "fk_pid" ON "public"."sys_menu" USING btree (
   "parent_id" "pg_catalog"."int8_ops" ASC NULLS LAST
 );
+CREATE INDEX "idx_parent_id" ON "public"."sys_menu" USING btree (
+  "parent_id" "pg_catalog"."int8_ops" ASC NULLS LAST
+);
 CREATE INDEX "idx_sys_menu_name" ON "public"."sys_menu" USING btree (
   "name" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
 );
@@ -2522,6 +2555,13 @@ ALTER TABLE "public"."sys_menu" ADD CONSTRAINT "sys_menu_pkey" PRIMARY KEY ("id"
 -- Primary Key structure for table sys_notice
 -- ----------------------------
 ALTER TABLE "public"."sys_notice" ADD CONSTRAINT "sys_notice_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Indexes structure for table sys_notice_user
+-- ----------------------------
+CREATE INDEX "idx_user_id_read_status" ON "public"."sys_notice_user" USING btree (
+  "status" "pg_catalog"."int2_ops" ASC NULLS LAST
+);
 
 -- ----------------------------
 -- Primary Key structure for table sys_notice_user
@@ -2583,6 +2623,9 @@ ALTER TABLE "public"."sys_permission_group" ADD CONSTRAINT "sys_permission_group
 -- ----------------------------
 CREATE INDEX "idx_sys_role_code" ON "public"."sys_role" USING btree (
   "code" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
+);
+CREATE INDEX "idx_tenant_id" ON "public"."sys_role" USING btree (
+  "tenant_id" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
 );
 CREATE UNIQUE INDEX "uk_sys_role_code" ON "public"."sys_role" USING btree (
   "code" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST,
@@ -2659,6 +2702,9 @@ CREATE INDEX "idx_sys_user_phone" ON "public"."sys_user" USING btree (
   "phone" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
 );
 CREATE INDEX "idx_sys_user_username" ON "public"."sys_user" USING btree (
+  "username" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
+);
+CREATE INDEX "idx_username" ON "public"."sys_user" USING btree (
   "username" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
 );
 CREATE UNIQUE INDEX "uk_user_name" ON "public"."sys_user" USING btree (
