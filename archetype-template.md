@@ -84,7 +84,7 @@ def nonBootModules = [
 
 ```bash
 # 加载到本地
-mvn install
+mvn clean install
 # 推送到仓库
-mvn deploy
+mvn clean deploy
 ```
