@@ -4,7 +4,6 @@ import io.github.taybct.admin.file.service.ISysFileService;
 import io.github.taybct.common.constants.ServeConstants;
 import io.github.taybct.tool.core.annotation.ApiLog;
 import io.github.taybct.tool.core.annotation.ApiVersion;
-import io.github.taybct.tool.core.annotation.RestControllerRegister;
 import io.github.taybct.tool.core.constant.OperateType;
 import io.github.taybct.tool.core.exception.def.BaseException;
 import io.github.taybct.tool.core.result.R;
@@ -15,10 +14,11 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -31,19 +31,18 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * 文件处理控制器，这个控制器只上传文件和下载文件<br>
- * 文件管理有多种存储方式支持，在 v1.0.0 版本支持 Local,FastDFS,MinIO,OSS 这四种
- *
- * @author xijieyin <br> 2021/12/3 14:24
- * @since 1.0.0
+ * @author XiJieYin <br> 2023/7/25 16:24
  */
+@RestController
 @Tag(name = "文件处理相关接口")
-@RestControllerRegister(ServeConstants.CONTEXT_PATH_ADMIN_FILE + "{version}")
+@RequestMapping(ServeConstants.CONTEXT_PATH_ADMIN_FILE + "{version}")
 @ApiVersion
-@Deprecated(since = "3.5.3")
-public interface IFileController {
+@RequiredArgsConstructor
+@Slf4j
+public class FileController {
 
-    ISysFileService getSysFileService();
+    @Getter
+    final ISysFileService sysFileService;
 
     /**
      * 上传文件
@@ -54,7 +53,7 @@ public interface IFileController {
     @Operation(summary = "文件上传")
     @PostMapping(value = {"/upload"})
     @ApiLog(title = "上传文件", description = "上传多个文件", type = OperateType.IMPORT, isSaveRequestData = false)
-    default R<?> upload(@NotNull MultipartFile[] file) {
+    public R<?> upload(@NotNull MultipartFile[] file) {
         Assert.notEmpty(file, "文件不能为空！");
         List<String> urls = new ArrayList<>();
         for (MultipartFile f : file) {
@@ -86,7 +85,7 @@ public interface IFileController {
             , @Parameter(name = "d", description = "是否需要下载")
             , @Parameter(name = "dName", description = "下载指定的文件名")
     })
-    default void download(HttpServletResponse response, @RequestParam String path
+    public void download(HttpServletResponse response, @RequestParam String path
             , @RequestParam(required = false) String fileName
             , @RequestParam(required = false, defaultValue = "false") Boolean d
             , @RequestParam(required = false) String dName) {
@@ -126,11 +125,10 @@ public interface IFileController {
                 try {
                     is.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error("文件下载失败！", e);
                 }
             });
         }
     }
-
 
 }
