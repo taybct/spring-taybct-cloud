@@ -11,7 +11,6 @@ import io.github.taybct.module.od.service.IOnlineDocService;
 import io.github.taybct.module.od.vo.OnlineDocVO;
 import io.github.taybct.tool.core.annotation.ApiLog;
 import io.github.taybct.tool.core.annotation.ApiVersion;
-import io.github.taybct.tool.core.annotation.RestControllerRegister;
 import io.github.taybct.tool.core.annotation.WebLog;
 import io.github.taybct.tool.core.bean.controller.LongKeyConvertibleController;
 import io.github.taybct.tool.core.constant.OperateType;
@@ -42,19 +41,19 @@ import java.util.Optional;
 
 /**
  * <pre>
- * 针对表【t_online_doc(在线文档)】的数据库操作 Controller 控制器
+ * 在线文档控制器
  * </pre>
  *
- * @author SuMuYue
- * @since 2025-03-04 14:59:19
+ * @author XiJieYin
+ * @since 2025/9/20 04:54
  */
+@RestController
 @Tag(name = "在线文档控制器")
-@RestControllerRegister(ServeConstants.CONTEXT_PATH_ONLINE_DOC + "{version}/onlineDoc")
+@RequestMapping(ServeConstants.CONTEXT_PATH_ONLINE_DOC + "{version}/onlineDoc")
 @ApiVersion
 @RequiredArgsConstructor
 @Slf4j
-@Deprecated(since = "3.5.3")
-public class OnlineDocControllerRegister implements LongKeyConvertibleController<OnlineDoc
+public class OnlineDocController implements LongKeyConvertibleController<OnlineDoc
         , IOnlineDocService
         , OnlineDocQueryBody
         , OnlineDocAddDTO
@@ -123,7 +122,7 @@ public class OnlineDocControllerRegister implements LongKeyConvertibleController
                 try {
                     is.close();
                 } catch (IOException e) {
-                    log.error("文件下载失败", e);
+                    log.error("文件下载失败！", e);
                 }
             });
         }
