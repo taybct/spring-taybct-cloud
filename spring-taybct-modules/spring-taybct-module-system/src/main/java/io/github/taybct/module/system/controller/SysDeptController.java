@@ -137,8 +137,8 @@ public class SysDeptController implements QueryBaseController<SysDept, ISysDeptS
     @Operation(summary = "获取树")
     @PostMapping("tree")
     @WebLog
-    public R<List<SysDeptTreeVO>> tree(@RequestBody SysDeptQueryDTO dto) {
-        return R.data(TreeUtil.tree(getBaseService().tree(dto), CollectionSortUtil.comparingAny(SysDept::getSort), dto.getParentId()));
+    public R<List<SysDeptTreeVO>> tree(@RequestBody SysDeptQueryDTO dto, @RequestParam(required = false) Long deptFilter) {
+        return R.data(TreeUtil.tree(getBaseService().tree(dto, deptFilter), CollectionSortUtil.comparingAny(SysDept::getSort), dto.getParentId()));
     }
 
     @Override
@@ -178,6 +178,16 @@ public class SysDeptController implements QueryBaseController<SysDept, ISysDeptS
             , @RequestParam(required = false, defaultValue = "true") Boolean makeTree
             , @RequestParam(required = false, defaultValue = "true") Boolean includeUser) {
         return R.data(getBaseService().deptUserTree(deptIdSet, makeTree, includeUser));
+    }
+
+    /**
+     * 整理部门所有父级
+     */
+    @Operation(summary = "整理部门所有父级")
+    @GetMapping("tidyUpPidAll")
+    public R<?> tidyUpPidAll() {
+        getBaseService().tidyUpPidAll();
+        return R.ok();
     }
 
     @Operation(summary = "获取用户与部门关联的列表")

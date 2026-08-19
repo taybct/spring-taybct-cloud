@@ -156,6 +156,12 @@
         from sys_dept sd
         <where>
             sd.is_deleted = 0
+            <if test="deptFilter != null and deptFilter != ''">
+                and (
+                    sd.id = cast(#{deptFilter} as BIGINT)
+                    OR ( strpos( sd.pid_all, #{deptFilter} ) ) &gt; 0
+                )
+            </if>
             <if test="isRoot != 1 and authorities!=null and authorities.size!=0 and dto.filterByUser != null and dto.filterByRole != null">
                 <include refid="Auth_Condition"/>
             </if>

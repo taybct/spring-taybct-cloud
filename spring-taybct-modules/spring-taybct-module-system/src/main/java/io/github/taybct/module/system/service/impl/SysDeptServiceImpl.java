@@ -17,9 +17,12 @@ import io.github.taybct.tool.core.mybatis.support.SqlPageParams;
 import io.github.taybct.tool.core.util.StringUtil;
 import io.github.taybct.tool.core.util.tree.TreeUtil;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -72,12 +75,13 @@ public class SysDeptServiceImpl extends BaseServiceImpl<SysDeptMapper, SysDept>
     }
 
     @Override
-    public List<SysDeptTreeVO> tree(SysDeptQueryDTO dto) {
+    public List<SysDeptTreeVO> tree(SysDeptQueryDTO dto, Long deptFilter) {
         ILoginUser loginUser = securityUtil.getLoginUser();
         return getBaseMapper().tree(dto
                 , loginUser.getUserId()
                 , loginUser.checkAuthorities()
-                , loginUser.checkRoot());
+                , loginUser.checkRoot()
+                , Convert.toStr(deptFilter));
     }
 
     @Override
@@ -92,6 +96,37 @@ public class SysDeptServiceImpl extends BaseServiceImpl<SysDeptMapper, SysDept>
                 , loginUser.getUserId()
                 , loginUser.checkAuthorities()
                 , loginUser.checkRoot());
+    }
+
+    @Async
+    @Transactional(rollbackFor = Throwable.class)
+    @Override
+    public void tidyUpPidAll() {
+        List<SysDept> allDeptList = list();
+        if (CollectionUtil.isEmpty(allDeptList)) {
+            return;
+        }
+        Map<Long, SysDept> tempMap = new ConcurrentHashMap<>();
+        allDeptList.forEach(sysDept -> tempMap.put(sysDept.getId(), sysDept));
+        updateBatchById(allDeptList.stream()
+                .peek(sysDept ->
+                        sysDept.setPidAll(CollectionUtil.join(CollectionUtil.reverse(new ArrayList<>(findAllPid(new LinkedHashSet<>(), sysDept.getPid(), tempMap))), ","))).toList());
+    }
+
+    /**
+     * 找到所有的父级
+     *
+     * @param pidAllSet 默认给个空的集合
+     * @param pid       第一个父级
+     * @param tempMap   所有的数据
+     * @return 最终获取到的所有的父级
+     */
+    private static LinkedHashSet<Long> findAllPid(LinkedHashSet<Long> pidAllSet, Long pid, Map<Long, SysDept> tempMap) {
+        return Optional.ofNullable(pid).map(id -> {
+                    pidAllSet.add(id);
+                    return findAllPid(pidAllSet, tempMap.containsKey(id) ? tempMap.get(id).getPid() : null, tempMap);
+                })
+                .orElse(pidAllSet);
     }
 
 }

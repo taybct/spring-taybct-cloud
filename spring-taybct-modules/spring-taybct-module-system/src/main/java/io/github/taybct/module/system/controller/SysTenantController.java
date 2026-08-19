@@ -34,7 +34,7 @@ import java.util.*;
  *
  * @author xijieyin <br> 2022/8/17 10:29
  * @see SysTenant
- * @see io.github.taybct.tool.core.bean.controller.BaseController
+ * @see BaseController
  * @see ISysTenantService
  * @since 1.0.1
  */

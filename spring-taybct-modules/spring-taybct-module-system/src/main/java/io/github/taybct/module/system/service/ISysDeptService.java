@@ -54,9 +54,10 @@ public interface ISysDeptService extends IBaseService<SysDept> {
      * 查询树
      *
      * @param dto 查询参数
+     * @param deptFilter 部门过滤
      * @return 树结构
      */
-    List<SysDeptTreeVO> tree(SysDeptQueryDTO dto);
+    List<SysDeptTreeVO> tree(SysDeptQueryDTO dto, Long deptFilter);
 
     /**
      * 分页查询
@@ -68,4 +69,8 @@ public interface ISysDeptService extends IBaseService<SysDept> {
      */
     IPage<? extends SysDept> page(SysDeptQueryDTO dto, IPage<?> page, SqlPageParams pageParams);
 
+    /**
+     * 整理部门层级
+     */
+    void tidyUpPidAll();
 }
