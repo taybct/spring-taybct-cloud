@@ -46,12 +46,14 @@ public interface SysDeptMapper extends BaseMapper<SysDept> {
      * @param operator    操作用户 id
      * @param authorities 用户权限
      * @param isRoot      是否是 ROOT 角色
+     * @param deptFilter  部门过滤
      * @return 部门树
      */
     List<SysDeptTreeVO> tree(@Param("dto") SysDeptQueryDTO dto
             , @Param("operator") Serializable operator
             , @Param("authorities") Set<String> authorities
-            , @Param("isRoot") Integer isRoot);
+            , @Param("isRoot") Integer isRoot
+            , @Param("deptFilter") String deptFilter);
 
     /**
      * 查询分页
