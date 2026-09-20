@@ -1,0 +1,1 @@
+import{m as e,o as n,c as o,b as r}from"./index-BDL--BDm.js";const t={viewBox:"0 0 1024 1024",width:"1em",height:"1em"};const a=e({name:"ep-check",render:function(e,a){return n(),o("svg",t,[...a[0]||(a[0]=[r("path",{fill:"currentColor",d:"M406.7 707L195.8 496.2a32 32 0 1 0-45.2 45.2l256 256l512-512a32 32 0 0 0-45.3-45.2L406.6 706.9z"},null,-1)])])}});export{a as C};

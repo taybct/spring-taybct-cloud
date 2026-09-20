@@ -1,0 +1,1 @@
+import{m as r,o as e,c as n,b as o}from"./index-BDL--BDm.js";const t={viewBox:"0 0 24 24",width:"1em",height:"1em"};const i=r({name:"ri-arrow-right-s-line",render:function(r,i){return e(),n("svg",t,[...i[0]||(i[0]=[o("path",{fill:"currentColor",d:"m13.172 12l-4.95-4.95l1.414-1.413L16 12l-6.364 6.364l-1.414-1.415z"},null,-1)])])}});export{i as A};

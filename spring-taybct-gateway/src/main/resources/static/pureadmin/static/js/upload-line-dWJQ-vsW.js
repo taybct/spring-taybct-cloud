@@ -1,0 +1,1 @@
+import{m as e,o as n,c as o,b as r}from"./index-BDL--BDm.js";const l={viewBox:"0 0 24 24",width:"1em",height:"1em"};const t=e({name:"ri-upload-line",render:function(e,t){return n(),o("svg",l,[...t[0]||(t[0]=[r("path",{fill:"currentColor",d:"M3 19h18v2H3zM13 5.828V17h-2V5.828L4.929 11.9l-1.414-1.414L12 2l8.485 8.485l-1.414 1.415z"},null,-1)])])}});export{t as U};

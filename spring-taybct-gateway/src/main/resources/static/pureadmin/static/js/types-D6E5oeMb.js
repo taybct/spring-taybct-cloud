@@ -1,0 +1,1 @@
+var e=(e=>(e.start="custom-node-start",e.user="custom-node-user",e.service="custom-node-service",e.judgment="custom-node-judgment",e.end="custom-node-end",e.group="custom-group",e))(e||{});export{e as N};

@@ -1,0 +1,1 @@
+import{bt as s}from"./index-BDL--BDm.js";const t=t=>s.request("post","/online-logs",{data:t}),a=t=>s.request("post","/login-logs",{data:t}),o=t=>s.request("post","/operation-logs",{data:t}),e=t=>s.request("post","/system-logs",{data:t}),r=t=>s.request("post","/system-logs-detail",{data:t});export{o as a,e as b,r as c,t as d,a as g};

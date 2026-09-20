@@ -1,0 +1,1 @@
+const l=[{label:"待办",value:1},{label:"已办",value:0}],a={1:"待处理",2:"待阅",3:"被退回",4:"未读",5:"反馈"},e=[{label:"待处理",value:1},{label:"待阅",value:2},{label:"被退回",value:3},{label:"未读",value:4},{label:"反馈",value:5}];export{l as S,a as T,e as a};

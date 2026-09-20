@@ -1,0 +1,1 @@
+import{useColumns as s}from"./columns-B_G6sxD8.js";import{y as a,U as t,o as n,W as o,u as e}from"./index-BDL--BDm.js";const r=a({__name:"index",setup(a){const{columns:r,tableData:u}=s();return(s,a)=>{const m=t("pure-table");return n(),o(m,{data:e(u),columns:e(r)},null,8,["data","columns"])}}});export{r as _};

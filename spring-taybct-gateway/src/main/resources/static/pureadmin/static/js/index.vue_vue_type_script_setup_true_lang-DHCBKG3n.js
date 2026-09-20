@@ -1,0 +1,1 @@
+import{useColumns as s}from"./columns-B400-2rG.js";import{y as r,U as a,o as e,W as o,u as t,r as n}from"./index-BDL--BDm.js";const u=r({__name:"index",setup(r){const u=n(),{columns:m,dataList:c}=s(u);return(s,r)=>{const n=a("pure-table");return e(),o(n,{ref_key:"waterRef",ref:u,"row-key":"id",border:"",data:t(c),columns:t(m)},null,8,["data","columns"])}}});export{u as _};

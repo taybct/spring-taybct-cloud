@@ -1,0 +1,1 @@
+import{y as t,H as a,at as e,ao as o}from"./index-BDL--BDm.js";const i=t({name:"Motion",props:{delay:{type:Number,default:50}},render(){const{delay:t}=this,i=o("motion");return a(e("div",{},{default:()=>[this.$slots.default()]}),[[i,{initial:{opacity:0,y:100},enter:{opacity:1,y:0,transition:{delay:t}}}]])}});export{i as M};

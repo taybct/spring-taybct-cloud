@@ -1,0 +1,1 @@
+import{t as a}from"./data-DTIbR_Qw.js";import{y as r,U as e,o as s,W as o,u as t}from"./index-BDL--BDm.js";const p=r({__name:"border",setup(r){const p=[{label:"日期",prop:"date"},{label:"姓名",prop:"name"},{label:"地址",prop:"address"}];return(r,l)=>{const n=e("pure-table");return s(),o(n,{data:t(a),columns:p,border:""},null,8,["data"])}}});export{p as _};

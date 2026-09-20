@@ -1,0 +1,1 @@
+import{bt as e}from"./index-BDL--BDm.js";const t=t=>e.request("get","/get-map-info",{params:t}),a=t=>e.request("post","https://pureadmin.free.beeceptor.com/images",{data:t},{headers:{"Content-Type":"multipart/form-data"}});export{a as f,t as m};
