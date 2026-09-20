@@ -31,6 +31,8 @@ dependencies {
     api "com.mysql:mysql-connector-j:${findProperty('taybct-project.mysql-connector-j.version')}"
     api "com.oracle.database.jdbc:ojdbc11:${findProperty('taybct-project.ojdbc.version')}"
     api "com.oracle.database.nls:orai18n:${findProperty('taybct-project.orai18n.version')}"
+    // sqlite-jdbc（原配置无版本号，直接引用）
+    api "org.xerial:sqlite-jdbc"
 
     // 连接池与多数据源（核心依赖）
     api "com.alibaba:druid-spring-boot-3-starter:${findProperty('taybct-project.druid.version')}"

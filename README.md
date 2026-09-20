@@ -54,16 +54,16 @@ OnlyOffice 文档编辑器
 
 ## 示例
 
-- [示例项目（PureAdmin）](https://mangocrisp.top/pureadmin)
+- [示例项目（PureAdmin）](https://mangocrisp.top/pureadmin)（访问不了就是服务器过期了...没续费，请将前端下载下来查看效果）
 
 > 本项目为纯后端项目，以上展示的前端界面是 [vue-pure-admin（Mango Crisp）](https://github.com/mangocrisp/vue-pure-admin) 基于本项目
-> 和 [vue-pure-admin](https://github.com/pure-admin/vue-pure-admin) 开发的前端示例项目
+> 和 [vue-pure-admin](https://gitee.com/pure-admin/vue-pure-admin) 开发的前端示例项目
 
 ## JavaDoc 口文档
 
-<a href="https://mangocrisp.top/javadoc/spring-taybct-tools-doc/index.html" target="_blank" >spring-taybct-tools 接口文档</a>
+<a href="https://mangocrisp.top/javadoc/spring-taybct-tools-doc/index.html" target="_blank" >spring-taybct-tools 接口文档</a>（访问不了就是服务器过期了...没续费，文档过大，也无法上传 github，请自行生成 javadoc 文档查看）
 
-<a href="https://mangocrisp.top/javadoc/spring-taybct-doc/index.html" target="_blank" >spring-taybct 接口文档</a>
+<a href="https://mangocrisp.top/javadoc/spring-taybct-doc/index.html" target="_blank" >spring-taybct 接口文档</a>（访问不了就是服务器过期了...没续费，文档过大，也无法上传 github，请自行生成 javadoc 文档查看）
 
 ### 仓库模板
 
@@ -71,7 +71,7 @@ OnlyOffice 文档编辑器
 
 ### 本地创建
 
-[快速开始](https://mangocrisp.top/code/taybct/3.5.x/get-started/)
+[快速开始](https://mangocrisp.top/code/taybct/3.5.x/get-started/)（访问不了就是服务器过期了...没续费，可以尝试访问 github 网站[快速开始](https://mangocrisp.github.io/code/taybct/3.5.x/get-started/))
 
 ### Fork 本仓库
 
@@ -79,8 +79,13 @@ OnlyOffice 文档编辑器
 
 ## 使用说明
 
-1. 是运行的代码
-2. **启动 VM 参数**
+1. 克隆本仓库到本地
+2. 运行必要的模块
+   - module-system (系统管理模块：用户、角色、权限、菜单、部门、字典...)
+   - auth (认证模块：用户认证、权限认证...)
+   - admin-websocket (WebSocket模块：实时通讯...)
+   - gateway (网关模块：路由、权限认证...)
+3. **启动 VM 参数**
 
 ```bash
 -Dmaven.wagon.http.ssl.insecure=true
@@ -112,6 +117,8 @@ java.base/java.lang.reflect=ALL-UNNAMED
 ```
 
 > JVM 参数根据实际情况调整
+
+4. 访问 [http://localhost:9102/pureadmin/index.html](http://localhost:9102/pureadmin/index.html) （网关模块的端口默认是9102）
 
 ## 参与贡献
 
