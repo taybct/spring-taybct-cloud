@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.SqlParameterValue;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
 import java.sql.Types;
+import java.util.Date;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -36,7 +37,7 @@ public class CleanAuthCacheTask extends RedisScheduledTaskJob {
     private final JdbcTemplate jdbcTemplate;
     private static final String PK_FILTER = "authorization_grant_type = ?";
     private static final String TABLE_NAME = "oauth2_authorization";
-    private static final String REMOVE_AUTHORIZATION_SQL = "DELETE FROM " + TABLE_NAME + " WHERE refresh_token_expires_at <= now() OR authorization_code_expires_at <= now() OR user_code_expires_at <= now() OR device_code_expires_at <= now() OR " + PK_FILTER;
+    private static final String REMOVE_AUTHORIZATION_SQL = "DELETE FROM " + TABLE_NAME + " WHERE refresh_token_expires_at <= ? OR authorization_code_expires_at <= ? OR user_code_expires_at <= ? OR device_code_expires_at <= ? OR " + PK_FILTER;
 
     @Resource
     private IMessageSendService messageSendService;
@@ -59,6 +60,10 @@ public class CleanAuthCacheTask extends RedisScheduledTaskJob {
         log.debug("clearAuthCache => 当前线程名称 {} ", Thread.currentThread().getName());
         log.debug(">>>>>> 清理超时鉴权开始 >>>>>> ");
         SqlParameterValue[] parameters = new SqlParameterValue[]{
+                new SqlParameterValue(Types.TIMESTAMP, new Date()),
+                new SqlParameterValue(Types.TIMESTAMP, new Date()),
+                new SqlParameterValue(Types.TIMESTAMP, new Date()),
+                new SqlParameterValue(Types.TIMESTAMP, new Date()),
                 new SqlParameterValue(Types.VARCHAR, AuthorizationGrantType.CLIENT_CREDENTIALS.getValue())
         };
         PreparedStatementSetter pss = new ArgumentPreparedStatementSetter(parameters);
