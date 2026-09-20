@@ -121,7 +121,7 @@ public class FormController implements BaseController<Form, IFormService> {
     @GetMapping("release/{id}")
     @Parameter(name = "id", description = "发布 id", required = true, in = ParameterIn.PATH)
     public R<? extends FormRelease> releaseDetail(@PathVariable Long id) {
-        return R.data(getFormReleaseService().customizeGetById(id));
+        return R.data(getFormReleaseService().getById(id));
     }
 
 }

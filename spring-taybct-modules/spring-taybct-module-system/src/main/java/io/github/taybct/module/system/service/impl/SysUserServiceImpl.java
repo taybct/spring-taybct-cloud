@@ -77,7 +77,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser>
         IPage<SysUser> page = customizeQueryPage(params);
         SysUserQueryDTO dto = JSONObject.parseObject(JSONObject.toJSONString(params), SysUserQueryDTO.class);
         getSysUsers(dto, params, page.getCurrent(), page.getSize(), (total, sysUsers) -> {
-            mergeQueryExpansion(sysUsers);
             result.set(sysUsers);
         });
         return result.get();
@@ -90,7 +89,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser>
         getSysUsers(dto, params, page.getCurrent(), page.getSize(), (total, sysUsers) -> {
             page.setTotal(total);
             page.setRecords(sysUsers);
-            mergeQueryExpansion(page.getRecords());
         });
         return page;
     }

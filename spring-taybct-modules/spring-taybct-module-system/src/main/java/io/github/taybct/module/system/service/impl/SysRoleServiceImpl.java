@@ -57,7 +57,6 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole>
         IPage<SysRole> page = customizeQueryPage(params);
         SysRoleQueryDTO dto = JSONObject.parseObject(JSONObject.toJSONString(params), SysRoleQueryDTO.class);
         getSysRoles(dto, params, page.getCurrent(), page.getSize(), (total, sysUsers) -> {
-            mergeQueryExpansion(sysUsers);
             result.set(sysUsers);
         });
         return result.get();
@@ -70,7 +69,6 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole>
         getSysRoles(dto, params, page.getCurrent(), page.getSize(), (total, sysUsers) -> {
             page.setTotal(total);
             page.setRecords(sysUsers);
-            mergeQueryExpansion(page.getRecords());
         });
         return page;
     }
