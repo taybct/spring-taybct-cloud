@@ -1,0 +1,11 @@
+[
+  {
+    "apiName": "api_group",
+    "predicateItems": [
+      {
+        "pattern": "/system/**",
+        "matchStrategy": 1
+      }
+    ]
+  }
+]

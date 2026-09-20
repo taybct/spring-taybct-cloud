@@ -51,30 +51,27 @@ spring:
         port: 8719
       # nacos 配置持久化
       datasource:
-        ds1:
-          # 用文件来定义
-          #file:
-          #  file: classpath:sentinel-taybct-gateway-dev.json
-          #  data-type: json
-          #  rule-type: flow
-          # 用 nacos 管理
+        gateway-flow-ds:
           nacos:
             username: ${spring.cloud.nacos.username}
             password: ${spring.cloud.nacos.password}
-            # nacos地址
             server-addr: ${spring.cloud.nacos.config.server-addr}
-            # nacos 命名空间
             namespace: ${spring.cloud.nacos.config.namespace}
-            # nacos 分组
             group-id: ${spring.profiles.active}
-            # nacos中配置文件的data-id
-            data-id: sentinel-${spring.application.name}.json
-            # 规则类型 流控
-            rule-type: flow
-            # 数据类型
+            data-id: sentinel-gateway-flow.json
+            rule-type: gw-flow   #重点！网关流控
             data-type: json
-            #data-type: custom
-            #converter-class:
+        # ========= Gateway API分组规则 rule-type: gw-api-group（可选）
+        gateway-api-ds:
+          nacos:
+            username: ${spring.cloud.nacos.username}
+            password: ${spring.cloud.nacos.password}
+            server-addr: ${spring.cloud.nacos.config.server-addr}
+            namespace: ${spring.cloud.nacos.config.namespace}
+            group-id: ${spring.profiles.active}
+            data-id: sentinel-gateway-api.json
+            rule-type: gw-api-group #重点！api分组
+            data-type: json
       log:
         # 日志存放路径
         dir: ./logs/sentinel/${spring.application.name}/
@@ -100,6 +97,13 @@ spring:
               # 使用小写服务名，默认是大写
               lowerCaseServiceId: true
           routes:
+            # 前端网关请求
+            - id: api-rewrite-route
+              uri: http://127.0.0.1:${server.port}
+              predicates:
+                - Path=/api/**
+              filters:
+                - RewritePath=/api/?(?<segment>.*), /$\{segment}
             # 鉴权模块
             - id: auth
               uri: lb://auth

@@ -1,0 +1,43 @@
+[
+  {
+    "resource": "auth",
+    "count": 200,
+    "intervalSec": 1
+  },
+  {
+    "resource": "module-system",
+    "count": 200,
+    "intervalSec": 1
+  },
+  {
+    "resource": "module-lf",
+    "count": 200,
+    "intervalSec": 1
+  },
+  {
+    "resource": "module-scheduling",
+    "count": 200,
+    "intervalSec": 1
+  },
+  {
+    "resource": "module-es",
+    "count": 200,
+    "intervalSec": 1
+  },
+  {
+    "resource": "admin-file",
+    "count": 200,
+    "intervalSec": 1
+  },
+  {
+    "resource": "admin-log",
+    "count": 200,
+    "intervalSec": 1
+  },
+  {
+    "resource": "api_group",
+    "count": 200,
+    "intervalSec": 1,
+    "resourceMode": 1
+  }
+]

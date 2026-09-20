@@ -1,21 +1,25 @@
 package io.github.taybct.gateway.handler;
 
-import com.alibaba.fastjson2.JSON;
 import io.github.taybct.tool.core.result.R;
 import io.github.taybct.tool.core.result.ResultCode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
-import org.springframework.cloud.gateway.support.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.web.WebProperties;
+import org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler;
+import org.springframework.boot.web.error.ErrorAttributeOptions;
+import org.springframework.boot.web.reactive.error.ErrorAttributes;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.server.ServerWebExchange;
+import org.springframework.http.codec.ServerCodecConfigurer;
+import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.server.*;
+import org.springframework.web.reactive.result.view.ViewResolver;
 import reactor.core.publisher.Mono;
+
+import java.util.Map;
 
 /**
  * 网关统一异常处理
@@ -24,36 +28,39 @@ import reactor.core.publisher.Mono;
  * @since 1.0.0
  */
 @Order(-1)
-@AutoConfiguration
-public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
-    private static final Logger log = LoggerFactory.getLogger(GatewayExceptionHandler.class);
+@Component
+@Slf4j
+public class GatewayExceptionHandler extends AbstractErrorWebExceptionHandler {
+    // 构造注入
+    public GatewayExceptionHandler(ErrorAttributes errorAttributes,
+                                   WebProperties webProperties,
+                                   ObjectProvider<ViewResolver> viewResolvers,
+                                   ServerCodecConfigurer serverCodecConfigurer,
+                                   ApplicationContext applicationContext) {
+        super(errorAttributes, webProperties.getResources(), applicationContext);
+        setViewResolvers(viewResolvers.stream().toList());
+        setMessageWriters(serverCodecConfigurer.getWriters());
+        setMessageReaders(serverCodecConfigurer.getReaders());
+    }
 
     @Override
-    public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
-        ServerHttpResponse response = exchange.getResponse();
+    protected RouterFunction<ServerResponse> getRoutingFunction(ErrorAttributes errorAttributes) {
+        return RouterFunctions.route(RequestPredicates.all(), this::renderErrorResponse);
+    }
 
-        if (exchange.getResponse().isCommitted()) {
-            return Mono.error(ex);
-        }
+    private Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
+        Map<String, Object> errorPropertiesMap = getErrorAttributes(request, ErrorAttributeOptions.of(ErrorAttributeOptions.Include.MESSAGE
+                , ErrorAttributeOptions.Include.EXCEPTION
+                , ErrorAttributeOptions.Include.STACK_TRACE
+                , ErrorAttributeOptions.Include.BINDING_ERRORS));
+        int status = (int) errorPropertiesMap.getOrDefault("status", 500);
+        String message = (String) errorPropertiesMap.getOrDefault("message", null);
+        String trace = (String) errorPropertiesMap.getOrDefault("trace", null);
 
-        String msg = ex.getMessage();
+        log.trace("\r\n[网关异常处理] \r\n 请求路径:{} \r\n 异常信息:{} \r\n 堆栈信息:{}", request.exchange().getRequest().getPath(), message, trace);
 
-        if (ex instanceof NotFoundException) {
-            msg = "服务未找到";
-        } else if (ex instanceof ResponseStatusException responseStatusException) {
-            msg = responseStatusException.getMessage();
-        } else {
-            msg = "内部服务器错误";
-        }
-
-        log.error("[网关异常处理]请求路径:{},异常信息:{}", exchange.getRequest().getPath(), msg);
-
-        response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
-        response.setStatusCode(HttpStatus.OK);
-
-        return response.writeWith(Mono.fromSupplier(() -> {
-            DataBufferFactory bufferFactory = response.bufferFactory();
-            return bufferFactory.wrap(JSON.toJSONBytes(R.fail(ResultCode.USER_LOGIN)));
-        }));
+        return ServerResponse.status(HttpStatus.valueOf(status))
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(R.fail(ResultCode.GATEWAY_ERROR.getCode(), message)));
     }
 }
